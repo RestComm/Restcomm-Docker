@@ -67,9 +67,9 @@ startMediaServer() {
 		echo '...Mobicents Media Server is already running on screen session "mms"!'
 	else
 		chmod +x $MMS_HOME/bin/run.sh
-		#screen -dmS 'mms'  $MMS_HOME/bin/run.sh
+		screen -dmS 'mms'  $MMS_HOME/bin/run.sh
 		echo '...Mobicents Media Server started running on screen "mms"!'
-		nohup  /bin/bash $MMS_HOME/bin/run.sh &
+		#nohup  /bin/bash $MMS_HOME/bin/run.sh &
 fi
 }
 
@@ -95,7 +95,7 @@ fi
 # set environment variables for execution
 BASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 RESTCOMM_HOME=$(cd $BASEDIR/../../ && pwd)
-MMS_HOME=$RESTCOMM_HOME/mobicents-media/mobicents-media-server
+MMS_HOME=$RESTCOMM_HOME/mediaserver
 LB_HOME=$RESTCOMM_HOME/tools/sip-balancer
 
 echo BASEDIR: $BASEDIR
