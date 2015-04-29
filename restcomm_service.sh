@@ -1,4 +1,5 @@
 #!/bin/bash
+#Maintainer George Vagenas - gvagenas@telestax.com
 
 BASEDIR=/opt/Mobicents-Restcomm-JBoss-AS7
 

@@ -1,6 +1,8 @@
 Restcomm Docker image
 =====================
 
+Maintainer George Vagenas - gvagenas@telestax.com
+
 Restcomm is binds to the ip address of the host and following ports:
 - http: 8080
 - sip/udp: 5080
