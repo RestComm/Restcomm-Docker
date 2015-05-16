@@ -23,9 +23,9 @@ The image has been tested with Docker __1.6__.
 ### Running the image
 
 
-* __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm-docker:7.3.0```
-* __Provide your VoiceRSS key for Text-To-Speech by setting enviroment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm-docker:7.3.0```
-* __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm-docker:7.3.0```
+* __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm:7.3.0```
+* __Provide your VoiceRSS key for Text-To-Speech by setting enviroment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm:7.3.0```
+* __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm:7.3.0```
 
 To stop container: _docker stop restcomm_
 
@@ -50,7 +50,7 @@ Next run Restcomm image using the following volume arguments:
 * Restcomm Visual Designer workspace  ```-v $YOUR_FOLDER/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace```
 
 For example if you unzip the _restcomm_workspace.zip_ to /opt/restcomm_workspace/ then the docker run command will be:
-```docker run --name=restcomm --restart=always -d -e VOICERSS_KEY="YOUR_VOICERSS_KEY" -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp -v /opt/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log -v /opt/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings -v /opt/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache -v /opt/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql -v /opt/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log -v /opt/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace gvagenas/restcomm-docker:7.3.0```
+```docker run --name=restcomm --restart=always -d -e VOICERSS_KEY="YOUR_VOICERSS_KEY" -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp -v /opt/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log -v /opt/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings -v /opt/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache -v /opt/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql -v /opt/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log -v /opt/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace gvagenas/restcomm:7.3.0```
 
 
 
@@ -58,7 +58,7 @@ For example if you unzip the _restcomm_workspace.zip_ to /opt/restcomm_workspace
 
 You can start the container and get a bash console to manually setup Restcomm and test it using the following command:
 
-```docker run --name=restcomm --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm-docker:7.3.0```
+```docker run --name=restcomm --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
 
 ### To execute a command at the container
 

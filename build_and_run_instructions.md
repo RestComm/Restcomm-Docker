@@ -2,7 +2,7 @@
 
 Maintainer George Vagenas - gvagenas@telestax.com
 
-Restcomm is binds to the ip address of the host and following ports:
+Restcomm binds to the ip address of the host and following ports:
 - http: 8080
 - sip/udp: 5080
 - sip/tcp: 5080
@@ -28,14 +28,14 @@ Download the [__restcomm_workspace__](https://github.com/gvagenas/Restcomm-Docke
 
 Next run Restcomm image using the following volume arguments:
 
-```docker run --name=rc --restart=always -d -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp -v $YOUR_FOLDER/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log -v $YOUR_FOLDER/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings -v $YOUR_FOLDER/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache -v $YOUR_FOLDER/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql -v $YOUR_FOLDER/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log -v $YOUR_FOLDER/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace gvagenas/restcomm-docker:latest```
+```docker run --name=rc --restart=always -d -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp -v $YOUR_FOLDER/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log -v $YOUR_FOLDER/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings -v $YOUR_FOLDER/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache -v $YOUR_FOLDER/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql -v $YOUR_FOLDER/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log -v $YOUR_FOLDER/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace gvagenas/restcomm:latest```
 
 
 ### To get bash console (for debugging only)
 
 You can start the container and get a bash console to manually setup Restcomm and test it using the following command:
 
-```docker run --name=restcomm --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5080:5080/udp gvagenas/restcomm-docker:latest```
+```docker run --name=restcomm --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5080:5080/udp gvagenas/restcomm:latest```
 
 ### To get container logs
 
