@@ -12,6 +12,8 @@ Restcomm binds to the ip address of the host and following ports:
 - __sip/tcp__: 5080
 - __rtp/udp__: 65000 - 65535
 
+Please report any issues at https://github.com/gvagenas/Restcomm-Docker/issues
+
 ### Prerequisites
 The image has been tested with Docker __1.6__.
 
