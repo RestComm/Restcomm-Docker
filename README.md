@@ -25,9 +25,9 @@ The image has been tested with Docker __1.6__.
 ### Running the image
 
 
-* __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm:7.3.0```
-* __Provide your VoiceRSS key for Text-To-Speech by setting enviroment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm:7.3.0```
-* __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp docker pull gvagenas/restcomm:7.3.0```
+* __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
+* __Provide your VoiceRSS key for Text-To-Speech by setting enviroment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
+* __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
 
 To stop container: _docker stop restcomm_
 
