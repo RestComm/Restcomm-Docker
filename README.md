@@ -7,11 +7,12 @@ Learn more at http://www.restcomm.com
 Using the Restcomm docker image you will be able to run Restcomm with the minimum effort and no pain.
 
 Restcomm binds to the ip address of the host and following ports:
-- __http__: 8080
-- __sip/udp__: 5080
-- __sip/tcp__: 5080
-- __sip/ws__: 5082 (Used for WebRTC)
-- __rtp/udp__: 65000 - 65535
+
+* __http__: 8080
+* __sip/udp__: 5080
+* __sip/tcp__: 5080
+* __sip/ws__: 5082 (Used for WebRTC)
+* __rtp/udp__: 65000 - 65535
 
 Please report any issues at https://github.com/gvagenas/Restcomm-Docker/issues
 
