@@ -22,11 +22,36 @@ The image has been tested with Docker __1.6__.
 * __latest:__ Using this tag you will get the latest Restcomm build
 * __7.3.0:__ Using this tag you will get the Restcomm 7.3.0.GA release
 
+### Environment variables
+
+The Restcomm docker image supports a set of environment variables to configure the application.
+
+* __STATIC_ADDRESS__ Set the public ip address that Restcomm should use
+* __OUTBOUND_PROXY__ Set the SIP Outbound proxy
+* __OUTBOUND_PROXY_USERNAME__ Set the SIP Outbound proxy username
+* __OUTBOUND_PROXY_PASSWORD__ Set the SIP Outbound proxy password
+* __MEDIASERVER_LOWEST_PORT__ Set the Media Server lowest RTP port
+* __MEDIASERVER_HIGHEST_PORT__ Set the Media Server highest RTP port
+* __PROVISION_PROVIDER__ Set the Provision Provider, choose one of the following: VI (VoipInnovation), BW (Bandwidth), NX (Nexmo), VB (Voxbone)
+* __DID_LOGIN__ Set the DID Provider username
+* __DID_PASSWORD__ Set the DID Provider password
+* __DID_ENDPOINT__ Set the Endpoint ID for VoipInnovation Provision Provider
+* __DID_SITEID__ Set the Site Id for Bandwidth Provision Provider
+* __DID_ACCOUNTID__ Set the Account Id for Bandwidth Provision Provider
+* __INTERFAX_USER__ Set the Interfax username
+* __INTERFAX_PASSWORD__ Set the Interfax password
+* __ISPEECH_KEY__ Set the iSpeech speech recognition key
+* __VOICERSS_KEY__ Set the VoiceRss Text-To-Speech key
+* __ACAPELA_APPLICATION__ Set the Acapela Text-To-Speech application key
+* __ACAPELA_LOGIN__ Set the Acapela Text-To-Speech username
+* __ACAPELA_PASSWORD__ Set the Acapela Text-To-Speech password
+
+
 ### Running the image
 
-
 * __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
-* __Provide your VoiceRSS key for Text-To-Speech by setting enviroment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
+* __Provide your VoiceRSS key for Text-To-Speech by setting environment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
+* __Provide your VoiceRSS key for Text-To-Speech and Outbound proxy by setting environment variable VOICERSS_KEY and OUTBOUND_PROXY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
 * __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
 
 To stop container: _docker stop restcomm_
