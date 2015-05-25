@@ -10,6 +10,7 @@ Restcomm binds to the ip address of the host and following ports:
 - __http__: 8080
 - __sip/udp__: 5080
 - __sip/tcp__: 5080
+- __sip/ws__: 5082 (Used for WebRTC)
 - __rtp/udp__: 65000 - 65535
 
 Please report any issues at https://github.com/gvagenas/Restcomm-Docker/issues
@@ -49,10 +50,10 @@ The Restcomm docker image supports a set of environment variables to configure t
 
 ### Running the image
 
-* __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
-* __Provide your VoiceRSS key for Text-To-Speech by setting environment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
-* __Provide your VoiceRSS key for Text-To-Speech and Outbound proxy by setting environment variable VOICERSS_KEY and OUTBOUND_PROXY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
-* __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
+* __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
+* __Provide your VoiceRSS key for Text-To-Speech by setting environment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
+* __Provide your VoiceRSS key for Text-To-Speech and Outbound proxy by setting environment variable VOICERSS_KEY and OUTBOUND_PROXY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
+* __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
 
 ***
 __Important Notice for Restcomm networking__
@@ -61,9 +62,7 @@ When using a sip client that is not running on the same machine as the Restcomm 
 
 The fix for that is to provide the IP Address of the host machine using the STATIC_ADDRESS environment variable so Restcomm will properly configured:
 
-```
-docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e STATIC_ADDRESS="YOUR_HOST_IP_ADDRESS_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0
-```
+``` docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e STATIC_ADDRESS="YOUR_HOST_IP_ADDRESS_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082  -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
 
 Using the STATIC_ADDRESS and given that the sip client can reach the host's ip address, you will be able now to properly setup a call and receive RTP traffic.
 ***
