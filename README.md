@@ -99,7 +99,7 @@ For example if you unzip the _restcomm_workspace.zip_ to /opt/restcomm_workspace
 
 You can start the container and get a bash console to manually setup Restcomm and test it using the following command:
 
-```docker run --name=restcomm --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
+```docker run --name=restcomm --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:7.3.0```
 
 ### To execute a command at the container
 
