@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y screen wget ipcalc bsdtar openjdk-7-jre
 
 #Using the `wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt | cat` we will get the version of the latest binary build
 
-RUN wget -qc https://s3-us-west-2.amazonaws.com/restcommdocker/Mobicents-Restcomm-JBoss-AS7-`wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt | cat`.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Mobicents-Restcomm-JBoss-AS7-*/ /opt/Mobicents-Restcomm-JBoss-AS7/
+RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Mobicents-Restcomm-JBoss-AS7-`wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt | cat`.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Mobicents-Restcomm-JBoss-AS7-*/ /opt/Mobicents-Restcomm-JBoss-AS7/
 
 EXPOSE 5080/udp
 EXPOSE 5080/tcp
