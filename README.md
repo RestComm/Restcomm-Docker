@@ -68,6 +68,18 @@ The fix for that is to provide the IP Address of the host machine using the STAT
 Using the STATIC_ADDRESS and given that the sip client can reach the host's ip address, you will be able now to properly setup a call and receive RTP traffic.
 ***
 
+__Quick test__
+
+After you started the Restcomm container, you can quickly make a call to verify that everything works by using the Olympus WebRTC applicatin that is shipped with Restcomm.
+
+1. Point your browser to ```http://HOST_IP_ADDRESS:8080/olympus```
+2. Press "Sign in"
+3. Your browser will ask for permission to share microphone and camera, press allow
+4. Go to "Contact", click on the "+1234" and press the "Audio Call" button (phone icon)
+5. You should hear the "Welcome to Restcomm, a Telestax Sponsored project" announcement
+
+***
+
 To stop container: _docker stop restcomm_
 
 To start container: _docker start restcomm_
