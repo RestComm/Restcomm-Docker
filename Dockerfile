@@ -5,13 +5,9 @@ MAINTAINER George Vagenas - gvagenas@telestax.com
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
-RUN apt-get update && apt-get install -y screen wget ipcalc unzip && apt-get install -y openjdk-7-jdk
+RUN apt-get update && apt-get install -y screen wget ipcalc bsdtar openjdk-7-jre-headless && apt-get autoremove && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
-RUN wget -c https://s3-us-west-2.amazonaws.com/restcommdocker/Mobicents-Restcomm-JBoss-AS7-7.3.0.641.zip -O /opt/Mobicents-Restcomm-JBoss-AS7.zip
-RUN unzip /opt/Mobicents-Restcomm-JBoss-AS7.zip -d /opt
-RUN ls -la /opt
-RUN mv /opt/Mobicents-Restcomm-JBoss-AS7-*/ /opt/Mobicents-Restcomm-JBoss-AS7/
-RUN rm -rf /opt/Mobicents-Restcomm-JBoss-AS7.zip
+RUN wget -qc https://s3-us-west-2.amazonaws.com/restcommdocker/Mobicents-Restcomm-JBoss-AS7-7.3.0.641.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Mobicents-Restcomm-JBoss-AS7-*/ /opt/Mobicents-Restcomm-JBoss-AS7/
 
 EXPOSE 5080/udp
 EXPOSE 5080/tcp
