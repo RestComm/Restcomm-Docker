@@ -13,6 +13,7 @@ RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastS
 
 EXPOSE 5080/udp
 EXPOSE 5080/tcp
+EXPOSE 5082/tcp
 EXPOSE 8080/tcp
 EXPOSE 65000-65535/udp
 
