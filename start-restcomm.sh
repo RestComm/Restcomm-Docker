@@ -69,7 +69,6 @@ startMediaServer() {
 		chmod +x $MMS_HOME/bin/run.sh
 		screen -dmS 'mms'  $MMS_HOME/bin/run.sh
 		echo '...Mobicents Media Server started running on screen "mms"!'
-		#nohup  /bin/bash $MMS_HOME/bin/run.sh &
 fi
 }
 
@@ -157,13 +156,18 @@ echo "Looking for the IP Address, subnet, network and broadcast_address"
 fi
 BIND_ADDRESS="$PRIVATE_IP"
 
-
+MEDIASERVER_EXTERNAL_ADDRESS="$STATIC_ADDRESS"
 if [[ -z "$STATIC_ADDRESS" ]]; then
+	MEDIASERVER_EXTERNAL_ADDRESS="\<null\/\>"
 	STATIC_ADDRESS=$BIND_ADDRESS
 fi
 
 if [[ -z "$PUBLIC_IP" ]]; then
 	PUBLIC_IP=$STATIC_ADDRESS
+fi
+
+if [[ -z "$SMS_OUTBOUND_PROXY" ]]; then
+	SMS_OUTBOUND_PROXY=$OUTBOUND_PROXY
 fi
 
 # configure restcomm installation
