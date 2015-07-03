@@ -22,5 +22,5 @@ EXPOSE 65000-65535/udp
 RUN mkdir /etc/service/restcomm
 ADD ./restcomm_service.sh /etc/service/restcomm/run
 
-RUN rm /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/start-restcomm.sh
-ADD ./start-restcomm.sh /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/start-restcomm.sh
+#RUN rm /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/start-restcomm.sh
+#ADD ./start-restcomm.sh /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/start-restcomm.sh
