@@ -110,4 +110,7 @@ fi
 
 export RUN_DOCKER=true
 
+chmod +x $BASEDIR/bin/*.sh
+chmod +x $BASEDIR/bin/restcomm/*.sh
+
 exec $BASEDIR/bin/restcomm/start-restcomm.sh
