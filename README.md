@@ -21,9 +21,9 @@ The image has been tested with Docker __1.7__.
 
 ### Supported Tags
 
-* __latest:__ Using this tag you will get the latest Restcomm build
-* __7.3.1:__ Using this tag you will get the Restcomm 7.3.1.GA release
-* __7.3.0:__ Using this tag you will get the Restcomm 7.3.0.GA release
+* __latest:__ Using this tag you will get the latest Restcomm build. __gvagenas/restcomm:latest__
+* __7.3.1:__ Using this tag you will get the Restcomm 7.3.1.GA release. __gvagenas/restcomm:7.3.1__
+* __7.3.0:__ Using this tag you will get the Restcomm 7.3.0.GA release. __gvagenas/restcomm:7.3.0__
 
 ### Environment variables
 
