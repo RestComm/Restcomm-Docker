@@ -14,16 +14,16 @@ Restcomm binds to the ip address of the host and following ports:
 * __sip/ws__: 5082 (Used for WebRTC)
 * __rtp/udp__: 65000 - 65535
 
-Please report any issues at https://github.com/gvagenas/Restcomm-Docker/issues
+Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
 
 ### Prerequisites
 The image has been tested with Docker __1.7__.
 
 ### Supported Tags
 
-* __latest:__ Using this tag you will get the latest Restcomm build. __gvagenas/restcomm:latest__
-* __7.3.1:__ Using this tag you will get the Restcomm 7.3.1.GA release. __gvagenas/restcomm:7.3.1__
-* __7.3.0:__ Using this tag you will get the Restcomm 7.3.0.GA release. __gvagenas/restcomm:7.3.0__
+* __latest:__ Using this tag you will get the latest Restcomm build. __mobicents/restcomm:latest__
+* __7.3.1:__ Using this tag you will get the Restcomm 7.3.1.GA release. __mobicents/restcomm:7.3.1__
+* __7.3.0:__ Using this tag you will get the Restcomm 7.3.0.GA release. __mobicents/restcomm:7.3.0__
 
 ### Environment variables
 
@@ -52,10 +52,10 @@ The Restcomm docker image supports a set of environment variables to configure t
 
 ### Running the image
 
-* __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:7.3.0```
-* __Provide your VoiceRSS key for Text-To-Speech by setting environment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:latest```
-* __Provide your VoiceRSS key for Text-To-Speech and Outbound proxy by setting environment variable VOICERSS_KEY and OUTBOUND_PROXY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:latest```
-* __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:latest```
+* __Using the default values__ ```docker run --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:7.3.0```
+* __Provide your VoiceRSS key for Text-To-Speech by setting environment variable VOICERSS_KEY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
+* __Provide your VoiceRSS key for Text-To-Speech and Outbound proxy by setting environment variable VOICERSS_KEY and OUTBOUND_PROXY__ ```docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
+* __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
 
 ***
 __Important Notice for Restcomm networking__
@@ -64,7 +64,7 @@ When using a sip client that is not running on the same machine as the Restcomm 
 
 The fix for that is to provide the IP Address of the host machine using the STATIC_ADDRESS environment variable so Restcomm will properly configured:
 
-``` docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e STATIC_ADDRESS="YOUR_HOST_IP_ADDRESS_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082  -p 5080:5080/udp -p 65000-65535:65000-65535/udp gvagenas/restcomm:latest```
+``` docker run -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e STATIC_ADDRESS="YOUR_HOST_IP_ADDRESS_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 8080:8080 -p 5080:5080 -p 5082:5082  -p 5080:5080/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
 
 Using the STATIC_ADDRESS and given that the sip client can reach the host's ip address, you will be able now to properly setup a call and receive RTP traffic.
 ***
@@ -91,7 +91,7 @@ To remove container: _docker rm restcomm_
 
 You can persist the logs, database, recordings, text-to-speech cache and RVD workspace using shared filesystem, so even if you stop and remove your container, your work won't be lost.
 
-Download the [__restcomm_workspace__](https://github.com/gvagenas/Restcomm-Docker/blob/master/restcomm_workspace.zip?raw=true) that contains the default database, default RVD workspace and the required folders and unzip it to a folder in your filesystem.
+Download the [__restcomm_workspace__](https://github.com/mobicents/Restcomm-Docker/blob/master/restcomm_workspace.zip?raw=true) that contains the default database, default RVD workspace and the required folders and unzip it to a folder in your filesystem.
 
 Next run Restcomm image using the following volume arguments:
 
@@ -104,7 +104,7 @@ Next run Restcomm image using the following volume arguments:
 * Restcomm Visual Designer workspace  ```-v $YOUR_FOLDER/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace```
 
 For example if you unzip the _restcomm_workspace.zip_ to /opt/restcomm_workspace/ then the docker run command will be:
-```docker run --name=restcomm --restart=always -d -e VOICERSS_KEY="YOUR_VOICERSS_KEY" -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp -v /opt/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log -v /opt/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings -v /opt/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache -v /opt/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql -v /opt/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log -v /opt/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace gvagenas/restcomm:7.3.0```
+```docker run --name=restcomm --restart=always -d -e VOICERSS_KEY="YOUR_VOICERSS_KEY" -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp -v /opt/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log -v /opt/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings -v /opt/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache -v /opt/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql -v /opt/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log -v /opt/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace mobicents/restcomm:7.3.0```
 
 
 
@@ -112,7 +112,7 @@ For example if you unzip the _restcomm_workspace.zip_ to /opt/restcomm_workspace
 
 You can start the container and get a bash console to manually setup Restcomm and test it using the following command:
 
-```docker run --name=restcomm --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535/udp gvagenas/restcomm:latest```
+```docker run --name=restcomm --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535/udp mobicents/restcomm:latest```
 
 ### To execute a command at the container
 
