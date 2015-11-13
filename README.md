@@ -14,6 +14,13 @@ Restcomm binds to the ip address of the host and following ports:
 * __sip/ws__: 5082 (Used for WebRTC)
 * __rtp/udp__: 65000 - 65535
 
+If you use -e USE_STANDARD_PORTS, Restcomm will binds to the ip address of the host and following ports:
+* __http__: 80
+* __sip/udp__: 5060
+* __sip/tcp__: 5060
+* __sip/ws__: 5062 (Used for WebRTC)
+* __rtp/udp__: 65000 - 65535
+
 Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
 
 ### Prerequisites
@@ -22,6 +29,7 @@ The image has been tested with Docker __1.7__.
 ### Supported Tags
 
 * __latest:__ Using this tag you will get the latest Restcomm build. __mobicents/restcomm:latest__
+* __7.4.0:__ Using this tag you will get the Restcomm 7.3.1.GA release. __mobicents/restcomm:7.4.0__
 * __7.3.1:__ Using this tag you will get the Restcomm 7.3.1.GA release. __mobicents/restcomm:7.3.1__
 * __7.3.0:__ Using this tag you will get the Restcomm 7.3.0.GA release. __mobicents/restcomm:7.3.0__
 
@@ -30,6 +38,7 @@ The image has been tested with Docker __1.7__.
 The Restcomm docker image supports a set of environment variables to configure the application.
 
 * __STATIC_ADDRESS__ Set the public ip address that Restcomm should use
+* __USE_STANDARD_PORTS__ Use Default ports such as 80, 443, 5060, ...
 * __OUTBOUND_PROXY__ Set the SIP Outbound proxy
 * __OUTBOUND_PROXY_USERNAME__ Set the SIP Outbound proxy username
 * __OUTBOUND_PROXY_PASSWORD__ Set the SIP Outbound proxy password
@@ -48,6 +57,26 @@ The Restcomm docker image supports a set of environment variables to configure t
 * __ACAPELA_APPLICATION__ Set the Acapela Text-To-Speech application key
 * __ACAPELA_LOGIN__ Set the Acapela Text-To-Speech username
 * __ACAPELA_PASSWORD__ Set the Acapela Text-To-Speech password
+* __SMPP_TYPE__ Set the SMPP Type ie the unique name for the SMPP Connection and sets the SMPP to be enabled for the SMS API and RVD Tag
+* __S3_BUCKET_NAME__ Set the S3 Bucket Name so that Restcomm stores the Recording in Amazon Web Services S3 Service
+* __S3_ACCESS_KEY__ Set the S3 Access Key so that Restcomm stores the Recording in Amazon Web Services S3 Service
+* __S3_SECURITY_KEY__ Set the S3 Security Key so that Restcomm stores the Recording in Amazon Web Services S3 Service
+* __SMTP_USER__ Set the SMTP User so that Restcomm configures the SMTP Service for the Email API and RVD Tag
+* __SMTP_PASSWORD__ Set the SMTP Password so that Restcomm configures the SMTP Service for the Email API and RVD Tag
+* __SMTP_HOST__ Set the SMTP Host so that Restcomm configures the SMTP Service for the Email API and RVD Tag
+* __MYSQL_USER__ Set the MySQL User so that Restcomm configures RestComm to use a MySQL DB instead of In memory DB
+* __MYSQL_PASSWORD__ Set the MySQL Password so that Restcomm configures RestComm to use a MySQL DB instead of In memory DB
+* __MYSQL_HOST__ Set the MySQL Host so that Restcomm configures RestComm to use a MySQL DB instead of In memory DB
+* __MYSQL_SCHEMA__ Set the MySQL Schema so that Restcomm configures RestComm to use a MySQL DB instead of In memory DB
+* __SECURE__ Configure RestComm to be used in secure mode ie only on HTTPS not HTTP and SIP Over Secure WebSockets + TLS
+* __TRUSTSTORE_FILE__ Set the file to use for Restcomm to configure the certificate for HTTPS and SIP TLS
+* __TRUSTSTORE_PASSWORD__ Set the password to use for Restcomm to configure the certificate for HTTPS and SIP TLS
+* __TRUSTSTORE_ALIAS__ Set the Alias to use for Restcomm to configure the certificate for HTTPS and SIP TLS
+* __SSL_MODE__ Set the SSL Mode for Restcomm and RVD to query External Service over HTTPS. Values : allowall, strict
+* __NFS_LOCATION__ Set the NFS Location for Restcomm Visual Designer to store the workspaces in a shared filesystem
+* __LOG_LEVEL__ Set the Log Level for Restcomm and MMS
+* __LOG_LOCATION__ Set the location were to store Restcomm logs
+* __HOSTNAME__ Set the hostname for this machine for RestComm to recognize it and use it for relative URL requests
 
 
 ### Running the image

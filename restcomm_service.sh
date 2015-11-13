@@ -64,12 +64,12 @@ if [ -n "$SMS_PREFIX" ]; then
   sed -i "s/SMS_PREFIX=.*/SMS_PREFIX=$SMS_PREFIX/" $BASEDIR/bin/restcomm/restcomm.conf
 fi 
 
-if [ -n "$NEXMO_SMPP_TYPE" ]; then
-  echo "NEXMO_SMPP_TYPE $NEXMO_SMPP_TYPE"
+if [ -n "$SMPP_TYPE" ]; then
+  echo "SMPP_TYPE $SMPP_TYPE"
   sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s/SMPP_SYSTEM_ID=.*/SMPP_SYSTEM_ID='$DID_LOGIN'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s/SMPP_PASSWORD=.*/SMPP_PASSWORD='$DID_PASSWORD'/" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s/SMPP_SYSTEM_TYPE=.*/SMPP_SYSTEM_TYPE='$NEXMO_SMPP_TYPE'/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_SYSTEM_TYPE=.*/SMPP_SYSTEM_TYPE='$SMPP_TYPE'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s/SMPP_PEER_IP=.*/SMPP_PEER_IP='smpp0.nexmo.com'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s/SMPP_PEER_PORT=.*/SMPP_PEER_PORT='8000'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s|<connection activateAddressMapping=\"false\" sourceAddressMap=\"\" destinationAddressMap=\"\" tonNpiValue=\"1\">|<connection activateAddressMapping=\"false\" sourceAddressMap=\"6666\" destinationAddressMap=\"7777\" tonNpiValue=\"1\">|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
