@@ -110,11 +110,12 @@ After you started the Restcomm container, you can quickly make a call to verify 
 4. Go to "Contact", click on the "+1234" and press the "Audio Call" button (phone icon)
 5. You should hear the "Welcome to Restcomm, a Telestax Sponsored project" announcement
 
-You can access the Admin UI by following the steps below :
+You can access the Admin UI by following the steps below:
+
 1. Point your browser to ```http://HOST_IP_ADDRESS```
 2. Use administrator@company.com for username and RestComm as password
-2. Press "Sign in"
-5. You should be asked to change your password for the first time
+3. Press "Sign in"
+4. You should be asked to change your password for the first time
 
 
 ***
