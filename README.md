@@ -105,10 +105,17 @@ __Quick test__
 After you started the Restcomm container, you can quickly make a call to verify that everything works by using the Olympus WebRTC applicatin that is shipped with Restcomm.
 
 1. Point your browser to ```http://HOST_IP_ADDRESS/olympus```
-2. Press "Sign in"
+2. Press "Sign in" (username alice or bob and password 1234)
 3. Your browser will ask for permission to share microphone and camera, press allow
 4. Go to "Contact", click on the "+1234" and press the "Audio Call" button (phone icon)
 5. You should hear the "Welcome to Restcomm, a Telestax Sponsored project" announcement
+
+You can access the Admin UI by following the steps below :
+1. Point your browser to ```http://HOST_IP_ADDRESS```
+2. Use administrator@company.com for username and RestComm as password
+2. Press "Sign in"
+5. You should be asked to change your password for the first time
+
 
 ***
 
