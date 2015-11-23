@@ -31,8 +31,8 @@ The image has been tested with Docker __1.7__.
 ### Supported Tags
 
 * __latest:__ Using this tag you will get the latest Restcomm build. __mobicents/restcomm:latest__
-* __7.4.0:__ Using this tag you will get the Restcomm 7.3.1.GA release. __mobicents/restcomm:7.4.0__
-* __7.3.1:__ Using this tag you will get the Restcomm 7.4.0.GA release. __mobicents/restcomm:7.3.1__
+* __7.4.0:__ Using this tag you will get the Restcomm 7.4.0.GA release. __mobicents/restcomm:7.4.0__
+* __7.3.1:__ Using this tag you will get the Restcomm 7.3.1.GA release. __mobicents/restcomm:7.3.1__
 * __7.3.0:__ Using this tag you will get the Restcomm 7.3.0.GA release. __mobicents/restcomm:7.3.0__
 
 ### Environment variables
