@@ -224,8 +224,8 @@ if [ -n "$SECURE" ]; then
   sed -i "/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=8443/a \
 \gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled\n\
 \javax.net.ssl.keyStore=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/$TRUSTSTORE_FILE\n\
-\javax.net.ssl.keyStorePassword=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/$TRUSTSTORE_PASSWORD\n\
-\javax.net.ssl.trustStorePassword=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/$TRUSTSTORE_PASSWORD\n\
+\javax.net.ssl.keyStorePassword=$TRUSTSTORE_PASSWORD\n\
+\javax.net.ssl.trustStorePassword=$TRUSTSTORE_PASSWORD\n\
 \javax.net.ssl.trustStore=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/$TRUSTSTORE_FILE\n\
 \javax.net.ssl.keyStoreType=JKS" $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
