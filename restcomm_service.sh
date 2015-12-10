@@ -62,7 +62,7 @@ fi
 if [ -n "$SMS_PREFIX" ]; then
   echo "SMS_PREFIX $SMS_PREFIX"
   sed -i "s/SMS_PREFIX=.*/SMS_PREFIX=$SMS_PREFIX/" $BASEDIR/bin/restcomm/restcomm.conf
-fi 
+fi
 
 if [ -n "$SMPP_TYPE" ]; then
   echo "SMPP_TYPE $SMPP_TYPE"
@@ -202,7 +202,7 @@ if [ -n "$SECURE" ]; then
   #cp -rf $BASEDIR/US_export_policy.jar /usr/lib/jvm/java-7-oracle/jre/lib/security/US_export_policy.jar
 
   sed -i "s/DISABLE_HTTP=.*/DISABLE_HTTP='true'/" $BASEDIR/bin/restcomm/restcomm.conf
-  
+
   # https://wiki.apache.org/tomcat/Security/Ciphers
   #sed -i "s|TLS_RSA_WITH_3DES_EDE_CBC_SHA,TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA|TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
   sed -i "s|protocol=\"TLSv1,TLSv1.1,TLSv1.2\"|protocol=\"TLSv1,TLSv1.1,TLSv1.2,SSLv2Hello\"|" $BASEDIR/standalone/configuration/standalone-sip.xml
@@ -219,15 +219,15 @@ if [ -n "$SECURE" ]; then
   fi
   grep -q 'binding name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/binding name=\"sip-ws\".*/ a \
 	\<socket-binding name="sip-wss" port="5083"/>
-	' $BASEDIR/standalone/configuration/standalone-sip.xml	
-  grep -q 'gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled' $BASEDIR/standalone/configuration/mss-sip-stack.properties || sed -i '/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=8443/ a \
+	' $BASEDIR/standalone/configuration/standalone-sip.xml
+  grep -q 'gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled' $BASEDIR/standalone/configuration/mss-sip-stack.properties || sed -i "/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=8443/ a \
 \gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled\
 \javax.net.ssl.keyStore=$TRUSTSTORE_FILE\
 \javax.net.ssl.keyStorePassword=$TRUSTSTORE_PASSWORD\
 \javax.net.ssl.trustStorePassword=$TRUSTSTORE_PASSWORD\
 \javax.net.ssl.trustStore=$TRUSTSTORE_FILE\
 \javax.net.ssl.keyStoreType=JKS
-	' $BASEDIR/standalone/configuration/mss-sip-stack.properties
+	" $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
   sed -i "s|5082|5083|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
 fi
