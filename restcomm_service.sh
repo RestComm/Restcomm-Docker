@@ -220,14 +220,14 @@ if [ -n "$SECURE" ]; then
   grep -q 'binding name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/binding name=\"sip-ws\".*/ a \
 	\<socket-binding name="sip-wss" port="5083"/>
 	' $BASEDIR/standalone/configuration/standalone-sip.xml
-  grep -q 'gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled' $BASEDIR/standalone/configuration/mss-sip-stack.properties || sed -i "/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=8443/ a \
-\gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled\
-\javax.net.ssl.keyStore=$TRUSTSTORE_FILE\
-\javax.net.ssl.keyStorePassword=$TRUSTSTORE_PASSWORD\
-\javax.net.ssl.trustStorePassword=$TRUSTSTORE_PASSWORD\
-\javax.net.ssl.trustStore=$TRUSTSTORE_FILE\
-\javax.net.ssl.keyStoreType=JKS
-	" $BASEDIR/standalone/configuration/mss-sip-stack.properties
+  grep -q 'gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled' $BASEDIR/standalone/configuration/mss-sip-stack.properties ||
+  sed -i "/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=8443/a \
+\gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled\n\
+\javax.net.ssl.keyStore=$TRUSTSTORE_FILE\n\
+\javax.net.ssl.keyStorePassword=$TRUSTSTORE_PASSWORD\n\
+\javax.net.ssl.trustStorePassword=$TRUSTSTORE_PASSWORD\n\
+\javax.net.ssl.trustStore=$TRUSTSTORE_FILE\n\
+\javax.net.ssl.keyStoreType=JKS" $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
   sed -i "s|5082|5083|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
 fi

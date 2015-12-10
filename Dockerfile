@@ -18,7 +18,7 @@ RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastS
 ADD ./populate-update-mysqldb.sh /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/populate-update-mysqldb.sh
 ADD ./create-mysql-datasource.sh /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/create-mysql-datasource.sh
 ADD ./reconfigure-mysqldb.sh /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/reconfigure-mysqldb.sh
-ADD ./ca-startcom.der /opt/TelScale-Restcomm-JBoss-AS7/ca-startcom.der
+ADD ./ca-startcom.der /opt/Mobicents-Restcomm-JBoss-AS7/ca-startcom.der
 
 EXPOSE 5080/udp
 EXPOSE 5080/tcp
