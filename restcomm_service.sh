@@ -64,6 +64,17 @@ if [ -n "$SMS_PREFIX" ]; then
   sed -i "s/SMS_PREFIX=.*/SMS_PREFIX=$SMS_PREFIX/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$GENERIC_SMPP_TYPE" ]; then
+  echo "Generic SMPP type $GENERIC_SMPP_TYPE"
+  sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/smpp.conf
+  sed -i "s/SMPP_SYSTEM_ID=.*/SMPP_SYSTEM_ID="$GENERIC_SMPP_ID"/" $BASEDIR/bin/restcomm/smpp.conf
+  sed -i "s/SMPP_PASSWORD=.*/SMPP_PASSWORD="$GENERIC_SMPP_PASSWORD"/" $BASEDIR/bin/restcomm/smpp.conf
+  sed -i "s/SMPP_SYSTEM_TYPE=.*/SMPP_SYSTEM_TYPE="$GENERIC_SMPP_TYPE"/" $BASEDIR/bin/restcomm/smpp.conf
+  sed -i "s/SMPP_PEER_IP=.*/SMPP_PEER_IP="$GENERIC_SMPP_PEER_IP"/" $BASEDIR/bin/restcomm/smpp.conf
+  sed -i "s/SMPP_PEER_PORT=.*/SMPP_PEER_PORT="$GENERIC_SMPP_PEER_PORT"/" $BASEDIR/bin/restcomm/smpp.conf
+  sed -i "s|<connection activateAddressMapping=\"false\" sourceAddressMap=\"\" destinationAddressMap=\"\" tonNpiValue=\"1\">|<connection activateAddressMapping=\"false\" sourceAddressMap=\""$GENERIC_SMPP_SOURCE_MAP"\" destinationAddressMap=\""$GENERIC_SMPP_DEST_MAP"\" tonNpiValue=\"1\">|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+fi
+
 if [ -n "$SMPP_TYPE" ]; then
   echo "SMPP_TYPE $SMPP_TYPE"
   sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/restcomm.conf

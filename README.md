@@ -80,6 +80,15 @@ The Restcomm docker image supports a set of environment variables to configure t
 * __LOG_LOCATION__ Set the location were to store Restcomm logs
 * __HOSTNAME__ Set the hostname for this machine for RestComm to recognize it and use it for relative URL requests
 
+__SMPP related configuration__
+* __GENERIC_SMPP_TYPE__ The SMPP type
+* __GENERIC_SMPP_ID__ The SMPP id
+* __GENERIC_SMPP_PASSWORD__ The SMPP password
+* __GENERIC_SMPP_PEER_IP__ The SMPP peer IP Address
+* __GENERIC_SMPP_PEER_PORT__ The SMPP peer port
+* __GENERIC_SMPP_SOURCE_MAP__ The SMPP source map
+* __GENERIC_SMPP_DEST_MAP__ The SMPP destination map
+
 
 ### Running the image
 
