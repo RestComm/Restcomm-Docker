@@ -89,6 +89,13 @@ __SMPP related configuration__
 * __GENERIC_SMPP_SOURCE_MAP__ The SMPP source map
 * __GENERIC_SMPP_DEST_MAP__ The SMPP destination map
 
+__Using self signed certificate__
+
+In case you want to start Restcomm container using a self signed certificate you need to pass just the SECURE environment variable. For example:
+```
+docker run -e SECURE="true" -e SSL_MODE="allowall" -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="VOICERSS_KEY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest
+```
+The generated truststore file will be located at ```/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/restcomm.truststore``` and the password ```changeit```
 
 ### Running the image
 

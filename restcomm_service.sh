@@ -189,6 +189,12 @@ fi
 
 if [ -n "$TRUSTSTORE_FILE" ]; then
 	sed -i "s/TRUSTSTORE_FILE=.*/TRUSTSTORE_FILE='$TRUSTSTORE_FILE'/" $BASEDIR/bin/restcomm/restcomm.conf
+else
+  HOSTNAME=`hostname`
+  TRUSTSTORE_FILE=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/restcomm.keystore
+  keytool -genkey -alias restcomm -keyalg RSA -keystore $TRUSTSTORE_FILE -dname "CN=$HOSTNAME" -storepass changeit -keypass changeit
+  echo "The generated truststore file: "
+  keytool -list -v -keystore restcomm.keystore -storepass changeit
 fi
 
 if [ -n "$TRUSTSTORE_PASSWORD" ]; then
