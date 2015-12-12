@@ -196,7 +196,8 @@ else
   TRUSTSTORE_PASSWORD=changeit
   TRUSTSTORE_ALIAS=restcomm
   keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_FILE -dname "CN=$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
-  echo "The generated truststore file: "
+  sed -i "s/TRUSTSTORE_FILE=.*/TRUSTSTORE_FILE='$TRUSTSTORE_FILE'/" $BASEDIR/bin/restcomm/restcomm.conf
+  echo "The generated truststore file at $TRUSTSTORE_FILE : "
   keytool -list -v -keystore $TRUSTSTORE_FILE -storepass $TRUSTSTORE_PASSWORD
   fi
 fi
