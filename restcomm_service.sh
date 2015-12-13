@@ -191,14 +191,20 @@ if [ -n "$TRUSTSTORE_FILE" ]; then
 	sed -i "s/TRUSTSTORE_FILE=.*/TRUSTSTORE_FILE='$TRUSTSTORE_FILE'/" $BASEDIR/bin/restcomm/restcomm.conf
 else
   if [ -n "$SECURE" ]; then
+    echo "TRUSTSTORE_FILE is not provided but SECURE is TRUE. We will create and configure self signed certificate"
   HOSTNAME=`hostname`
-  TRUSTSTORE_FILE=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/restcomm.keystore
+  TRUSTSTORE_FILE=restcomm.keystore
+  TRUSTSTORE_LOCATION=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/$TRUSTSTORE_FILE
   TRUSTSTORE_PASSWORD=changeit
   TRUSTSTORE_ALIAS=restcomm
-  keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_FILE -dname "CN=$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
-  sed -i "s/TRUSTSTORE_FILE=.*/TRUSTSTORE_FILE='$TRUSTSTORE_FILE'/" $BASEDIR/bin/restcomm/restcomm.conf
-  echo "The generated truststore file at $TRUSTSTORE_FILE : "
-  keytool -list -v -keystore $TRUSTSTORE_FILE -storepass $TRUSTSTORE_PASSWORD
+  keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_LOCATION -dname "CN=$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
+  echo "The generated truststore file at $TRUSTSTORE_LOCATION : "
+  keytool -list -v -keystore $TRUSTSTORE_LOCATION -storepass $TRUSTSTORE_PASSWORD
+  sed -i "s/TRUSTSTORE_FILE=.*/TRUSTSTORE_FILE='restcomm.keystore'/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/TRUSTSTORE_PASSWORD=.*/TRUSTSTORE_PASSWORD='$TRUSTSTORE_PASSWORD'/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/TRUSTSTORE_ALIAS=.*/TRUSTSTORE_ALIAS='$TRUSTSTORE_ALIAS'/" $BASEDIR/bin/restcomm/restcomm.conf
+  echo "restcomm.conf after the changes: "
+  cat $BASEDIR/bin/restcomm/restcomm.conf
   fi
 fi
 
@@ -252,6 +258,7 @@ if [ -n "$SECURE" ]; then
 \javax.net.ssl.keyStoreType=JKS" $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
   sed -i "s|5082|5083|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+
 fi
 
 if [ -n "$USE_STANDARD_PORTS" ]; then
