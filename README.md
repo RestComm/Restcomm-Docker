@@ -12,7 +12,8 @@ Restcomm binds to the ip address of the host and following ports:
 * __sip/udp__: 5080
 * __sip/tcp__: 5080
 * __sip/tls__: 5081
-* __sip/ws__: 5082 (Used for WebRTC)
+* __sip/ws__: 5082 (Used for WebRTC - SIP Over WebSockets)
+* __sip/wss__: 5083 (Used for WebRTC - Secure SIP Over WebSockets)
 * __rtp/udp__: 65000 - 65535
 
 If you use -e USE_STANDARD_PORTS, Restcomm will binds to the ip address of the host and following ports:
@@ -20,7 +21,8 @@ If you use -e USE_STANDARD_PORTS, Restcomm will binds to the ip address of the h
 * __sip/udp__: 5060
 * __sip/tcp__: 5060
 * __sip/tls__: 5061
-* __sip/ws__: 5062 (Used for WebRTC)
+* __sip/ws__: 5062 (Used for WebRTC - SIP Over WebSockets)
+* __sip/wss__: 5063 (Used for WebRTC - Secure SIP Over WebSockets)
 * __rtp/udp__: 65000 - 65535
 
 Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
