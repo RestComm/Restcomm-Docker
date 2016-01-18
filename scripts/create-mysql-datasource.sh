@@ -62,3 +62,5 @@ grep -q 'driver name="com.mysql"' $FILE || sed -e '/<drivers>/ a\
 \                    </statement> \
 \                </datasource>' $STANDALONE_SIP > $STANDALONE_SIP.bak
 mv $STANDALONE_SIP.bak $STANDALONE_SIP
+
+echo "create mysql datasource done"
