@@ -140,7 +140,7 @@ wget --auth-no-challenge -qc https://mobicents.ci.cloudbees.com/job/Olympus/last
 rm -rf $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/lib/nist-sdp-*.jar
 
 mkdir $BASEDIR/standalone/deployments/olympus-exploded.war
-unzip $BASEDIR/standalone/deployments/olympus.war -d $BASEDIR/standalone/deployments/olympus-exploded.war/
+unzip $BASEDIR/olympus.war -d $BASEDIR/standalone/deployments/olympus-exploded.war/
 rm -f $BASEDIR/standalone/deployments/olympus.war
 mv -f $BASEDIR/standalone/deployments/olympus-exploded.war $BASEDIR/standalone/deployments/olympus.war
 
