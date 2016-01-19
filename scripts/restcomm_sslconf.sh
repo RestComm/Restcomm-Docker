@@ -68,8 +68,12 @@ if [ -n "$SECURESSL" ]; then
     keytool -importcert -alias startssl -keystore $TRUSTSTORE_FILE -storepass $TRUSTSTORE_PASSWORD -file $BASEDIR/ca-authority.der -noprompt
   elif [ "$SECURESSL" = "SELF"  ]; then
     echo "TRUSTSTORE_FILE is not provided but SECURE is TRUE. We will create and configure self signed certificate"
-    #HOSTNAME=`echo $RESTCOMMHOST`
-    HOSTNAME=`hostname`
+
+    if [ -n "$RESTCOMMHOST" ]; then
+        HOSTNAME=`echo $RESTCOMMHOST`
+    else
+        HOSTNAME=`hostname`
+    fi
     echo $HOSTNAME
     TRUSTSTORE_LOCATION=$TRUSTSTORE_FILE
     keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_LOCATION -dname "CN=$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
