@@ -32,4 +32,4 @@ echo -e "f4840af6675b4d20a8d96dea8466296b" > /etc/container_environment/VOICERSS
 echo -e "/var/restcomm/rvd/workspace" > /etc/container_environment/RVD_LOCATION
 
 #HSQL-persist data
-echo -e "/var/restcomm/data" /etc/container_environment/HSQL_PERSIST
+echo -e "/var/restcomm/data" > /etc/container_environment/HSQL_PERSIST
