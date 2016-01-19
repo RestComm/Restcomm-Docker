@@ -219,7 +219,7 @@ fi
 if [ -n "$CORE_LOGS_LOCATION" ]; then
   echo "CORE_LOGS_LOCATION $CORE_LOGS_LOCATION"
   mkdir -p `echo $CORE_LOGS_LOCATION`
-  sed -i "s|find .*restcomm_core_|find `echo $CORE_LOGS_LOCATION`/restcommCore-server.log|" /etc/cron.d/telscalecore-cron
+  sed -i "s|find .*restcomm_core_|find `echo $CORE_LOGS_LOCATION`/restcommCore-server.log|" /etc/cron.d/restcommcore-cron
   sed -i "s|<file relative-to=\"jboss.server.log.dir\" path=\".*\"\/>|<file path=\"`echo $CORE_LOGS_LOCATION`/restcommCore-server.log\"\/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
 
@@ -227,7 +227,7 @@ fi
 if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   echo "MEDIASERVER_LOGS_LOCATION $MEDIASERVER_LOGS_LOCATION"
   mkdir -p `echo $MEDIASERVER_LOGS_LOCATION`
-  sed -i "s|find .*restcomm_ms_|find `echo $MEDIASERVER_LOGS_LOCATION`/media-server.log|" /etc/cron.d/telscalemediaserver-cron
+  sed -i "s|find .*restcomm_ms_|find `echo $MEDIASERVER_LOGS_LOCATION`/media-server.log|" /etc/cron.d/restcommmediaserver-cron
   sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
   #Daily log rotation for MS.
   sed -i "s|<appender name=\"FILE\" class=\"org\.apache\.log4j\.RollingFileAppender\"|<appender name=\"FILE\" class=\"org\.apache\.log4j\.DailyRollingFileAppender\"|"  $BASEDIR/mediaserver/conf/log4j.xml
@@ -251,7 +251,7 @@ fi
 if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   echo "RESTCOMM_TRACE_LOG $RESTCOMM_TRACE_LOG"
   mkdir -p $RESTCOMM_TRACE_LOG
-  sed -i "s|find .*restcomm_trace_|find `echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/telscaletcpdump-cron
+  sed -i "s|find .*restcomm_trace_|find `echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
   ps cax | grep tcpdump > /dev/null
   if [ $? -eq 0 ]; then
     echo "TCPDUMP  is running."
