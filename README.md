@@ -179,11 +179,6 @@ Next run Restcomm image using the following volume arguments:
 * Restcomm logs ```-v $YOUR_FOLDER/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log ```
 * Restcomm recordings ```-v $YOUR_FOLDER/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings```
 * Restcomm tts cache ```-v $YOUR_FOLDER/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache```
-* Restcomm HSQL database ```-v $YOUR_FOLDER/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql```
-* Media Server logs  
-```-v $YOUR_FOLDER/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log```
-* Restcomm Visual Designer workspace  ```-v $YOUR_FOLDER/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace```
-
 
 __HSQL database persistant data__
 In order to properly manage to persist data on a host directory, it is necessary to use ``HSQL_PERSIST`` option.
@@ -199,6 +194,18 @@ If you are using specific log paths (CORE_LOGS_LOCATION, EDIASERVER_LOGS_LOCATIO
 For example if you unzip the _restcomm_workspace.zip_ to /opt/restcomm_workspace/ then the docker run command will be:
 ```docker run --name=restcomm --restart=always -d -e VOICERSS_KEY="YOUR_VOICERSS_KEY" -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp -v /opt/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log -v /opt/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings -v /opt/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache -v /opt/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql -v /opt/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log -v /opt/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace mobicents/restcomm:latest```
 
+### Procedure for basic RestComm installation.
+
+ To run the container with the basic out-of-the-box configuration :
+
+- TTS support.
+- Self-signed certificate.
+- persistent RVD workspace
+ -persistent HSQL data.
+ -WebRTC support.
+
+* Pull container from public restomm-docker hub using: ```docker pull mobicents/restcomm:latest```
+* Run the command: ```docker run  -i -d  --name=restcomm  -v /var/restcomm/workspace/:/var/restcomm/rvd/workspace -v /var/log/restcomm:/var/log/restcomm/ -v /var/restcomm/data/:/var/restcomm/data/ -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/Restcomm-Docker/issue12/scripts/restcomm_env_basicAmazon.sh" -e REPOUSR='PUT_USER' -e REPOPWRD='PUT_PASSWD' -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:issue12```
 
 
 ### To get bash console (for debugging only)
