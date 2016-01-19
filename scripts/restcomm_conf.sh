@@ -150,6 +150,12 @@ if [ -n "$S3_BUCKET_NAME" ]; then
 	}" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
 fi
 
+
+if [ -n "$HSQL_PERSIST" ]; then
+  echo "HSQL_PERSIST $HSQL_PERSIST"
+  cp $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/* `echo $HSQL_PERSIST`
+fi
+
 if [ -n "$SMTP_USER" ]; then
   echo "SMTP_USER $SMTP_USER SMTP_PASSWORD $SMTP_PASSWORD SMTP_HOST $SMTP_HOST"
   sed -i "/<smtp-notify>/ {
