@@ -28,7 +28,7 @@ If you use -e USE_STANDARD_PORTS, Restcomm will binds to the ip address of the h
 Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
 
 ### Prerequisites
-The image has been tested with Docker __1.7__.
+The image has been tested with Docker __1.7 & 1.9__.
 
 ### Supported Tags
 
