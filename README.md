@@ -28,7 +28,7 @@ If you use -e USE_STANDARD_PORTS, Restcomm will binds to the ip address of the h
 Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
 
 ### Prerequisites
-The image has been tested with Docker __1.7__.
+The image has been tested with Docker __1.7__&& __1.9__.
 
 ### Supported Tags
 
@@ -182,6 +182,12 @@ Next run Restcomm image using the following volume arguments:
 * Media Server logs  
 ```-v $YOUR_FOLDER/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log```
 * Restcomm Visual Designer workspace  ```-v $YOUR_FOLDER/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace```
+
+__RestComm logs additional information __
+
+If you are using specific log paths (CORE_LOGS_LOCATION, EDIASERVER_LOGS_LOCATION, RESTCOMM_TRACE_LOG) use them to mount volumes to host.
+
+
 
 For example if you unzip the _restcomm_workspace.zip_ to /opt/restcomm_workspace/ then the docker run command will be:
 ```docker run --name=restcomm --restart=always -d -e VOICERSS_KEY="YOUR_VOICERSS_KEY" -p 8080:8080 -p 5080:5080 -p 5080:5080/udp -p 65000-65535/udp -v /opt/restcomm_workspace/restcomm/log:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/log -v /opt/restcomm_workspace/restcomm/recordings:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/recordings -v /opt/restcomm_workspace/restcomm/cache:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/cache -v /opt/restcomm_workspace/restcomm/data:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm.war/WEB-INF/data/hsql -v /opt/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log -v /opt/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace mobicents/restcomm:latest```
