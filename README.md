@@ -72,7 +72,7 @@ The Restcomm docker image supports a set of environment variables to configure t
 * __S3_BUCKET_NAME__ Set the S3 Bucket Name so that Restcomm stores the Recording in Amazon Web Services S3 Service
 * __S3_ACCESS_KEY__ Set the S3 Access Key so that Restcomm stores the Recording in Amazon Web Services S3 Service
 * __S3_SECURITY_KEY__ Set the S3 Security Key so that Restcomm stores the Recording in Amazon Web Services S3 Service
-*__HSQL_PERSIST__ Path to use for persist date using HSQL.
+* __HSQL_PERSIST__ Path to use for persist date using HSQL.
 * __SMTP_USER__ Set the SMTP User so that Restcomm configures the SMTP Service for the Email API and RVD Tag
 * __SMTP_PASSWORD__ Set the SMTP Password so that Restcomm configures the SMTP Service for the Email API and RVD Tag
 * __SMTP_HOST__ Set the SMTP Host so that Restcomm configures the SMTP Service for the Email API and RVD Tag
@@ -91,16 +91,16 @@ The Restcomm docker image supports a set of environment variables to configure t
 __HTTPS related configuration__
 * __SECURE__ Configure RestComm to be used in secure mode ie only on HTTPS not HTTP and SIP Over Secure WebSockets + TLS 
   (Values: AUTH - need to provide JKS file & DER file. SELF - self sighned certificate generation)
-*__TRUSTSTORE_PASSWORD__ Set the password to use for Restcomm to configure the certificate for HTTPS and SIP TLS
-*__TRUSTSTORE_ALIAS__ Set the Alias to use for Restcomm to configure the certificate for HTTPS and SIP TLS
+* __TRUSTSTORE_PASSWORD__ Set the password to use for Restcomm to configure the certificate for HTTPS and SIP TLS
+* __TRUSTSTORE_ALIAS__ Set the Alias to use for Restcomm to configure the certificate for HTTPS and SIP TLS
     
 __SECURE=AUTH__
-*__CERTCONFURL__ JKS file URL location
-*__CERTREPOUSR__ Username for authentication if needed.
-*__CERTREPOPWRD__ Password for authentications if needed
-*__DERCONFURL__  DER file URL location
-*__DERREPOUSR__ Username for authentication if needed 
-*__DERREPOPWRD__ Password for authentication if needed 
+* __CERTCONFURL__ JKS file URL location
+* __CERTREPOUSR__ Username for authentication if needed.
+* __CERTREPOPWRD__ Password for authentications if needed
+* __DERCONFURL__  DER file URL location
+* __DERREPOUSR__ Username for authentication if needed 
+* __DERREPOPWRD__ Password for authentication if needed 
 
 
 __SMPP related configuration__
