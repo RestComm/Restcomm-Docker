@@ -13,7 +13,7 @@ echo -e "PUT_HOSTNAME" > /etc/container_environment/RESTCOMMHOST
 echo -e "PUT__IP" > /etc/container_environment/STATIC_ADDRESS
 
 #SSL certificate
-echo -e "SELF" > /etc/container_environment/SECURESSL
+echo -e "AUTH" > /etc/container_environment/SECURESSL
 echo -e "allowall" > /etc/container_environment/SSL_MODE
 
 
@@ -29,11 +29,6 @@ echo -e "Put_Your_User" > /etc/container_environment/MYSQL_USER
 echo -e "Put_Your_Password" > /etc/container_environment/MYSQL_PASSWORD
 echo -e "MYSQL_HOST" > /etc/container_environment/MYSQL_HOST
 echo -e "MYSQL_DB" > /etc/container_environment/MYSQL_SCHEMA
-
-
-#RVD_LOCATION
-echo -e "/opt/rvd/workspace/" > /etc/container_environment/RVD_LOCATION
-
 
 #SMTP
 echo -e "YOUR_SMTP_USER" > /etc/container_environment/SMTP_USER
