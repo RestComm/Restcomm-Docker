@@ -7,13 +7,13 @@ source /etc/container_environment.sh
 
 BASEDIR=/opt/Mobicents-Restcomm-JBoss-AS7
 
-CRTFILE=$BASEDIR/standalone/configuration/restcomm-combined.jks
+TRUSTSTORE_FILE_NAME=restcomm-combined.jks
+TRUSTSTORE_FILE=$BASEDIR/standalone/configuration/$TRUSTSTORE_FILE_NAME
 DERFILE=$BASEDIR/ca-authority.der
 CONFFILE=/tmp/conf.sh
 
 
-TRUSTSTORE_FILE_NAME=restcomm-combined.jks
-TRUSTSTORE_FILE=$BASEDIR/standalone/configuration/$TRUSTSTORE_FILE_NAME
+
 
 
 function download_conf(){
@@ -43,7 +43,7 @@ if [ -n "$CERTCONFURL" ]; then
   		PASS="--password=`echo $CERTREPOPWRD`"
   fi
    URL="$CERTCONFURL $USR $PASS"
-   download_conf $URL $CRTFILE
+   download_conf $URL $TRUSTSTORE_FILE
 fi
 
 if [ -n "$DERCONFURL" ]; then

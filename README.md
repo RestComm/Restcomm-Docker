@@ -39,6 +39,13 @@ The image has been tested with Docker __1.7__.
 
 ### Environment variables
 
+RestComm docker container provides the option to use an file to configure environment variables needed or provide them directly through the RUN command.
+
+* __ENVCONFURL__ Set the URL for environment variables configuration file location/repository.
+* __REPOUSR__ Set Username for environment variables configuration file Authentication if needed.
+* __REPOPWRD__ Set Password for environment variables configuration file Authenitcation if needed.
+* __MEDIASERVER_LOGS_LOCATION__ Set the location were to store Mediaserver logs.
+
 The Restcomm docker image supports a set of environment variables to configure the application.
 
 * __STATIC_ADDRESS__ Set the public ip address that Restcomm should use
@@ -72,15 +79,28 @@ The Restcomm docker image supports a set of environment variables to configure t
 * __MYSQL_PASSWORD__ Set the MySQL Password so that Restcomm configures RestComm to use a MySQL DB instead of In memory DB
 * __MYSQL_HOST__ Set the MySQL Host so that Restcomm configures RestComm to use a MySQL DB instead of In memory DB
 * __MYSQL_SCHEMA__ Set the MySQL Schema so that Restcomm configures RestComm to use a MySQL DB instead of In memory DB
-* __SECURE__ Configure RestComm to be used in secure mode ie only on HTTPS not HTTP and SIP Over Secure WebSockets + TLS
-* __TRUSTSTORE_FILE__ Set the file to use for Restcomm to configure the certificate for HTTPS and SIP TLS
-* __TRUSTSTORE_PASSWORD__ Set the password to use for Restcomm to configure the certificate for HTTPS and SIP TLS
-* __TRUSTSTORE_ALIAS__ Set the Alias to use for Restcomm to configure the certificate for HTTPS and SIP TLS
 * __SSL_MODE__ Set the SSL Mode for Restcomm and RVD to query External Service over HTTPS. Values : allowall, strict
-* __NFS_LOCATION__ Set the NFS Location for Restcomm Visual Designer to store the workspaces in a shared filesystem
+* __RVD_LOCATION__ Set the Location for Restcomm Visual Designer to store the workspaces in a shared filesystem
 * __LOG_LEVEL__ Set the Log Level for Restcomm and MMS
-* __LOG_LOCATION__ Set the location were to store Restcomm logs
-* __HOSTNAME__ Set the hostname for this machine for RestComm to recognize it and use it for relative URL requests
+* __CORE_LOGS_LOCATION__ Set the location were to store Restcomm logs
+* __MEDIASERVER_LOGS_LOCATION__ Set the location were to store Mediaserver logs
+* __RESTCOMM_TRACE_LOG__ Set the location were to store network trace logs (pcap files)
+* __RESTCOMMHOST__ Set the hostname for this machine for RestComm to recognize it and use it for relative URL requests
+
+__HTTPS related configuration__
+* __SECURE__ Configure RestComm to be used in secure mode ie only on HTTPS not HTTP and SIP Over Secure WebSockets + TLS 
+  (Values: AUTH - need to provide JKS file & DER file. SELF - self sighned certificate generation)
+*__TRUSTSTORE_PASSWORD__ Set the password to use for Restcomm to configure the certificate for HTTPS and SIP TLS
+*__TRUSTSTORE_ALIAS__ Set the Alias to use for Restcomm to configure the certificate for HTTPS and SIP TLS
+    
+__SECURE=AUTH__ 
+*__CERTCONFURL__ JKS file URL location
+*__CERTREPOUSR__ Username for authentication if needed.
+*__CERTREPOPWRD__ Password for authentications if needed
+*__DERCONFURL__  DER file URL location
+*__DERREPOUSR__ Username for authentication if needed 
+*__DERREPOPWRD__ Password for authentication if needed 
+
 
 __SMPP related configuration__
 * __GENERIC_SMPP_TYPE__ The SMPP type
@@ -93,11 +113,11 @@ __SMPP related configuration__
 
 __Using self signed certificate__
 
-In case you want to start Restcomm container using a self signed certificate you need to pass just the SECURE environment variable. For example:
+In case you want to start Restcomm container using a self signed certificate you need to pass just the SECURE environment variable set to "SELF". For example:
 ```
-docker run -e SECURE="true" -e SSL_MODE="allowall" -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="VOICERSS_KEY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest
+docker run -e SECURE="SELF" -e SSL_MODE="allowall" -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="VOICERSS_KEY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest
 ```
-The generated truststore file will be located at ```/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/restcomm.truststore``` and the password ```changeit```
+The generated truststore file will be located at ```/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/restcomm-combined.jks``` and the password ```$TRUSTSTORE_PASSWORD```
 
 ### Running the image
 
@@ -106,6 +126,10 @@ The generated truststore file will be located at ```/opt/Mobicents-Restcomm-JBos
 * __Provide your VoiceRSS key for Text-To-Speech and Outbound proxy by setting environment variable VOICERSS_KEY and OUTBOUND_PROXY__ ```docker run -e USE_STANDARD_PORTS="true" -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
 * __To automatically restart the container in case of a failure or host restart, you have to use the --restart-always flag__  ```docker run -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm --restart=always -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
 * __To run on standard ports ie 80 for HTTP, 443 for HTTPs, 5060 for SIP, you have to use the USE_STANDARD_PORTS__  ```docker run -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
+* __Mount recondings directory to host, for persistent recordings__
+* __Pull basic environment configuration file from RestComm-Docker repository__ ```docker run -i -d  --name=restcomm -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/Restcomm-Docker/master/scripts/restcomm_env_basic.sh"  -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm-cloud:latest```
+
+
 ***
 __Important Notice for Restcomm networking__
 
@@ -134,7 +158,6 @@ You can access the Admin UI by following the steps below:
 2. Use administrator@company.com for username and RestComm as password
 3. Press "Sign in"
 4. You should be asked to change your password for the first time
-
 
 ***
 

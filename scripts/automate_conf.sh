@@ -5,11 +5,7 @@
 
 
 echo "Will check if Enviromental variables script file is set"
-
-CRTFILE=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/restcomm-combined.jks
 CONFFILE=/tmp/conf.sh
-DERFILE=/opt/Mobicents-Restcomm-JBoss-AS7/ca-authority.der
-
 
 function download_conf(){
 echo "url $1 $2 $3"
