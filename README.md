@@ -72,6 +72,7 @@ The Restcomm docker image supports a set of environment variables to configure t
 * __S3_BUCKET_NAME__ Set the S3 Bucket Name so that Restcomm stores the Recording in Amazon Web Services S3 Service
 * __S3_ACCESS_KEY__ Set the S3 Access Key so that Restcomm stores the Recording in Amazon Web Services S3 Service
 * __S3_SECURITY_KEY__ Set the S3 Security Key so that Restcomm stores the Recording in Amazon Web Services S3 Service
+*__HSQL_PERSIST__ Path to use for persist date using HSQL.
 * __SMTP_USER__ Set the SMTP User so that Restcomm configures the SMTP Service for the Email API and RVD Tag
 * __SMTP_PASSWORD__ Set the SMTP Password so that Restcomm configures the SMTP Service for the Email API and RVD Tag
 * __SMTP_HOST__ Set the SMTP Host so that Restcomm configures the SMTP Service for the Email API and RVD Tag
@@ -93,7 +94,7 @@ __HTTPS related configuration__
 *__TRUSTSTORE_PASSWORD__ Set the password to use for Restcomm to configure the certificate for HTTPS and SIP TLS
 *__TRUSTSTORE_ALIAS__ Set the Alias to use for Restcomm to configure the certificate for HTTPS and SIP TLS
     
-__SECURE=AUTH__ 
+__SECURE=AUTH__
 *__CERTCONFURL__ JKS file URL location
 *__CERTREPOUSR__ Username for authentication if needed.
 *__CERTREPOPWRD__ Password for authentications if needed
@@ -185,9 +186,9 @@ Next run Restcomm image using the following volume arguments:
 
 
 __HSQL database persistant data__
-In order to properly manage to persist data on a host directory, it is necessary to copy the database script (restcomm.script) and
-database properties (restcomm.properties) to the destination host directory (e.g.$YOUR_FOLDER/restcomm_workspace/restcomm/data)
-[Github location](https://github.com/RestComm/RestComm-Core/tree/master/restcomm/restcomm.application/src/main/webapp/WEB-INF/data/hsql)
+In order to properly manage to persist data on a host directory, it is necessary to use ``HSQL_PERSIST`` option.
+Then need to mount the volume set at the ``HSQL_PERSIST`` option at a directory on the host. 
+(e.g. ``-v /$YOUR_FOLDER/restcomm_workspace/restcomm/data:/dir_to_HSQL_PERSIST``) 
 
 __RestComm logs additional information __
 
