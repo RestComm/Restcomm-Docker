@@ -2,9 +2,8 @@
 
 #Maintainer Lefteris Banos -liblefty@telestax.com
 
-
-
 echo "Will check if Enviromental variables script file is set"
+
 CONFFILE=/tmp/conf.sh
 
 function download_conf(){
