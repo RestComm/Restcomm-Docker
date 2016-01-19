@@ -183,6 +183,12 @@ Next run Restcomm image using the following volume arguments:
 ```-v $YOUR_FOLDER/restcomm_workspace/mms/log:/opt/Mobicents-Restcomm-JBoss-AS7/mediaserver/log```
 * Restcomm Visual Designer workspace  ```-v $YOUR_FOLDER/restcomm_workspace/rvd/workspace:/opt/Mobicents-Restcomm-JBoss-AS7/standalone/deployments/restcomm-rvd.war/workspace```
 
+
+__HSQL database persistant data__
+In order to properly manage to persist data on a host directory, it is necessary to copy the database script (restcomm.script) and
+database properties (restcomm.properties) to the destination host directory (e.g.$YOUR_FOLDER/restcomm_workspace/restcomm/data)
+[Github location](https://github.com/RestComm/RestComm-Core/tree/master/restcomm/restcomm.application/src/main/webapp/WEB-INF/data/hsql)
+
 __RestComm logs additional information __
 
 If you are using specific log paths (CORE_LOGS_LOCATION, EDIASERVER_LOGS_LOCATION, RESTCOMM_TRACE_LOG) use them to mount volumes to host.
