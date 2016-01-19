@@ -29,7 +29,7 @@ echo -e "`curl http://instance-data/latest/meta-data/public-ipv4`" > /etc/contai
 echo -e "f4840af6675b4d20a8d96dea8466296b" > /etc/container_environment/VOICERSS_KEY
 
 #RVD_LOCATION
-echo -e "/V" > /etc/container_environment/RVD_LOCATION
+echo -e "/var/restcomm/rvd/workspace" > /etc/container_environment/RVD_LOCATION
 
 #HSQL-persist data
 echo -e "/var/restcomm/data/" /etc/container_environment/HSQL_PERSIST
