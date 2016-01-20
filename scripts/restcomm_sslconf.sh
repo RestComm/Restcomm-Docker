@@ -100,10 +100,10 @@ if [ -n "$SECURESSL" ]; then
    grep -q 'gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled' $BASEDIR/standalone/configuration/mss-sip-stack.properties ||
    sed -i '/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=8443/ a \
   \gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled\
-  \javax.net.ssl.keyStore=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/$TRUSTSTORE_FILE\
-  \javax.net.ssl.keyStorePassword=`echo $TRUSTSTORE_PASSWORD`\
-  \javax.net.ssl.trustStorePassword=`echo $TRUSTSTORE_PASSWORD`\
-  \javax.net.ssl.trustStore=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/$TRUSTSTORE_FILE\
+  \javax.net.ssl.keyStore=/opt/TelScale-Restcomm-JBoss-AS7/standalone/configuration/'"$TRUSTSTORE_FILE_NAME"'`\
+  \javax.net.ssl.keyStorePassword='"`echo $TRUSTSTORE_PASSWORD`"'\
+  \javax.net.ssl.trustStorePassword='"`echo $TRUSTSTORE_PASSWORD`"'\
+  \javax.net.ssl.trustStore=/opt/TelScale-Restcomm-JBoss-AS7/standalone/configuration/'"$TRUSTSTORE_FILE_NAME"'\
   \javax.net.ssl.keyStoreType=JKS' $BASEDIR/standalone/configuration/mss-sip-stack.properties
 fi
 
