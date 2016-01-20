@@ -89,7 +89,7 @@ if [ -n "$SECURESSL" ]; then
 	\ <connector name="sip-wss" protocol="SIP/2.0" scheme="sip" socket-binding="sip-wss"/>
 	' $BASEDIR/standalone/configuration/standalone-sip.xml
   if [ -n "$STATIC_ADDRESS" ]; then
-	sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"$STATIC_ADDRESS\" static-server-port=\"5083\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
+	sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"`echo $STATIC_ADDRESS`\" static-server-port=\"5083\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
   fi
   grep -q 'binding name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/binding name=\"sip-ws\".*/ a \
 	\<socket-binding name="sip-wss" port="5083"/>' $BASEDIR/standalone/configuration/standalone-sip.xml
