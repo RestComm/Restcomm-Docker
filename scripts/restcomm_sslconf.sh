@@ -100,7 +100,7 @@ if [ -n "$SECURESSL" ]; then
    grep -q 'gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled' $BASEDIR/standalone/configuration/mss-sip-stack.properties ||
    sed -i '/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=443/ a \
   \gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled\
-  \javax.net.ssl.keyStore='"$TRUSTSTORE_FILE"'`\
+  \javax.net.ssl.keyStore='"$TRUSTSTORE_FILE"'\
   \javax.net.ssl.keyStorePassword='"`echo $TRUSTSTORE_PASSWORD`"'\
   \javax.net.ssl.trustStorePassword='"`echo $TRUSTSTORE_PASSWORD`"'\
   \javax.net.ssl.trustStore='"$TRUSTSTORE_FILE"'\
