@@ -73,14 +73,16 @@ if [ -n "$SECURESSL" ]; then
   elif [ "$SECURESSL" = "SELF"  ]; then
     echo "TRUSTSTORE_FILE is not provided but SECURE is TRUE. We will create and configure self signed certificate"
 
+     TRUSTSTORE_LOCATION=$TRUSTSTORE_FILE
     if [ -n "$RESTCOMMHOST" ]; then
         HOSTNAME=`echo $RESTCOMMHOST`
+        keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_LOCATION -dname "CN=$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
     else
         HOSTNAME=`echo $STATIC_ADDRESS`
+        keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_LOCATION -dname "CN=restcomm" -ext san=ip:"$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
     fi
     echo $HOSTNAME
-    TRUSTSTORE_LOCATION=$TRUSTSTORE_FILE
-    keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_LOCATION -dname "CN=$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
+
     echo "The generated truststore file at $TRUSTSTORE_LOCATION "
   fi
 
