@@ -204,7 +204,6 @@ if [ -n "$USE_STANDARD_PORTS" ]; then
   sed -i "s|5080|5060|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5081|5061|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5082|5062|" $BASEDIR/standalone/configuration/standalone-sip.xml
-  sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5080|5060|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
   sed -i "s|5081|5061|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
   sed -i "s|5082|5062|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh

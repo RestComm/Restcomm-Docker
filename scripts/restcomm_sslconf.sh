@@ -19,7 +19,11 @@ CONFFILE=/tmp/conf.sh
 function download_conf(){
 echo "url $1 $2 $3"
 if [[ `wget -S --spider $1 $2 $3 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+           if [ -n "$2" ] && [ -n "$3" ]; then
                 wget $1 $2 $3 -O $4
+           else
+                wget $1 -O $2
+            fi
                 return 0;
         else
                 echo "false"
@@ -101,4 +105,9 @@ if [ -n "$SECURESSL" ]; then
   \javax.net.ssl.trustStorePassword=`echo $TRUSTSTORE_PASSWORD`\
   \javax.net.ssl.trustStore=/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/$TRUSTSTORE_FILE\
   \javax.net.ssl.keyStoreType=JKS' $BASEDIR/standalone/configuration/mss-sip-stack.properties
+fi
+
+
+if [ -n "$USE_STANDARD_PORTS" ]; then
+  sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
