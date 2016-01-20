@@ -76,7 +76,7 @@ if [ -n "$SECURESSL" ]; then
     if [ -n "$RESTCOMMHOST" ]; then
         HOSTNAME=`echo $RESTCOMMHOST`
     else
-        HOSTNAME=`hostname`
+        HOSTNAME=`echo $STATIC_ADDRESS`
     fi
     echo $HOSTNAME
     TRUSTSTORE_LOCATION=$TRUSTSTORE_FILE

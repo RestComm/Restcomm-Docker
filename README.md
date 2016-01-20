@@ -205,7 +205,7 @@ For example if you unzip the _restcomm_workspace.zip_ to /opt/restcomm_workspace
 5. WebRTC support.
 
 * Pull container from public restomm-docker hub using: ```docker pull mobicents/restcomm:latest```
-* Run the command: ```docker run  -i -d  --name=restcomm  -v /var/restcomm/workspace/:/var/restcomm/rvd/workspace -v /var/log/restcomm:/var/log/restcomm/ -v /var/restcomm/data/:/var/restcomm/data/ -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/Restcomm-Docker/issue12/scripts/restcomm_env_basicAmazon.sh" -e REPOUSR='PUT_USER' -e REPOPWRD='PUT_PASSWD' -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:issue12```
+* Run the command: ```docker run  -i -d  --name=restcomm  -v /var/restcomm/workspace/:/var/restcomm/rvd/workspace -v /var/log/restcomm:/var/log/restcomm/ -v /var/restcomm/data/:/var/restcomm/data/ -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/Restcomm-Docker/issue12/scripts/restcomm_env_basicAmazon.sh" -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
 
 
 ### To get bash console (for debugging only)

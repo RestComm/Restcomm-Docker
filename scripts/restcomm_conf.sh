@@ -273,5 +273,7 @@ fi
 if [ -n "$RESTCOMMHOST" ]; then
   echo "HOSTNAME $RESTCOMMHOST"
   sed -i "s|<hostname>.*<\/hostname>|<hostname>`echo $RESTCOMMHOST`<\/hostname>|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
-fi
+else
+  sed -i "s|<hostname>.*<\/hostname>|<hostname>`echo $STATIC_ADDRESS`<\/hostname>|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+ fi
 
