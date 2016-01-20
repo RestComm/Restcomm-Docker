@@ -98,7 +98,7 @@ if [ -n "$SECURESSL" ]; then
   grep -q 'binding name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/binding name=\"sip-ws\".*/ a \
 	\<socket-binding name="sip-wss" port="5083"/>' $BASEDIR/standalone/configuration/standalone-sip.xml
    grep -q 'gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled' $BASEDIR/standalone/configuration/mss-sip-stack.properties ||
-   sed -i '/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=8443/ a \
+   sed -i '/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=443/ a \
   \gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled\
   \javax.net.ssl.keyStore=/opt/TelScale-Restcomm-JBoss-AS7/standalone/configuration/'"$TRUSTSTORE_FILE_NAME"'`\
   \javax.net.ssl.keyStorePassword='"`echo $TRUSTSTORE_PASSWORD`"'\
