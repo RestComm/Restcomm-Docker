@@ -13,9 +13,6 @@ DERFILE=$BASEDIR/ca-authority.der
 CONFFILE=/tmp/conf.sh
 
 
-
-
-
 function download_conf(){
 echo "url $1 $2 $3"
 if [[ `wget -S --spider $1 $2 $3 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
@@ -69,7 +66,7 @@ if [ -n "$SECURESSL" ]; then
   sed -i "s/TRUSTSTORE_FILE=.*/TRUSTSTORE_FILE='$TRUSTSTORE_FILE_NAME'/" $BASEDIR/bin/restcomm/restcomm.conf
   #Certificate setup (Authority certificate or self-signed)
   if [ "$SECURESSL" = "AUTH" ]; then
-    keytool -importcert -alias startssl -keystore $TRUSTSTORE_FILE -storepass $TRUSTSTORE_PASSWORD -file $BASEDIR/ca-authority.der -noprompt
+    keytool -importcert -alias $TRUSTSTORE_ALIAS -keystore $TRUSTSTORE_FILE -storepass $TRUSTSTORE_PASSWORD -file $BASEDIR/ca-authority.der -noprompt
   elif [ "$SECURESSL" = "SELF"  ]; then
     echo "TRUSTSTORE_FILE is not provided but SECURE is TRUE. We will create and configure self signed certificate"
 

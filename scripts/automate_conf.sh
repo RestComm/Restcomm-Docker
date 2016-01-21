@@ -46,5 +46,7 @@ if [ -n "$ENVCONFURL" ]; then
    run_conf
 fi
 
+cat /etc/container_environment.json > /var/log/restcomm/
+
 
 

@@ -238,3 +238,13 @@ We 've had some issues running RestComm Docker image using the official Docker f
 ```$ sudo docker run -e SECURE="true" -e SSL_MODE="allowall" -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="VOICERSS_KEY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
 * The RestComm installation is available from the host system at: ```https://<guest ip>/```
 * You can use the Olympus WebRTC Web App at: ```https://<guest ip>/olympus```
+
+
+###Knowing Issue on Firefox###
+It is possible that you will not be able to log in to olympus the first time that you will try to connect using Firefox.
+To fix this problem please follow the solution provided by [__Faisal Mq__](http://stackoverflow.com/users/379916/faisal-mq) 
+on [__http://stackoverflow.com/__](http://stackoverflow.com/questions/11542460/secure-websocket-wss-doesnt-work-on-firefox).
+```When you would try to open up wss say using wss://IP:5063, Firefox will keep on giving you error until you open up a separate 
+Firefox tab and do try hitting URL [https]://IP:5063 and Confirm Security Exception 
+(like you do on Firefox normally for any https based connection). This is really weird and happens only in Firefox.```
+

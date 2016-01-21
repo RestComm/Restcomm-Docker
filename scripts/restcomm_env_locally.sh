@@ -27,5 +27,5 @@ echo -e "f4840af6675b4d20a8d96dea8466296b" > /etc/container_environment/VOICERSS
 #RVD_LOCATION
 echo -e "/var/restcomm/rvd/workspace" > /etc/container_environment/RVD_LOCATION
 
-#HSQL-persist data
+#HSQL-persist data - Need to mount this path on the host. else data is not persistent.
 echo -e "/var/restcomm/data" > /etc/container_environment/HSQL_PERSIST
