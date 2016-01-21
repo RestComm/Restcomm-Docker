@@ -153,7 +153,7 @@ fi
 
 if [ -n "$HSQL_PERSIST" ]; then
   echo "HSQL_PERSIST $HSQL_PERSIST"
-  #mkdir -p $HSQL_PERSIST
+  mkdir -p $HSQL_PERSIST
   sed -i "s|<data-files>.*</data-files>|<data-files>`echo $HSQL_PERSIST`</data-files>|"  $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
   cp $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/* $HSQL_PERSIST
 fi
