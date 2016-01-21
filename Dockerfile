@@ -38,6 +38,7 @@ RUN touch /var/log/cron.log
 RUN mkdir -p /etc/my_init.d
 
 ADD ./scripts/automate_conf.sh /etc/my_init.d/restcommautomate.sh
+ADD ./scripts/restcomm_setenv.sh /etc/my_init.d/restcommbenv.sh
 ADD ./scripts/restcomm_conf.sh /etc/my_init.d/restcommconf.sh
 ADD ./scripts/restcomm_sslconf.sh /etc/my_init.d/restcommsslconf.sh
 ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcommtoolsconf.sh
