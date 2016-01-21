@@ -212,6 +212,7 @@ fi
 
 if [ -n "$RVD_LOCATION" ]; then
   echo "RVD_LOCATION $RVD_LOCATION"
+  mkdir -p `echo $RVD_LOCATION`
   sed -i "s|<workspaceLocation>.*</workspaceLocation>|<workspaceLocation>`echo $RVD_LOCATION`</workspaceLocation>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
 fi
 
