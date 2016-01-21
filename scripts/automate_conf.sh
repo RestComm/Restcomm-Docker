@@ -46,7 +46,7 @@ if [ -n "$ENVCONFURL" ]; then
    run_conf
 fi
 
-
+. /tmp/.restcommenv.sh
 
 
 

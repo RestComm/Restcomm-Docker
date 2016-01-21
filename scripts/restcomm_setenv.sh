@@ -5,7 +5,7 @@ function jsonval {
     if [ $? -eq 0 ];then
     IFS=':' read ar1 ar2 <<<$temp
     echo "$ar2 > /etc/container_environment/$ar1" 
-    echo -e "$ar2" > /etc/container_environment/$r1
+    echo -e "$ar2" > /etc/container_environment/$ar1
   
     fi
     #echo ${temp##*|}

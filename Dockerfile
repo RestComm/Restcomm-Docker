@@ -38,13 +38,14 @@ RUN touch /var/log/cron.log
 RUN mkdir -p /etc/my_init.d
 
 ADD ./scripts/automate_conf.sh /etc/my_init.d/restcommautomate.sh
-ADD ./scripts/restcomm_setenv.sh /etc/my_init.d/restcommbenv.sh
+ADD ./scripts/restcomm_setenv.sh /tmp/.restcommenv.sh
 ADD ./scripts/restcomm_conf.sh /etc/my_init.d/restcommconf.sh
 ADD ./scripts/restcomm_sslconf.sh /etc/my_init.d/restcommsslconf.sh
 ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcommtoolsconf.sh
 RUN chmod +x /etc/my_init.d/restcomm*.sh
 
 RUN chmod +x /opt/embed/*.sh
+RUN chmod +x /tmp/.restcommenv.sh
 #RUN /bin/bash -c "source /opt/embed/restcommenv.sh"
 
 EXPOSE 5080/udp
