@@ -21,10 +21,6 @@ echo -e "DEBUG" > /etc/container_environment/LOG_LEVEL
 #SMS
 echo -e "''" > /etc/container_environment/SMS_PREFIX
 
-#IP
-echo -e "`curl http://instance-data/latest/meta-data/public-ipv4`" > /etc/container_environment/STATIC_ADDRESS
-
-
 #TTS - this is a free acount KEY - please create your personal key (http://www.voicerss.org/)
 echo -e "f4840af6675b4d20a8d96dea8466296b" > /etc/container_environment/VOICERSS_KEY
 
