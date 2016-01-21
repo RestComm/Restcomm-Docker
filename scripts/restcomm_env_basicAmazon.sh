@@ -6,7 +6,7 @@ echo -e "/var/log/restcomm/restcomm_trace" > /etc/container_environment/RESTCOMM
 echo -e "/var/log/restcomm/media_server" > /etc/container_environment/MEDIASERVER_LOGS_LOCATION
 
 #SSL certificate
-echo -e "SELF" > /etc/container_environment/SECURESSL
+echo -e "AUTH" > /etc/container_environment/SECURESSL
 echo -e "allowall" > /etc/container_environment/SSL_MODE
 echo -e "changeme" > /etc/container_environment/TRUSTSTORE_PASSWORD
 echo -e "restcomm" > /etc/container_environment/TRUSTSTORE_ALIAS
