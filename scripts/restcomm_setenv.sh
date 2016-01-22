@@ -6,12 +6,9 @@ function jsonval {
     IFS=':' read ar1 ar2 <<<$temp
     echo "$ar2 > /etc/container_environment/$ar1"
     echo -e "$ar2" | xargs > /etc/container_environment/$ar1
-  
-    fi
-    #echo ${temp##*|}
-}
 
-#prop='ENVCONFURL'
+    fi
+}
 
 jsonval
 ## declare an array variable
@@ -77,15 +74,8 @@ GENERIC_SMPP_SOURCE_MAP
 GENERIC_SMPP_DEST_MAP"
 
 
-##To print your values give second argument 
-#cat txt.json | jsonValue LOG_LEVEL 1
-
-##To print all values don't give second argument 
-#cat txt.json | jsonValue LOG_LEVEL
-
 for variable in $vars  # Note: No quotes
 do
-#  echo "$variable"  # (i.e. do action / processing of $databaseName here...)
   jsonval $variable
 done
 
