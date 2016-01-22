@@ -150,7 +150,6 @@ if [ -n "$S3_BUCKET_NAME" ]; then
 	}" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
 fi
 
-
 if [ -n "$HSQL_PERSIST" ]; then
   echo "HSQL_PERSIST $HSQL_PERSIST"
   mkdir -p $HSQL_PERSIST
@@ -240,7 +239,6 @@ if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   #Daily log rotation for MS.
   sed -i "s|<appender name=\"FILE\" class=\"org\.apache\.log4j\.RollingFileAppender\"|<appender name=\"FILE\" class=\"org\.apache\.log4j\.DailyRollingFileAppender\"|"  $BASEDIR/mediaserver/conf/log4j.xml
   sed -i "s|<param name=\"Append\" value=\"false\"|<param name=\"Append\" value=\"true\"|"  $BASEDIR/mediaserver/conf/log4j.xml
-  echo "lefty $MEDIASERVER_LOGS_LOCATION"
   sed -i "s|<param name=\"File\" value=\".*\"|<param name=\"File\" value=\"`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log\"|"  $BASEDIR/mediaserver/conf/log4j.xml
 fi
 

@@ -1,12 +1,12 @@
 # Restcomm Docker image
 
-Restcomm is a next generation Cloud Communications Platform to rapidly build voice, video, and messaging applications, using mainstream development skills. Created by the people at Telestax.
+RestComm is a next generation Cloud Communications Platform to rapidly build voice, video, and messaging applications, using mainstream development skills. Created by the people at Telestax.
 
 Learn more at http://www.restcomm.com
 
-Using the Restcomm docker image you will be able to run Restcomm with the minimum effort and no pain.
+Using the RestComm docker image you will be able to run RestComm with the minimum effort and no pain.
 
-Restcomm binds to the ip address of the host and following ports:
+RestComm binds to the ip address of the host and following ports: 
 
 * __http__: 8080
 * __sip/udp__: 5080
@@ -16,7 +16,7 @@ Restcomm binds to the ip address of the host and following ports:
 * __sip/wss__: 5083 (Used for WebRTC - Secure SIP Over WebSockets)
 * __rtp/udp__: 65000 - 65535
 
-If you use -e USE_STANDARD_PORTS, Restcomm will binds to the ip address of the host and following ports:
+If you use -e USE_STANDARD_PORTS, RestComm will binds to the ip address of the host and following ports:
 * __http__: 80
 * __sip/udp__: 5060
 * __sip/tcp__: 5060
@@ -28,7 +28,7 @@ If you use -e USE_STANDARD_PORTS, Restcomm will binds to the ip address of the h
 Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
 
 ### Prerequisites
-The image has been tested with Docker __1.7__&& __1.9__.
+The image has been tested with Docker __1.7__ && __1.9__.
 
 ### Supported Tags
 
@@ -46,9 +46,9 @@ RestComm docker container provides the option to use an file to configure enviro
 * __REPOPWRD__ Set Password for environment variables configuration file Authenitcation if needed.
 * __MEDIASERVER_LOGS_LOCATION__ Set the location were to store Mediaserver logs.
 
-The Restcomm docker image supports a set of environment variables to configure the application.
+The RestComm docker image supports a set of environment variables to configure the application.
 
-* __STATIC_ADDRESS__ Set the public ip address that Restcomm should use
+* __STATIC_ADDRESS__ Set the public ip address that RestComm should use
 * __USE_STANDARD_PORTS__ Use Default ports such as 80, 443, 5060, ...
 * __OUTBOUND_PROXY__ Set the SIP Outbound proxy
 * __OUTBOUND_PROXY_USERNAME__ Set the SIP Outbound proxy username
@@ -91,8 +91,8 @@ The Restcomm docker image supports a set of environment variables to configure t
 __HTTPS related configuration__
 * __SECURE__ Configure RestComm to be used in secure mode ie only on HTTPS not HTTP and SIP Over Secure WebSockets + TLS 
   (Values: AUTH - need to provide JKS file & DER file. SELF - self sighned certificate generation)
-* __TRUSTSTORE_PASSWORD__ Set the password to use for Restcomm to configure the certificate for HTTPS and SIP TLS
-* __TRUSTSTORE_ALIAS__ Set the Alias to use for Restcomm to configure the certificate for HTTPS and SIP TLS
+*__TRUSTSTORE_PASSWORD__ Set the password to use for RestComm to configure the certificate for HTTPS and SIP TLS
+*__TRUSTSTORE_ALIAS__ Set the Alias to use for RestComm to configure the certificate for HTTPS and SIP TLS
     
 __SECURE=AUTH__
 * __CERTCONFURL__ JKS file URL location
@@ -114,11 +114,12 @@ __SMPP related configuration__
 
 __Using self signed certificate__
 
-In case you want to start Restcomm container using a self signed certificate you need to pass just the SECURE environment variable set to "SELF". For example:
+In case you want to start RestComm container using a self signed certificate you need to pass just the SECURE environment variable set to "SELF". For example:
 ```
 docker run -e SECURE="SELF" -e SSL_MODE="allowall" -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="VOICERSS_KEY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest
 ```
 The generated truststore file will be located at ```/opt/Mobicents-Restcomm-JBoss-AS7/standalone/configuration/restcomm-combined.jks``` and the password ```$TRUSTSTORE_PASSWORD```
+
 
 ### Running the image
 
@@ -132,11 +133,11 @@ The generated truststore file will be located at ```/opt/Mobicents-Restcomm-JBos
 
 
 ***
-__Important Notice for Restcomm networking__
+__Important Notice for RestComm networking__
 
-When using a sip client that is not running on the same machine as the Restcomm docker image, for example when calling from sip desk phone to Restcomm docker image, you won't be able to properly setup the call and receive any RTP traffic, because Restcomm docker image will be using the ip address of the container, that docker assigned to the container, thus all the SIP and SDP messages will be tagged with the container's ip address that can't be reached outside the local machine.
+When using a sip client that is not running on the same machine as the RestComm docker image, for example when calling from sip desk phone to Restcomm docker image, you won't be able to properly setup the call and receive any RTP traffic, because Restcomm docker image will be using the ip address of the container, that docker assigned to the container, thus all the SIP and SDP messages will be tagged with the container's ip address that can't be reached outside the local machine.
 
-The fix for that is to provide the IP Address of the host machine using the STATIC_ADDRESS environment variable so Restcomm will properly configured:
+The fix for that is to provide the IP Address of the host machine using the STATIC_ADDRESS environment variable so RestComm will properly configured:
 
 ``` docker run -e USE_STANDARD_PORTS="true" -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e HOSTNAME="YOUR_HOST_IP_ADDRESS_OR_DNS_HOSTNAME-HERE" -e STATIC_ADDRESS="YOUR_HOST_IP_ADDRESS_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
 
@@ -145,13 +146,13 @@ Using the STATIC_ADDRESS and given that the sip client can reach the host's ip a
 
 __Quick test__
 
-After you started the Restcomm container, you can quickly make a call to verify that everything works by using the Olympus WebRTC applicatin that is shipped with Restcomm.
+After you started the RestComm container, you can quickly make a call to verify that everything works by using the Olympus WebRTC applicatin that is shipped with Restcomm.
 
-1. Point your browser to ```http://HOST_IP_ADDRESS/olympus```
+1. Point your browser to ```http://HOST_IP_ADDRESS:8080/olympus```
 2. Press "Sign in" (username alice or bob and password 1234)
 3. Your browser will ask for permission to share microphone and camera, press allow
 4. Go to "Contact", click on the "+1234" and press the "Audio Call" button (phone icon)
-5. You should hear the "Welcome to Restcomm, a Telestax Sponsored project" announcement
+5. You should hear the "Welcome to RestComm, a Telestax Sponsored project" announcement
 
 You can access the Admin UI by following the steps below:
 
