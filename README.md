@@ -10,10 +10,11 @@ Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
 
 ***
 ### Prerequisites
+
 1. The image has been tested with Docker __1.7__ && __1.9__.
 2. Install docker on your sever : https://docs.docker.com/engine/installation/
 3. Get a free API KEY VoiceRss account as explained  http://www.voicerss.org/
-4. The VoiceRSS is need for Text-to-Speech
+4. VoiceRSS is required for Text-to-Speech
 ***
 ### Supported Tags
 
@@ -30,7 +31,7 @@ sudo docker run -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="YOUR_API_KEY" --na
 
 ***
 
-__Quick test__
+### Quick test
 
 Get the Docker IP address by running ifconfig command
 
@@ -44,7 +45,7 @@ docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 5. You should hear the "Welcome to RestComm, a Telestax Sponsored project" announcement
 6. You can also make a calll to the "+1235" to test your Text-to-Speech configuration
 
-Accessing the Admin UI :
+### Accessing the Admin UI :
 
 1. Go to ```http://DOCKER_IP_ADDRESS```
 2. Username = administrator@company.com
@@ -53,20 +54,16 @@ Accessing the Admin UI :
 
 ***
 ### Basic Docker commands
-To Get a list of running containers: sudo docker ps
-To stop container: _docker stop RESTCOMM_Container_ID
-To start container: _docker start RESTCOMM_Container_ID
-To remove container: _docker rm RESTCOMM_Container_ID
+
+1. To Get a list of running containers: sudo docker ps
+2. To stop container: _docker stop RESTCOMM_Container_ID
+3. To start container: _docker start RESTCOMM_Container_ID
+4. To remove container: _docker rm RESTCOMM_Container_ID
 
 ### To execute a command at the container
 ```docker exec RESTCOMM_Container_ID [command]```
 Example
-```docker exec rc ps -ef | grep java```
-
-***
-### For Advanced Restcomm Features and Configuration
-
-1. Go to http://docs.telestax.com/restcomm-pages/
+```docker exec RESTCOMM_Container_ID ps -ef | grep java```
 
 ***
 ### To get bash console (for debugging only)
@@ -75,10 +72,15 @@ You can start the container and get a bash console to manually setup Restcomm an
 
 ```docker run --name=restcomm-myInstance --entrypoint=/bin/bash -it -p 8080:8080 -p 5080:5080 -p 5082:5082 -p 5080:5080/udp -p 65000-65535/udp mobicents/restcomm:latest```
 
+***
+### For Advanced Restcomm Features and Configuration
+
+1. Go to http://docs.telestax.com/restcomm-pages/
+
 
 ***
 
-__Important Notice for RestComm networking__
+### Important Notice for RestComm networking
 
 When using a SIP client that is not running on the same local machine as the RestComm docker container, call-setup through SIP/SDP/RTP will fail as the docker container runs on a different network segment. You must set the STATIC_ADDRESS environment variable to address this issue as shown below:
 
@@ -87,7 +89,8 @@ When using a SIP client that is not running on the same local machine as the Res
 
 ***
 
-###Known Issue on Firefox when running Restcomm Olympus###
+### Known Issue on Firefox when running Restcomm Olympus 
+
 It is possible that you will not be able to log in to olympus the first time that you will try to connect using Firefox.
 To fix this problem please follow the solution provided by [__Faisal Mq__](http://stackoverflow.com/users/379916/faisal-mq) 
 on [__http://stackoverflow.com/__](http://stackoverflow.com/questions/11542460/secure-websocket-wss-doesnt-work-on-firefox).
