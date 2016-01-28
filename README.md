@@ -61,9 +61,9 @@ docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 4. To remove container: sudo docker rm RESTCOMM_Container_ID
 
 ### To execute a command at the container
-```docker exec RESTCOMM_Container_ID [command]```
+1. ```docker exec RESTCOMM_Container_ID [command]```
 Example
-```docker exec RESTCOMM_Container_ID ps -ef | grep java```
+1. ```docker exec RESTCOMM_Container_ID ps -ef | grep java```
 
 ***
 ### To get bash console (for debugging only)
