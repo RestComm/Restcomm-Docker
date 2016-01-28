@@ -56,9 +56,9 @@ docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 ### Basic Docker commands
 
 1. To Get a list of running containers: sudo docker ps
-2. To stop container: _docker stop RESTCOMM_Container_ID
-3. To start container: _docker start RESTCOMM_Container_ID
-4. To remove container: _docker rm RESTCOMM_Container_ID
+2. To stop container: sudo docker stop RESTCOMM_Container_ID
+3. To start container: sudo docker start RESTCOMM_Container_ID
+4. To remove container: sudo docker rm RESTCOMM_Container_ID
 
 ### To execute a command at the container
 ```docker exec RESTCOMM_Container_ID [command]```
