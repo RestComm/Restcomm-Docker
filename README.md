@@ -253,7 +253,7 @@ We 've had some issues running RestComm Docker image using the official Docker f
 * You can use the Olympus WebRTC Web App at: ```https://<guest ip>/olympus```
 
 
-###Knowing Issue on Firefox###
+###Known Issue on Firefox###
 It is possible that you will not be able to log in to olympus the first time that you will try to connect using Firefox.
 To fix this problem please follow the solution provided by [__Faisal Mq__](http://stackoverflow.com/users/379916/faisal-mq) 
 on [__http://stackoverflow.com/__](http://stackoverflow.com/questions/11542460/secure-websocket-wss-doesnt-work-on-firefox).
