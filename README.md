@@ -95,7 +95,7 @@ You can start the container and get a bash console to manually setup Restcomm an
 When using a SIP client that is not running on the same local machine as the RestComm docker container, call-setup through SIP/SDP/RTP will fail as the docker container runs on a different network segment. You must set the STATIC_ADDRESS environment variable to address this issue as shown below:
 
 
-``` docker run -e USE_STANDARD_PORTS="true" -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e HOSTNAME="YOUR_HOST_IP_ADDRESS_OR_DNS_HOSTNAME-HERE" -e STATIC_ADDRESS="YOUR_HOST_IP_ADDRESS_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
+``` docker run -e USE_STANDARD_PORTS="true" -e  VOICERSS_KEY="YOUR_VOICESS_KEY_HERE" -e RESTCOMMHOST="DNS_HOSTNAME-HERE" -e STATIC_ADDRESS="YOUR_HOST_IP_ADDRESS_HERE" -e OUTBOUND_PROXY="YOUR_OUTBOUND_PROXY_HERE" --name=restcomm -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest```
 
 ***
 
@@ -108,3 +108,8 @@ on [__http://stackoverflow.com/__](http://stackoverflow.com/questions/11542460/s
 Firefox tab and do try hitting URL [https]://IP:5063 and Confirm Security Exception 
 (like you do on Firefox normally for any https based connection). This only happens in Firefox.```
 
+
+### Known Issue  for Linux Distributions Using SElinux
+ 
+ Due to some permission issues when running docker, please disable SElinux if the Linux distribution 
+ you are using has SElinux enabled by default.
