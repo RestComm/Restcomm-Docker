@@ -14,7 +14,7 @@ Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
 1. The image has been tested with Docker __1.7__ && __1.9__.
 2. Install docker on your sever : https://docs.docker.com/engine/installation/
 3. Get a free API KEY VoiceRss account as explained  http://www.voicerss.org/
-4. VoiceRSS is required for Text-to-Speech
+4. Ensure firewall is correctly configured (***Selinux can be a problem on some systems***)
 ***
 ### Supported Tags
 
@@ -25,20 +25,30 @@ Please report any issues at https://github.com/mobicents/Restcomm-Docker/issues
 ***
 ### Install and Run Restcomm Docker
 
-1. Start Restcomm as shown below:
+1. Get your "ETHERNET_IP" by running ifconfig
+2. Fill out the STATIC_ADDRESS variable as shown below
+3. Start Restcomm as shown below:
+4. This will start Restcomm in secure mode (https) 
 
-sudo docker run -e USE_STANDARD_PORTS="true" -e VOICERSS_KEY="YOUR_API_KEY" --name=restcomm-myInstance -d -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest
+docker run  -i -d --name=restcomm-myInstance -v /var/log/restcomm/:/var/log/restcomm/ -e STATIC_ADDRESS="YOUR_ETHERNET_IP" -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/Restcomm-Docker/master/scripts/restcomm_env_locally.sh" -p 80:80 -p 443:443 -p 9990:9990 -p 5060:5060 -p 5061:5061 -p 5062:5062 -p 5063:5063 -p 5060:5060/udp -p 65000-65535:65000-65535/udp mobicents/restcomm:latest
+
+***
+
+### Text-to-Speech with VoiceRSS
+
+* __ The above command comes with a community version of VoiceRSS key. This version has limited features. You may get a free VoiceRSS API key from http://www.voicerss.org/from __
+
+* __ See the documentation about adding your own VoiceRSS API Key https://docs.telestax.com/restcomm-docker-advanced-configuration/ __
 
 ***
 
 ### Quick test
 
-Get the Docker IP address by running ifconfig command
+* __  Get the Docker IP address by running ifconfig command __
+* __  docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500 inet 172.17.42.1  __
 
-docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 172.17.42.1 
 
-1. Go to ```http://DOCKER_IP_ADDRESS/olympus```
+1. Go to ```https://DOCKER_IP_ADDRESS/olympus```
 2. Press "Sign in" (username alice or bob and password 1234)
 3. Your browser will ask for permission to share microphone and camera, press allow
 4. Go to "Contact", click on the "+1234" and press the "Audio Call" button (phone icon)
@@ -47,7 +57,7 @@ docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 
 ### Accessing the Admin UI :
 
-1. Go to ```http://DOCKER_IP_ADDRESS```
+1. Go to ```https://DOCKER_IP_ADDRESS```
 2. Username = administrator@company.com
 3. Password = RestCom
 4. Change the default password
