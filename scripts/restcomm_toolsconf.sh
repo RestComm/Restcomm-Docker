@@ -3,15 +3,6 @@
 source /etc/container_environment.sh
 
 BASEDIR=/opt/Mobicents-Restcomm-JBoss-AS7
-#WebRTC Olympus setup
-wget --auth-no-challenge -qc https://mobicents.ci.cloudbees.com/job/Olympus/lastSuccessfulBuild/artifact/target/olympus.war -P $BASEDIR
-rm -rf $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/lib/nist-sdp-*.jar
-
-mkdir $BASEDIR/standalone/deployments/olympus-exploded.war
-unzip $BASEDIR/olympus.war -d $BASEDIR/standalone/deployments/olympus-exploded.war/
-rm -f $BASEDIR/olympus.war
-rm -f $BASEDIR/standalone/deployments/olympus.war
-mv -f $BASEDIR/standalone/deployments/olympus-exploded.war $BASEDIR/standalone/deployments/olympus.war
 
 if [ -n "$SECURESSL" ]; then
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
