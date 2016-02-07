@@ -1,9 +1,12 @@
 #!/bin/bash
 #Default ENV vars for Amazon AMI
 #LOGS
-echo -e "/var/log/restcomm/restcomm_core" > /etc/container_environment/CORE_LOGS_LOCATION
-echo -e "/var/log/restcomm/restcomm_trace" > /etc/container_environment/RESTCOMM_TRACE_LOG
-echo -e "/var/log/restcomm/media_server" > /etc/container_environment/MEDIASERVER_LOGS_LOCATION
+
+echo -e "/var/log/restcomm/" > /etc/container_environment/RESTCOMM_LOGS
+
+echo -e "restcomm_core" > /etc/container_environment/CORE_LOGS_LOCATION
+echo -e "restcomm_trace" > /etc/container_environment/RESTCOMM_TRACE_LOG
+echo -e "media_server" > /etc/container_environment/MEDIASERVER_LOGS_LOCATION
 
 #SSL certificate
 echo -e "SELF" > /etc/container_environment/SECURESSL

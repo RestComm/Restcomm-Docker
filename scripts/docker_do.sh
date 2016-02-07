@@ -1,5 +1,97 @@
 #!/bin/bash
 
+DATE=$(date +%F_%H:%M)
+DIR_NAME=restcomm_$DATE
+
+RESTCOMM_LOG_BASE=$RESTCOMM_LOGS
+RESTCOMM_TRACE=$RESTCOMM_LOG_BASE/$RESTCOMM_TRACE_LOG
+LOGS_DIR_ZIP=$RESTCOMM_LOG_BASE/$DIR_NAME
+LOGS_DIR_HOST=$LOGS_DIR_ZIP/host
+
+
+restcomm_version () {
+ if [ -d "$LOGS_DIR_HOST" ]; then
+     cp /tmp/version $LOGS_DIR_ZIP/
+  return 0
+ fi
+   exit 1
+}
+
+docker_logs () {
+if [ -d "$LOGS_DIR_HOST" ]; then
+    docker logs $1 | head -n 1250 > $LOGS_DIR_HOST/DockerLogs
+    return 0
+ fi
+   exit 1
+}
+
+system_usage_info () {
+if [ -d "$LOGS_DIR_HOST" ]; then
+   echo CPU\(s\): `top -b -n1 | grep "Cpu(s)" | awk '{print $2" : " $4}'` >  $LOGS_DIR_HOST/usage_stats_$DATE
+   echo  >> $LOGS_DIR_HOST/usage_stats_$DATE
+   top -b -n1 | grep Mem >> $LOGS_DIR_HOST/usage_stats_$DATE
+   ps aux  > $LOGS_DIR_HOST/top_$DATE
+  return 0
+ fi
+   exit 1
+}
+
+
+netstat_stats () {
+
+if [ -d "$LOGS_DIR_HOST" ]; then
+  echo "----------------------- netstat -s ---------------------------" > $LOGS_DIR_HOST/netstat_stats_$DATE
+  netstat -s >> $LOGS_DIR_HOST/netstat_stats_$DATE
+  echo  >> $LOGS_DIR_HOST/netstat_stats_$DATE
+  echo  >> $LOGS_DIR_HOST/netstat_stats_$DATE
+  echo "----------------------- netstat -anp ---------------------------" >> $LOGS_DIR_HOST/netstat_stats_$DATE
+  netstat -anp >> $LOGS_DIR_HOST/netstat_stats_$DATE
+  return 0
+ fi
+   exit 1
+}
+
+tcpdump_logs () {
+if [ -d "$LOGS_DIR_HOST" ]; then
+  ls -t1 $RESTCOMM_TRACE/*.pcap* |  head -n 2 | xargs -i -exec cp -p {} $LOGS_DIR_ZIP/
+  return 0
+ fi
+   exit 1
+}
+
+system_logs () {
+if [ -d "$LOGS_DIR_HOST" ]; then
+    cp $SYSLOGS_DIR/messages $LOGS_DIR_HOST/
+    cp $SYSLOGS_DIR/syslog $LOGS_DIR_HOST/
+  return 0
+ fi
+   exit 1
+}
+
+collect_logs () {
+echo -en "\e[92mpull collect logs container $1\e[0m\n"
+time_logs=""
+if $tflag ; then
+ time_logs="-t $time_marg"
+ echo $time_marg
+fi
+
+if $zflag ; then
+ dtar="-z"
+fi
+
+tcpdump_logs
+docker_logs $1
+netstat_stats
+system_usage_info
+system_logs
+restcomm_version
+
+docker exec $1  /bin/sh -c "/opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh $time_logs $dtar"
+}
+
+
+
 stop_container () {
   echo -en "\e[92mstop container $1\e[0m\n"
   docker stop $1
@@ -24,22 +116,9 @@ info_container () {
   docker ps;
 }
 
-
-collect_logs () {
-echo -en "\e[92mpull collect logs container $1\e[0m\n"
-time_logs=""
-if $tflag ; then
- time_logs="-t $time_marg"
-fi
-
-echo $time_marg
-docker exec $1  /bin/sh -c "/opt/embed/logs_collect.sh $time_logs"
-}
-
-
 collect_logs_time () {
 echo -en "\e[92mpull collect logs by time for container $1\e[0m\n"
-docker exec $1  /bin/sh -c "/opt/embed/logs_collect.sh $2"
+docker exec $1  /bin/sh -c "/opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh $2"
 }
 
 docker_login() {
@@ -58,6 +137,8 @@ else
     exit 1
 fi
 }
+
+
 
 usage () {
    cat << EOF
@@ -178,7 +259,7 @@ while getopts ":rH:n:sSp:c:ilLdht:" opt; do
 done;
 
 
-if [[ ("$sflag" = "true" || "$Sflag" = "true" || "$lflag" = "true" || "$dflag" = "true")  &&  "$cflag" = "false" ]]; then
+if [[ ( "$sflag" = "true" || "$Sflag" = "true" || "$lflag" = "true" || "$dflag" = "true" )  &&  "$cflag" = "false" ]]; then
     echo " For flags (-s, -S, -l, -d)  a container must  be specified  (-c) " >&2
     exit 1
 fi
@@ -194,6 +275,7 @@ if [[ "$rflag" = "true"  &&  "$Hflag" = "false" ]]; then
 fi
 
 if $lflag ; then
+ mkdir -p $LOGS_DIR_HOST/host
  collect_logs $container
 fi
 

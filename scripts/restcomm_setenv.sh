@@ -10,7 +10,6 @@ function jsonval {
     fi
 }
 
-jsonval
 ## declare an array variable
 vars="ENVCONFURL
 REPOUSR
@@ -19,6 +18,7 @@ MEDIASERVER_LOGS_LOCATION
 STATIC_ADDRESS
 USE_STANDARD_PORTS
 OUTBOUND_PROXY
+NEXMO_SMPP_TYPE
 OUTBOUND_PROXY_USERNAME
 OUTBOUND_PROXY_PASSWORD
 MEDIASERVER_LOWEST_PORT
@@ -78,4 +78,8 @@ for variable in $vars  # Note: No quotes
 do
   jsonval $variable
 done
+
+
+
+
 

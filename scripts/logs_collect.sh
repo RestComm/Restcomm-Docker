@@ -1,18 +1,22 @@
 #!/bin/bash
 
-DATE=$(date +%F_%H:%M:%S)
+DATE=$(date +%F_%H:%M)
 DIR_NAME=restcomm_$DATE
 
-LOGS_DIR=/var/log
-RESTCOMM_LOGS=$LOGS_DIR/restcomm
-RESTCOMM_CORE=$RESTCOMM_LOGS/restcomm_core
-MMS_LOGS=$RESTCOMM_LOGS/media_server
-RESTCOMM_TRACE=$RESTCOMM_LOGS/restcomm_trace
-LOGS_DIR_ZIP=$RESTCOMM_LOGS/$DIR_NAME
+
+RESTCOMM_CORE_FILE=server.log
+MEDIASERVER_FILE=server.log
+SYSLOGS_DIR=/var/log
+
+BASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+RESTCOMM_LOG_BASE=$(cd $BASEDIR/../../ && pwd)
+RESTCOMM_CORE_LOG=$RESTCOMM_LOG_BASE/standalone/log
+MMS_LOGS=$RESTCOMM_LOG_BASE/mediaserver/log
+
 
 restcomm_logs () {
  if [ -d "$LOGS_DIR_ZIP" ]; then
-  cp $RESTCOMM_CORE/restcommCore-server.log $LOGS_DIR_ZIP/
+  cp $RESTCOMM_CORE_LOG/$RESTCOMM_CORE_FILE $LOGS_DIR_ZIP/
   return 0
  fi
    exit 1
@@ -24,35 +28,26 @@ restcomm_logs_bytime () {
   IFS=","
   arr=($IN)
   unset IFS
-  FROM=`grep -n "^${arr[0]}"  /var/log/restcomm/restcomm_core/restcommCore-server.log |cut -f1 -d: | tail -1`
-  TO=`grep -n "^${arr[1]}"  /var/log/restcomm/restcomm_core/restcommCore-server.log |cut -f1 -d: | tail -1`
-  awk 'NR=="'"$FROM"'", NR=="'"$TO"'"; NR=="'"$TO"'" {print; exit}' /var/log/restcomm/restcomm_core/restcommCore-server.log > $LOGS_DIR_ZIP/RestCommlinesTime.log
+  FROM=`grep -n "^${arr[0]}"  $RESTCOMM_CORE_LOG/$RESTCOMM_CORE_FILE |cut -f1 -d: | tail -1`
+  TO=`grep -n "^${arr[1]}"  $RESTCOMM_CORE_LOG/$RESTCOMM_CORE_FILE |cut -f1 -d: | tail -1`
+  awk 'NR=="'"$FROM"'", NR=="'"$TO"'"; NR=="'"$TO"'" {print; exit}' $RESTCOMM_CORE_LOG/$RESTCOMM_CORE_FILE > $LOGS_DIR_ZIP/RestCommlinesTime.log
   return 0
  fi
    exit 1
 }
-
 
 mediaserver_logs () {
 if [ -d "$LOGS_DIR_ZIP" ]; then
-  cp $MMS_LOGS/media-server.log $LOGS_DIR_ZIP/
+  cp $MMS_LOGS/$MEDIASERVER_FILE $LOGS_DIR_ZIP/
   return 0
  fi
    exit 1
 }
 
-tcpdump_logs () {
+system_logs () {
 if [ -d "$LOGS_DIR_ZIP" ]; then
-  ls -t1 $RESTCOMM_TRACE/*.cap* |  head -n 2 | xargs -i -exec cp -p {} $LOGS_DIR_ZIP/
-  return 0
- fi
-   exit 1
-}
-
-container_logs () {
-if [ -d "$LOGS_DIR_ZIP" ]; then
-    cp $LOGS_DIR/messages $LOGS_DIR_ZIP/
-    cp $LOGS_DIR/syslog $LOGS_DIR_ZIP/
+    cp $SYSLOGS_DIR/messages $LOGS_DIR_ZIP/
+    cp $SYSLOGS_DIR/syslog $LOGS_DIR_ZIP/
   return 0
  fi
    exit 1
@@ -67,7 +62,7 @@ if [ -d "$LOGS_DIR_ZIP" ]; then
    exit 1
 }
 
-container_usage_info () {
+system_usage_info () {
 if [ -d "$LOGS_DIR_ZIP" ]; then
    echo CPU\(s\): `top -b -n1 | grep "Cpu(s)" | awk '{print $2" : " $4}'` >  $LOGS_DIR_ZIP/usage_stats_$DATE
    echo  >> $LOGS_DIR_ZIP/usage_stats_$DATE
@@ -128,17 +123,11 @@ if [ -d "$LOGS_DIR_ZIP" ]; then
    exit 1
 }
 
-restcomm_version () {
- if [ -d "$LOGS_DIR_ZIP" ]; then
-     cp /tmp/version $LOGS_DIR_ZIP/
-  return 0
- fi
-   exit 1
-}
+
 
 make_tar () {
  if [ -d "$LOGS_DIR_ZIP" ]; then
-     tar -zcf $RESTCOMM_LOGS/`echo $DIR_NAME | tr -d :`.tar.gz -C $LOGS_DIR_ZIP . 3>&1 1>&2 2>&3
+     tar -zcf $RESTCOMM_CORE_LOG/`echo $DIR_NAME | tr -d :`.tar.gz -C $LOGS_DIR_ZIP . 3>&1 1>&2 2>&3
      rm -rf $LOGS_DIR_ZIP
      return 0
  fi
@@ -161,12 +150,14 @@ options:
 -m : optional message of the problem.
 -t : Restcomm log file time extractor (e.g "06:20:0*,06:23:0*").
 -h : prints this message
+-z : Create .tar file
 EOF
    exit 1
 }
 
 #MAIN
 tflag=false
+zflag=false
 TEMP=`getopt --long -o ":t:m:h" "$@"`
 eval set -- "$TEMP"
 while true ; do
@@ -180,6 +171,9 @@ while true ; do
            tflag=true
            var=$2
            shift 2
+        ;;
+         -z )
+           zflag=true
         ;;
         -h )
            usage
@@ -197,16 +191,19 @@ fi
 
 restcomm_logs
 mediaserver_logs
-tcpdump_logs
-container_logs
+system_logs
 JVM_perfo_stats
 jvm_process_info
 LWP_threads_logs
-container_usage_info
+system_usage_info
 netstat_stats
-restcomm_version
+
 if $tflag ; then
     restcomm_logs_bytime $var
 fi
-make_tar
+if $zflag ; then
+   make_tar
+fi
+
+
 echo TAR_FILE : $RESTCOMM_LOGS/`echo $DIR_NAME | tr -d :`.tar.gz

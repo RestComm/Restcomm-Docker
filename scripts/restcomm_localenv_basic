@@ -1,8 +1,10 @@
 #Default ENV vars for Amazon AMI
 #LOGS
-CORE_LOGS_LOCATION=/var/log/restcomm/restcomm_core
-RESTCOMM_TRACE_LOG="/var/log/restcomm/restcomm_trace
-MEDIASERVER_LOGS_LOCATION="/var/log/restcomm/media_server
+
+RESTCOMM_LOGS=/var/log/restcomm/
+CORE_LOGS_LOCATION=restcomm_core
+RESTCOMM_TRACE_LOG=restcomm_trace
+MEDIASERVER_LOGS_LOCATION=media_server
 
 #SSL certificate
 SECURESSL=SELF

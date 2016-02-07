@@ -36,7 +36,8 @@ cp -rf $BASEDIR/dont-config-mobicents-ms.sh $BASEDIR/bin/restcomm/autoconfig.d/d
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
 chmod +x /opt/embed/*.sh
-mkdir -p /var/log/restcomm/opt/
-cp /opt/embed/restcomm_docker.sh  /var/log/restcomm/opt/
+mkdir -p `echo $RESTCOMM_LOGS`/opt/
+cp /tmp/version `echo $RESTCOMM_LOGS`
+cp /opt/embed/restcomm_docker.sh  `echo $RESTCOMM_LOGS`/opt/
 
 echo "RestComm configured Properly!"
