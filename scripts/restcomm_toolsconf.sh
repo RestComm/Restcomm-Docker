@@ -4,6 +4,11 @@ source /etc/container_environment.sh
 
 BASEDIR=/opt/Restcomm-JBoss-AS7
 
+mkdir $BASEDIR/standalone/deployments/olympus-exploded.war
+unzip $BASEDIR/standalone/deployments/olympus.war -d $BASEDIR/standalone/deployments/olympus-exploded.war/
+rm -f $BASEDIR/standalone/deployments/olympus.war
+mv -f $BASEDIR/standalone/deployments/olympus-exploded.war $BASEDIR/standalone/deployments/olympus.war
+
 if [ -n "$SECURESSL" ]; then
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
   sed -i "s|5082|5083|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
