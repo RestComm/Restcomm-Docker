@@ -86,7 +86,12 @@ if [ -n "$SECURESSL" ]; then
 
       sed -i "s|protocol=\"TLSv1,TLSv1.1,TLSv1.2\"|protocol=\"TLSv1,TLSv1.1,TLSv1.2,SSLv2Hello\"|" $BASEDIR/standalone/configuration/standalone-sip.xml
       grep -q 'ephemeralDHKeySize' $BASEDIR/bin/standalone.conf || sed -i "s|-Djava.awt.headless=true|& -Djdk.tls.ephemeralDHKeySize=2048|" $BASEDIR/bin/standalone.conf
-      grep -q 'allowLegacyHelloMessages' $BASEDIR/bin/standalone.conf || sed -i "s|-Djava.awt.headless=true|& -Dsun.security.ssl.allowLegacyHelloMessages=false -Djsse.enableSNIExtension=false|" $BASEDIR/bin/standalone.conf
+
+      if [[ "$SSLSNI" = "FALSE" ]]; then
+            grep -q 'allowLegacyHelloMessages' $BASEDIR/bin/standalone.conf || sed -i "s|-Djava.awt.headless=true|& -Dsun.security.ssl.allowLegacyHelloMessages=false -Djsse.enableSNIExtension=false|" $BASEDIR/bin/standalone.conf
+      else
+             grep -q 'allowLegacyHelloMessages' $BASEDIR/bin/standalone.conf || sed -i "s|-Djava.awt.headless=true|& -Dsun.security.ssl.allowLegacyHelloMessages=false -Djsse.enableSNIExtension=true|" $BASEDIR/bin/standalone.conf
+      fi
       grep -q 'https.protocols' $BASEDIR/bin/standalone.conf || sed -i "s|-Djava.awt.headless=true|& -Dhttps.protocols=TLSv1.1,TLSv1.2|" $BASEDIR/bin/standalone.conf
 
       grep -q 'connector name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/connector name=\"sip-ws\".*/ a \
