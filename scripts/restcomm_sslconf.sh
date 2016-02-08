@@ -5,7 +5,7 @@
 
 source /etc/container_environment.sh
 
-BASEDIR=/opt/Mobicents-Restcomm-JBoss-AS7
+BASEDIR=/opt/Restcomm-JBoss-AS7
 
 TRUSTSTORE_FILE_NAME=restcomm-combined.jks
 TRUSTSTORE_FILE=$BASEDIR/standalone/configuration/$TRUSTSTORE_FILE_NAME

@@ -87,7 +87,7 @@ system_usage_info
 system_logs
 restcomm_version
 
-docker exec $1  /bin/sh -c "/opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh $time_logs $dtar"
+docker exec $1  /bin/sh -c "/opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh $time_logs $dtar"
 }
 
 
@@ -118,7 +118,7 @@ info_container () {
 
 collect_logs_time () {
 echo -en "\e[92mpull collect logs by time for container $1\e[0m\n"
-docker exec $1  /bin/sh -c "/opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh $2"
+docker exec $1  /bin/sh -c "/opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh $2"
 }
 
 docker_login() {
@@ -241,7 +241,7 @@ while getopts ":rH:n:sSp:c:ilLdht:" opt; do
         ;;
          :)
           if ("$opt" = "p"); then
-             pull_repo="mobicents/restcomm-cloud:master"
+             pull_repo="restcomm/restcomm-cloud:master"
              read -p "Default hub repo $pull_repo  will be used OK?" -n 1 -r
              echo    # move to a new line
                 if [[ $REPLY =~ ^[Yy]$ ]]

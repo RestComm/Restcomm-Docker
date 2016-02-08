@@ -7,7 +7,7 @@
 ## Author: Henrique Rosa
 
 # Validate RESTCOMM_HOME
-RESTCOMM_HOME=/opt/Mobicents-Restcomm-JBoss-AS7
+RESTCOMM_HOME=/opt/Restcomm-JBoss-AS7
 
 if [ -z "$RESTCOMM_HOME" ]; then
 	echo "RESTCOMM_HOME is not defined. Please setup this environment variable and try again."
