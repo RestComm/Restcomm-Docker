@@ -2,7 +2,7 @@
 
 source /etc/container_environment.sh
 
-BASEDIR=/opt/Mobicents-Restcomm-JBoss-AS7
+BASEDIR=/opt/Restcomm-JBoss-AS7
 
 if [ -n "$SECURESSL" ]; then
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
@@ -25,8 +25,8 @@ grep -q 'org.mobicents.ext.javax.sip.congestion.SIP_SCANNERS.*' $BASEDIR/standal
 grep -q 'jboss.bind.address.management' $BASEDIR/bin/restcomm/start-restcomm.sh || sed -i "s|RESTCOMM_HOME/bin/standalone.sh -b .*|RESTCOMM_HOME/bin/standalone.sh -b \$bind_address -Djboss.bind.address.management=\$bind_address|" $BASEDIR/bin/restcomm/start-restcomm.sh
 
 
-wget --auth-no-challenge -qc https://raw.githubusercontent.com/Mobicents/RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/mms-server-beans.xml -P $BASEDIR
-wget --auth-no-challenge -qc https://raw.githubusercontent.com/Mobicents/RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/config-scripts/as7-config-scripts/restcomm/autoconfig.d/dont-config-mobicents-ms.sh -P $BASEDIR
+wget --auth-no-challenge -qc https://raw.githubusercontent.com/RestComm/RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/mms-server-beans.xml -P $BASEDIR
+wget --auth-no-challenge -qc https://raw.githubusercontent.com/RestComm//RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/config-scripts/as7-config-scripts/restcomm/autoconfig.d/dont-config-mobicents-ms.sh -P $BASEDIR
 cp -rf $BASEDIR/mms-server-beans.xml $BASEDIR/mediaserver/deploy/server-beans.xml
 #need to add to remove media server log reconfigure (at the future we remove this file)
 sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/dont-config-mobicents-ms.sh

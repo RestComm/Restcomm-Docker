@@ -16,16 +16,16 @@ RUN add-apt-repository ppa:webupd8team/java -y
 RUN apt-cache search mysql-client-core
 RUN apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-installer mysql-client-core-5.6 openssl unzip nfs-common tcpdump && apt-get autoremove && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
-RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Mobicents-Restcomm-JBoss-AS7-`wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt | cat`.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Mobicents-Restcomm-JBoss-AS7-*/ /opt/Mobicents-Restcomm-JBoss-AS7/
+RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt | cat`.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ /opt/Restcomm-JBoss-AS7/
 
 RUN mkdir -p /var/log/restcomm
 RUN mkdir -p /opt/embed/
 RUN mkdir -p var/log/restcomm/opt/
 
-ADD ./scripts/populate-update-mysqldb.sh /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/populate-update-mysqldb.sh
-ADD ./scripts/create-mysql-datasource.sh /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/create-mysql-datasource.sh
-ADD ./scripts/reconfigure-mysqldb.sh /opt/Mobicents-Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/reconfigure-mysqldb.sh
-ADD ./ca-startcom.der /opt/Mobicents-Restcomm-JBoss-AS7/ca-startcom.der
+ADD ./scripts/populate-update-mysqldb.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/populate-update-mysqldb.sh
+ADD ./scripts/create-mysql-datasource.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/create-mysql-datasource.sh
+ADD ./scripts/reconfigure-mysqldb.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/reconfigure-mysqldb.sh
+ADD ./ca-startcom.der /opt/Restcomm-JBoss-AS7/ca-startcom.der
 ADD ./scripts/tcpdump_crontab /etc/cron.d/restcommtcpdump-cron
 ADD ./scripts/core_crontab /etc/cron.d/restcommcore-cron
 ADD ./scripts/mediaserver_crontab /etc/cron.d/restcommmediaserver-cron

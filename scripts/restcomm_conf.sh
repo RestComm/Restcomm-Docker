@@ -5,7 +5,7 @@
 
 source /etc/container_environment.sh
 
-BASEDIR=/opt/Mobicents-Restcomm-JBoss-AS7
+BASEDIR=/opt/Restcomm-JBoss-AS7
 
 echo "Will check for enviroment variable and configure restcomm.conf"
 

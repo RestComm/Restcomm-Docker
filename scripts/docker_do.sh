@@ -160,7 +160,7 @@ while getopts ":rH:n:sSp:c:ilLdht:" opt; do
         ;;
          :)
           if ("$opt" = "p"); then
-             pull_repo="mobicents/restcomm-cloud:master"
+             pull_repo="restcomm/restcomm:latest"
              read -p "Default hub repo $pull_repo  will be used OK?" -n 1 -r
              echo    # move to a new line
                 if [[ $REPLY =~ ^[Yy]$ ]]

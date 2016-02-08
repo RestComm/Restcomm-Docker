@@ -5,7 +5,7 @@
 ## Author: Henrique Rosa
 
 # VARIABLES
-RESTCOMM_HOME=/opt/Mobicents-Restcomm-JBoss-AS7
+RESTCOMM_HOME=/opt/Restcomm-JBoss-AS7
 RESTCOMM_DEPLOY=$RESTCOMM_HOME/standalone/deployments/restcomm.war
 
 ## Description: Configures MyBatis for MySQL
