@@ -10,7 +10,6 @@ function jsonval {
     fi
 }
 
-jsonval
 ## declare an array variable
 vars="ENVCONFURL
 REPOUSR
