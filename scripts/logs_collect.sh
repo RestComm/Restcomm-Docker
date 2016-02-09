@@ -17,7 +17,7 @@ LOGS_DIR_ZIP=$RESTCOMM_CORE_LOG/$DIR_NAME
 
 restcomm_logs () {
  if [ -d "$LOGS_DIR_ZIP" ]; then
-  cp $RESTCOMM_CORE_LOG/$RESTCOMM_CORE_FILE $LOGS_DIR_ZIP/
+  cp $RESTCOMM_CORE_LOG/$RESTCOMM_CORE_FILE $LOGS_DIR_ZIP/restcomm_logs.log
   return 0
  fi
    exit 1
@@ -47,8 +47,12 @@ if [ -d "$LOGS_DIR_ZIP" ]; then
 
 system_logs () {
 if [ -d "$LOGS_DIR_ZIP" ]; then
-    cp $SYSLOGS_DIR/messages $LOGS_DIR_ZIP/
-    cp $SYSLOGS_DIR/syslog $LOGS_DIR_ZIP/
+     if [ -f $SYSLOGS_DIR/messages ]; then
+        cp $SYSLOGS_DIR/messages $LOGS_DIR_ZIP/
+    fi
+    if [ -f $SYSLOGS_DIR/syslog ]; then
+        cp $SYSLOGS_DIR/syslog $LOGS_DIR_ZIP/
+    fi
   return 0
  fi
    exit 1
