@@ -9,9 +9,11 @@ LOGS_DIR_ZIP=$RESTCOMM_LOG_BASE/$DIR_NAME
 LOGS_DIR_HOST=$LOGS_DIR_ZIP/host
 
 
+SYSLOGS_DIR=/var/log
+
 restcomm_version () {
  if [ -d "$LOGS_DIR_HOST" ]; then
-     cp /tmp/version LOGS_DIR_HOST/
+     cp $RESTCOMM_LOG_BASE/version LOGS_DIR_HOST/
   return 0
  fi
    exit 1
@@ -61,15 +63,19 @@ if [ -d "$LOGS_DIR_HOST" ]; then
 
 system_logs () {
 if [ -d "$LOGS_DIR_HOST" ]; then
-    cp $SYSLOGS_DIR/messages $LOGS_DIR_HOST/
-    cp $SYSLOGS_DIR/syslog $LOGS_DIR_HOST/
+    if [ -f $SYSLOGS_DIR/messages ]; then
+        cp $SYSLOGS_DIR/messages $LOGS_DIR_HOST/
+    fi
+    if [ -f $SYSLOGS_DIR/syslog ]; then
+        cp $SYSLOGS_DIR/syslog $LOGS_DIR_HOST/
+    fi
   return 0
  fi
    exit 1
 }
 
 collect_logs () {
-echo -en "\e[92mpull collect logs container $1\e[0m\n"
+echo -en "\e[92mpull collect logs container $1 , file: $LOGS_DIR_ZIP \e[0m\n"
 time_logs=""
 if $tflag ; then
  time_logs="-t $time_marg"
