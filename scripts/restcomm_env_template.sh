@@ -1,7 +1,7 @@
 #!/bin/bash
 #Default ENV vars
 #LOGS
-echo -e "/var/log/restcomm/" > /etc/container_environment/RESTCOMM_LOGS
+echo -e "/var/log/restcomm" > /etc/container_environment/RESTCOMM_LOGS
 echo -e "restcomm_core" > /etc/container_environment/CORE_LOGS_LOCATION
 echo -e "restcomm_trace" > /etc/container_environment/RESTCOMM_TRACE_LOG
 echo -e "media_server" > /etc/container_environment/MEDIASERVER_LOGS_LOCATION

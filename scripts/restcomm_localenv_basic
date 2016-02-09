@@ -1,7 +1,7 @@
 #Default ENV vars for Amazon AMI
 #LOGS
 
-RESTCOMM_LOGS=/var/log/restcomm/
+RESTCOMM_LOGS=/var/log/restcomm
 CORE_LOGS_LOCATION=restcomm_core
 RESTCOMM_TRACE_LOG=restcomm_trace
 MEDIASERVER_LOGS_LOCATION=media_server

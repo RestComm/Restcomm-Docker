@@ -284,7 +284,7 @@ fi
 
 if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   echo "RESTCOMM_TRACE_LOG $RESTCOMM_TRACE_LOG"
-  mkdir -p $RESTCOMM_TRACE_LOG
+  mkdir -p $LOGS_TRACE/$RESTCOMM_TRACE_LOG
   sed -i "s|find .*restcomm_trace_|find $LOGS_TRACE/`echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
   sed -i "s|RESTCOMM_TRACE=.*|RESTCOMM_TRACE=\$RESTCOMM_LOG_BASE/`echo $RESTCOMM_TRACE_LOG`|"  /opt/embed/restcomm_docker.sh
   ps cax | grep tcpdump > /dev/null
