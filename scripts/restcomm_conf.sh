@@ -17,6 +17,8 @@ if [ -n "$RESTCOMM_LOGS" ]; then
   echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
   sed -i "s|BASEDIR=.*| |" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
   sed -i "s|LOGS_DIR_ZIP=.*|LOGS_DIR_ZIP=$RESTCOMM_LOGS/\$DIR_NAME|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|RESTCOMM_LOG_BASE=.*|RESTCOMM_LOG_BASE=`echo $RESTCOMM_LOGS`|" /opt/embed/restcomm_docker.sh
+
   LOGS_LOCATE=`echo $RESTCOMM_LOGS`
   sudo mkdir -p "$LOGS_LOCATE"
   RESTCOMM_CORE_LOG=$LOGS_LOCATE
@@ -284,6 +286,7 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   echo "RESTCOMM_TRACE_LOG $RESTCOMM_TRACE_LOG"
   mkdir -p $RESTCOMM_TRACE_LOG
   sed -i "s|find .*restcomm_trace_|find $LOGS_TRACE/`echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
+  sed -i "s|RESTCOMM_TRACE=.*|RESTCOMM_TRACE=\$RESTCOMM_LOG_BASE/`echo $RESTCOMM_TRACE_LOG`|"  /opt/embed/restcomm_docker.sh
   ps cax | grep tcpdump > /dev/null
   if [ $? -eq 0 ]; then
     echo "TCPDUMP  is running."

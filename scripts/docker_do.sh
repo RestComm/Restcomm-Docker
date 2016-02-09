@@ -151,6 +151,7 @@ options:
 -H : Host name (only with -r)
 -n : Container name (only with -r), if not used default name "telscale-restcomm"
 -l : collect logs (-c obligatory).
+-z : Create Tar file, and delete the original directory.
 -t : collect logs by time (-l obligatory) e.g. "21:03:0*,22:00:0*".
 -i : running containers.
 -p : pull from hub (-L obligatory).
@@ -189,128 +190,131 @@ then
     exit 0
 else
 
-while getopts ":rH:n:sSp:c:ilLdht:" opt; do
-  case $opt in
-        s )
-           sflag=true
-        ;;
-        S )
-           Sflag=true
-        ;;
-	H )
-	   Hflag=true
-           host=$OPTARG
-        ;;
-	n )
-	   nflag=true
-          container_name=$OPTARG
-        ;;
-        r )
-           rflag=true
-        ;;
-        l )
-           lflag=true
-        ;;
-        c )
-           cflag=true
-           container=$OPTARG
-        ;;
-        p )
-           pflag=true
-           pull_repo=$OPTARG
-        ;;
-        t )
-           tflag=true
-           time_marg=$OPTARG
-        ;;
-        i )
-           iflag=true
-        ;;
-        L )
-           Lflag=true
-        ;;
+    while getopts ":rH:n:sSp:c:ilLdht:z" opt; do
+      case $opt in
+            s )
+               sflag=true
+            ;;
+            S )
+               Sflag=true
+            ;;
+        H )
+           Hflag=true
+               host=$OPTARG
+            ;;
+        n )
+           nflag=true
+              container_name=$OPTARG
+            ;;
+            r )
+               rflag=true
+            ;;
+            l )
+               lflag=true
+            ;;
+            c )
+               cflag=true
+               container=$OPTARG
+            ;;
+            p )
+               pflag=true
+               pull_repo=$OPTARG
+            ;;
+            t )
+               tflag=true
+               time_marg=$OPTARG
+            ;;
+            i )
+               iflag=true
+            ;;
+            L )
+               Lflag=true
+            ;;
 
-        d )
-           dflag=true
-        ;;
-        h )
-           usage
-        ;;
-        \?)
-          echo "Invalid option: -$OPTARG" >&2
-          exit 1
-        ;;
-         :)
-          if ("$opt" = "p"); then
-             pull_repo="restcomm/restcomm-cloud:master"
-             read -p "Default hub repo $pull_repo  will be used OK?" -n 1 -r
-             echo    # move to a new line
-                if [[ $REPLY =~ ^[Yy]$ ]]
-                then
-                        pflag=true
-                        continue
-                else
-                        echo
-                fi
-          fi
-          echo "Option -$OPTARG requires an argument." >&2
-          exit 1
-        ;;
-    esac
-done;
-
-
-if [[ ( "$sflag" = "true" || "$Sflag" = "true" || "$lflag" = "true" || "$dflag" = "true" )  &&  "$cflag" = "false" ]]; then
-    echo " For flags (-s, -S, -l, -d)  a container must  be specified  (-c) " >&2
-    exit 1
-fi
-
-if [[ "$tflag" = "true"  &&  "$lflag" = "false" ]]; then
-    echo " For flag -t  flag -l  must  be specified " >&2
-    exit 1
-fi
-
-if [[ "$rflag" = "true"  &&  "$Hflag" = "false" ]]; then
-    echo " To run a container Hostname is necessary (flag -H) " >&2
-    exit 1
-fi
-
-if $lflag ; then
- sudo mkdir -p $LOGS_DIR_HOST
- collect_logs $container
-fi
+            d )
+               dflag=true
+            ;;
+             d )
+               zflag=true
+            ;;
+            h )
+               usage
+            ;;
+            \?)
+              echo "Invalid option: -$OPTARG" >&2
+              exit 1
+            ;;
+             :)
+              if ("$opt" = "p"); then
+                 pull_repo="restcomm/restcomm-cloud:master"
+                 read -p "Default hub repo $pull_repo  will be used OK?" -n 1 -r
+                 echo    # move to a new line
+                    if [[ $REPLY =~ ^[Yy]$ ]]
+                    then
+                            pflag=true
+                            continue
+                    else
+                            echo
+                    fi
+              fi
+              echo "Option -$OPTARG requires an argument." >&2
+              exit 1
+            ;;
+        esac
+    done;
 
 
-if $sflag ; then
- stop_container $container
-fi
+    if [[ ( "$sflag" = "true" || "$Sflag" = "true" || "$lflag" = "true" || "$dflag" = "true" )  &&  ( "$cflag" = "false" ) ]]; then
+        echo " For flags (-s, -S, -l, -d)  a container must  be specified  (-c) " >&2
+        exit 1
+    fi
 
-if $Lflag ; then
-    login=true
-    docker_login
-fi
+    if [[ "$tflag" = "true"  &&  "$lflag" = "false" ]]; then
+        echo " For flag -t  flag -l  must  be specified " >&2
+        exit 1
+    fi
 
-if $pflag ; then
-   if ! $login ; then
-    echo -en  "\e[31mMake sure you are connected to docker hub (-L)\e[0m\n"
-   fi
-    pull_container $pull_repo
-fi
+    if [[ "$rflag" = "true"  &&  "$Hflag" = "false" ]]; then
+        echo " To run a container Hostname is necessary (flag -H) " >&2
+        exit 1
+    fi
 
-if $dflag ; then
-    delete_container $container
-fi
+    if $lflag ; then
+     sudo mkdir -p $LOGS_DIR_HOST
+     collect_logs $container
+    fi
 
-if $Sflag ; then
-    start_container $container
-fi
 
-if $rflag ; then
-    run_container $host
-fi
+    if $sflag ; then
+     stop_container $container
+    fi
 
-if $iflag ; then
-    info_container
-fi
+    if $Lflag ; then
+        login=true
+        docker_login
+    fi
+
+    if $pflag ; then
+       if ! $login ; then
+        echo -en  "\e[31mMake sure you are connected to docker hub (-L)\e[0m\n"
+       fi
+        pull_container $pull_repo
+    fi
+
+    if $dflag ; then
+        delete_container $container
+    fi
+
+    if $Sflag ; then
+        start_container $container
+    fi
+
+    if $rflag ; then
+        run_container $host
+    fi
+
+    if $iflag ; then
+        info_container
+    fi
 
 fi

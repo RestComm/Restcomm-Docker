@@ -128,7 +128,7 @@ if [ -d "$LOGS_DIR_ZIP" ]; then
 
 make_tar () {
  if [ -d "$LOGS_DIR_ZIP" ]; then
-     tar -zcf $RESTCOMM_CORE_LOG/`echo $DIR_NAME | tr -d :`.tar.gz -C $LOGS_DIR_ZIP . 3>&1 1>&2 2>&3
+     tar -zcf $LOGS_DIR_ZIP.tar.gz -C $LOGS_DIR_ZIP . 3>&1 1>&2 2>&3
      rm -rf $LOGS_DIR_ZIP
      return 0
  fi
@@ -159,7 +159,7 @@ EOF
 #MAIN
 tflag=false
 zflag=false
-TEMP=`getopt --long -o ":t:m:h" "$@"`
+TEMP=`getopt --long -o ":t:m:hz" "$@"`
 eval set -- "$TEMP"
 while true ; do
     case "$1" in
@@ -175,6 +175,7 @@ while true ; do
         ;;
          -z )
            zflag=true
+           break
         ;;
         -h )
            usage
@@ -204,7 +205,7 @@ if $tflag ; then
 fi
 if $zflag ; then
    make_tar
-   echo TAR_FILE : $RESTCOMM_LOGS/`echo $DIR_NAME | tr -d :`.tar.gz
+   echo TAR_FILE : $LOGS_DIR_ZIP.tar.gz
 fi
 
 
