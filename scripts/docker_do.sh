@@ -11,7 +11,7 @@ LOGS_DIR_HOST=$LOGS_DIR_ZIP/host
 
 restcomm_version () {
  if [ -d "$LOGS_DIR_HOST" ]; then
-     cp /tmp/version $LOGS_DIR_ZIP/
+     cp /tmp/version LOGS_DIR_HOST/
   return 0
  fi
    exit 1

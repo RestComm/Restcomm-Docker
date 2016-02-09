@@ -12,6 +12,7 @@ BASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 RESTCOMM_LOG_BASE=$(cd $BASEDIR/../../ && pwd)
 RESTCOMM_CORE_LOG=$RESTCOMM_LOG_BASE/standalone/log
 MMS_LOGS=$RESTCOMM_LOG_BASE/mediaserver/log
+LOGS_DIR_ZIP=$RESTCOMM_CORE_LOG/$DIR_NAME
 
 
 restcomm_logs () {
