@@ -28,7 +28,7 @@ grep -q 'org.mobicents.ext.javax.sip.congestion.SIP_SCANNERS.*' $BASEDIR/standal
 \org.mobicents.ext.javax.sip.congestion.SIP_SCANNERS=sipvicious,sipcli,friendly-scanner,VaxSIPUserAgent
 ' $BASEDIR/standalone/configuration/mss-sip-stack.properties
 
-grep -q 'jboss.bind.address.management' $BASEDIR/bin/restcomm/start-restcomm.sh || sed -i "s|RESTCOMM_HOME/bin/standalone.sh -b .*|RESTCOMM_HOME/bin/standalone.sh -b \$bind_address -Djboss.bind.address.management=\$bind_address|" $BASEDIR/bin/restcomm/start-restcomm.sh
+grep -q 'jboss.bind.address.management' $BASEDIR/bin/restcomm/start-restcomm.sh || sed -i 's|RESTCOMM_HOME/bin/standalone.sh -b .*|RESTCOMM_HOME/bin/standalone.sh -b $bind_address -Djboss.bind.address.management=$bind_address|' $BASEDIR/bin/restcomm/start-restcomm.sh
 
 
 wget --auth-no-challenge -qc https://raw.githubusercontent.com/RestComm/RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/mms-server-beans.xml -P $BASEDIR
@@ -46,8 +46,11 @@ chmod 777 $BASEDIR/tools/sip-balancer/lb-configuration.properties
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
 chmod +x /opt/embed/*.sh
+
+#TODO fix this section because $RESTCOMM_LOGS can be empty, dockercleanup.sh doesn't exist at all
 mkdir -p `echo $RESTCOMM_LOGS`/opt/
-cp /tmp/version `echo $RESTCOMM_LOGS`
+
+cp $BASEDIR/version.txt $RESTCOMM_LOGS/version
 cp /opt/embed/dockercleanup.sh  `echo $RESTCOMM_LOGS`/opt/
 cp /opt/embed/restcomm_docker.sh  `echo $RESTCOMM_LOGS`/opt/
 
