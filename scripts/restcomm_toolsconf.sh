@@ -9,6 +9,7 @@ unzip $BASEDIR/standalone/deployments/olympus.war -d $BASEDIR/standalone/deploym
 rm -f $BASEDIR/standalone/deployments/olympus.war
 mv -f $BASEDIR/standalone/deployments/olympus-exploded.war $BASEDIR/standalone/deployments/olympus.war
 
+
 if [ -n "$SECURESSL" ]; then
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
   sed -i "s|5082|5083|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
@@ -37,6 +38,7 @@ cp -rf $BASEDIR/mms-server-beans.xml $BASEDIR/mediaserver/deploy/server-beans.xm
 sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/dont-config-mobicents-ms.sh
 cp -rf $BASEDIR/dont-config-mobicents-ms.sh $BASEDIR/bin/restcomm/autoconfig.d/dont-config-mobicents-ms.sh
 
+
 #Load balancer
 chmod 777 $BASEDIR/tools/sip-balancer/lb-log4j.xml
 chmod 777 $BASEDIR/tools/sip-balancer/lb-configuration.properties
@@ -44,7 +46,9 @@ chmod 777 $BASEDIR/tools/sip-balancer/lb-configuration.properties
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
 chmod +x /opt/embed/*.sh
-mkdir -p /var/log/restcomm/opt/
-cp /opt/embed/restcomm_docker.sh  /var/log/restcomm/opt/
+mkdir -p `echo $RESTCOMM_LOGS`/opt/
+cp /tmp/version `echo $RESTCOMM_LOGS`
+cp /opt/embed/dockercleanup.sh  `echo $RESTCOMM_LOGS`/opt/
+cp /opt/embed/restcomm_docker.sh  `echo $RESTCOMM_LOGS`/opt/
 
 echo "RestComm configured Properly!"

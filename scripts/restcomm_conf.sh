@@ -5,9 +5,26 @@
 
 source /etc/container_environment.sh
 
+
 BASEDIR=/opt/Restcomm-JBoss-AS7
+RESTCOMM_CORE_LOG=$BASEDIR/standalone/log
+MMS_LOGS=$BASEDIR/mediaserver/log
 
 echo "Will check for enviroment variable and configure restcomm.conf"
+
+
+if [ -n "$RESTCOMM_LOGS" ]; then
+  echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
+  sed -i "s|BASEDIR=.*| |" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|LOGS_DIR_ZIP=.*|LOGS_DIR_ZIP=$RESTCOMM_LOGS/\$DIR_NAME|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|RESTCOMM_LOG_BASE=.*|RESTCOMM_LOG_BASE=`echo $RESTCOMM_LOGS`|" /opt/embed/restcomm_docker.sh
+
+  LOGS_LOCATE=`echo $RESTCOMM_LOGS`
+  sudo mkdir -p "$LOGS_LOCATE"
+  RESTCOMM_CORE_LOG=$LOGS_LOCATE
+  MMS_LOGS=$LOGS_LOCATE
+  LOGS_TRACE=$LOGS_LOCATE
+fi
 
 if [ -n "$STATIC_ADDRESS" ]; then
   echo "STATIC_ADDRESS $STATIC_ADDRESS"
@@ -221,25 +238,35 @@ if [ -n "$LOG_LEVEL" ]; then
   sed -i "/<logger category=\"org.mobicents.servlet\">/ {
 		N; s|<level name=\".*\"/>|<level name=\"`echo $LOG_LEVEL`\"/>|
 	}" $BASEDIR/standalone/configuration/standalone-sip.xml
+    sed -i  "s|<param name=\"Threshold\" value=\"INFO\" />|<param name=\"Threshold\" value=\"`echo $LOG_LEVEL`\" />|"  $BASEDIR/mediaserver/conf/log4j.xml
+
 fi
 
 if [ -n "$CORE_LOGS_LOCATION" ]; then
   echo "CORE_LOGS_LOCATION $CORE_LOGS_LOCATION"
   mkdir -p `echo $CORE_LOGS_LOCATION`
-  sed -i "s|find .*restcomm_core_|find `echo $CORE_LOGS_LOCATION`/restcommCore-server.log|" /etc/cron.d/restcommcore-cron
-  sed -i "s|<file relative-to=\"jboss.server.log.dir\" path=\".*\"\/>|<file path=\"`echo $CORE_LOGS_LOCATION`/restcommCore-server.log\"\/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
+  sed -i "s|find .*server.log|find $RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`/restcommCore-server.log|" /etc/cron.d/restcommcore-cron
+  sed -i "s|<file relative-to=\"jboss.server.log.dir\" path=\".*\"\/>|<file path=\"$RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`/restcommCore-server.log\"\/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
+  #logs collect script conficuration
+  sed -i "s/RESTCOMM_CORE_FILE=server.log/RESTCOMM_CORE_FILE=restcommCore-server.log/" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|RESTCOMM_CORE_LOG=.*|RESTCOMM_CORE_LOG=$RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|RESTCOMM_LOG_BASE=.*|RESTCOMM_LOG_BASE=`echo $CORE_LOGS_LOCATION`|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+
 fi
 
 #Media-server Log configuration.
 if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   echo "MEDIASERVER_LOGS_LOCATION $MEDIASERVER_LOGS_LOCATION"
   mkdir -p `echo $MEDIASERVER_LOGS_LOCATION`
-  sed -i "s|find .*restcomm_ms_|find `echo $MEDIASERVER_LOGS_LOCATION`/media-server.log|" /etc/cron.d/restcommmediaserver-cron
+  sed -i "s|find .*server.log|find $MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log|" /etc/cron.d/restcommmediaserver-cron
   sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
   #Daily log rotation for MS.
   sed -i "s|<appender name=\"FILE\" class=\"org\.apache\.log4j\.RollingFileAppender\"|<appender name=\"FILE\" class=\"org\.apache\.log4j\.DailyRollingFileAppender\"|"  $BASEDIR/mediaserver/conf/log4j.xml
   sed -i "s|<param name=\"Append\" value=\"false\"|<param name=\"Append\" value=\"true\"|"  $BASEDIR/mediaserver/conf/log4j.xml
-  sed -i "s|<param name=\"File\" value=\".*\"|<param name=\"File\" value=\"`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log\"|"  $BASEDIR/mediaserver/conf/log4j.xml
+  sed -i "s|<param name=\"File\" value=\".*\"|<param name=\"File\" value=\"$MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log\"|"  $BASEDIR/mediaserver/conf/log4j.xml
+  #logs collect script conficuration
+  sed -i "s|MEDIASERVER_FILE=server.log|MEDIASERVER_FILE=media-server.log|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|MMS_LOGS=.*|MMS_LOGS=$MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
 fi
 
 if [ -n "$GOVNIST_LOG_LEVEL" ]; then
@@ -257,14 +284,15 @@ fi
 
 if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   echo "RESTCOMM_TRACE_LOG $RESTCOMM_TRACE_LOG"
-  mkdir -p $RESTCOMM_TRACE_LOG
-  sed -i "s|find .*restcomm_trace_|find `echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
+  mkdir -p $LOGS_TRACE/$RESTCOMM_TRACE_LOG
+  sed -i "s|find .*restcomm_trace_|find $LOGS_TRACE/`echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
+  sed -i "s|RESTCOMM_TRACE=.*|RESTCOMM_TRACE=\$RESTCOMM_LOG_BASE/`echo $RESTCOMM_TRACE_LOG`|"  /opt/embed/restcomm_docker.sh
   ps cax | grep tcpdump > /dev/null
   if [ $? -eq 0 ]; then
     echo "TCPDUMP  is running."
   else
     echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni eth0 -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.cap -z gzip" &
+    nohup xargs bash -c "tcpdump -pni eth0 -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
   fi
 
 fi
