@@ -15,8 +15,8 @@ echo "Will check for enviroment variable and configure restcomm.conf"
 
 if [ -n "$RESTCOMM_LOGS" ]; then
   echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
-  sed -i "s/BASEDIR=.*/ /" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
-  sed -i "s/LOGS_DIR_ZIP=.*/LOGS_DIR_ZIP=$RESTCOMM_LOGS/$DIR_NAME/" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|BASEDIR=.*| |" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|LOGS_DIR_ZIP=.*|LOGS_DIR_ZIP=$RESTCOMM_LOGS/\$DIR_NAME|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
   LOGS_LOCATE=`echo $RESTCOMM_LOGS`
   sudo mkdir -p "$LOGS_LOCATE"
   RESTCOMM_CORE_LOG=$LOGS_LOCATE
@@ -261,7 +261,7 @@ if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   sed -i "s|<param name=\"Append\" value=\"false\"|<param name=\"Append\" value=\"true\"|"  $BASEDIR/mediaserver/conf/log4j.xml
   sed -i "s|<param name=\"File\" value=\".*\"|<param name=\"File\" value=\"$MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log\"|"  $BASEDIR/mediaserver/conf/log4j.xml
   #logs collect script conficuration
-  sed -i "s/MEDIASERVER_FILE=server.log/MEDIASERVER_FILE=media-server.log/" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|MEDIASERVER_FILE=server.log|MEDIASERVER_FILE=media-server.log|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
   sed -i "s|MMS_LOGS=.*|MMS_LOGS=$MMS_LOGS|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
 fi
 
