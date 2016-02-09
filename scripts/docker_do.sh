@@ -176,6 +176,7 @@ dflag=false
 tflag=false
 Hflag=false
 nflag=false
+zflag=false
 login=false
 
 
@@ -275,7 +276,7 @@ if [[ "$rflag" = "true"  &&  "$Hflag" = "false" ]]; then
 fi
 
 if $lflag ; then
- sudo mkdir -p $LOGS_DIR_HOST/host
+ sudo mkdir -p $LOGS_DIR_HOST
  collect_logs $container
 fi
 
