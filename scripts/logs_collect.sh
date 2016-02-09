@@ -143,6 +143,14 @@ if [ -d "$LOGS_DIR_ZIP" ]; then
    exit 1
 }
 
+sys_date() {
+if [ -d "$LOGS_DIR_ZIP" ]; then
+  echo `date` >  $LOGS_DIR_ZIP/sys_date.txt
+  return 0
+ fi
+   exit 1
+}
+
 usage () {
    cat << EOF
 Usage: failure_logs_collect.sh  <options>
@@ -199,6 +207,7 @@ jvm_process_info
 LWP_threads_logs
 system_usage_info
 netstat_stats
+sys_date
 
 if $tflag ; then
     restcomm_logs_bytime $var

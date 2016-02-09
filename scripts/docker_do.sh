@@ -13,7 +13,7 @@ SYSLOGS_DIR=/var/log
 
 restcomm_version () {
  if [ -d "$LOGS_DIR_HOST" ]; then
-     cp $RESTCOMM_LOG_BASE/version LOGS_DIR_HOST/
+     cp $RESTCOMM_LOG_BASE/version $LOGS_DIR_HOST/
   return 0
  fi
    exit 1
@@ -21,7 +21,7 @@ restcomm_version () {
 
 docker_logs () {
 if [ -d "$LOGS_DIR_HOST" ]; then
-    docker logs $1 | head -n 1250 > $LOGS_DIR_HOST/DockerLogs
+    docker logs $1 2>&1 | head -n 1250 > $LOGS_DIR_HOST/DockerLogs
     return 0
  fi
    exit 1
@@ -38,6 +38,13 @@ if [ -d "$LOGS_DIR_HOST" ]; then
    exit 1
 }
 
+sys_date() {
+if [ -d "$LOGS_DIR_HOST" ]; then
+  echo `date` >  $LOGS_DIR_HOST/sys_date.txt
+  return 0
+ fi
+   exit 1
+}
 
 netstat_stats () {
 
@@ -92,10 +99,10 @@ netstat_stats
 system_usage_info
 system_logs
 restcomm_version
+sys_date
 
 docker exec $1  /bin/sh -c "/opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh $time_logs $dtar"
 }
-
 
 
 stop_container () {
@@ -240,7 +247,7 @@ else
             d )
                dflag=true
             ;;
-             d )
+             z )
                zflag=true
             ;;
             h )
