@@ -17,7 +17,7 @@ LOGS_DIR_ZIP=$RESTCOMM_CORE_LOG/$DIR_NAME
 
 restcomm_logs () {
  if [ -d "$LOGS_DIR_ZIP" ]; then
-  cp $RESTCOMM_CORE_LOG/$RESTCOMM_CORE_FILE $LOGS_DIR_ZIP/restcomm_logs.log
+  cp $RESTCOMM_CORE_LOG/$RESTCOMM_CORE_FILE $LOGS_DIR_ZIP/restcomm_server.log
   return 0
  fi
    exit 1
