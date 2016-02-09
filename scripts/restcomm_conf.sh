@@ -248,6 +248,8 @@ if [ -n "$CORE_LOGS_LOCATION" ]; then
   #logs collect script conficuration
   sed -i "s/RESTCOMM_CORE_FILE=server.log/RESTCOMM_CORE_FILE=restcommCore-server.log/" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
   sed -i "s|RESTCOMM_CORE_LOG=.*|RESTCOMM_CORE_LOG=$RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|RESTCOMM_LOG_BASE=.*|RESTCOMM_LOG_BASE=`echo $CORE_LOGS_LOCATION`|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+
 fi
 
 #Media-server Log configuration.
@@ -262,7 +264,7 @@ if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   sed -i "s|<param name=\"File\" value=\".*\"|<param name=\"File\" value=\"$MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log\"|"  $BASEDIR/mediaserver/conf/log4j.xml
   #logs collect script conficuration
   sed -i "s|MEDIASERVER_FILE=server.log|MEDIASERVER_FILE=media-server.log|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
-  sed -i "s|MMS_LOGS=.*|MMS_LOGS=$MMS_LOGS|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
+  sed -i "s|MMS_LOGS=.*|MMS_LOGS=$MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
 fi
 
 if [ -n "$GOVNIST_LOG_LEVEL" ]; then

@@ -3,7 +3,7 @@
 DATE=$(date +%F_%H:%M)
 DIR_NAME=restcomm_$DATE
 
-RESTCOMM_LOG_BASE=$RESTCOMM_LOGS
+RESTCOMM_LOG_BASE=/var/log
 RESTCOMM_TRACE=$RESTCOMM_LOG_BASE/$RESTCOMM_TRACE_LOG
 LOGS_DIR_ZIP=$RESTCOMM_LOG_BASE/$DIR_NAME
 LOGS_DIR_HOST=$LOGS_DIR_ZIP/host
@@ -275,7 +275,7 @@ if [[ "$rflag" = "true"  &&  "$Hflag" = "false" ]]; then
 fi
 
 if $lflag ; then
- mkdir -p $LOGS_DIR_HOST/host
+ sudo mkdir -p $LOGS_DIR_HOST/host
  collect_logs $container
 fi
 

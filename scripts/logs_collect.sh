@@ -204,7 +204,7 @@ if $tflag ; then
 fi
 if $zflag ; then
    make_tar
+   echo TAR_FILE : $RESTCOMM_LOGS/`echo $DIR_NAME | tr -d :`.tar.gz
 fi
 
 
-echo TAR_FILE : $RESTCOMM_LOGS/`echo $DIR_NAME | tr -d :`.tar.gz
