@@ -20,6 +20,8 @@ echo -e "allowall" > /etc/container_environment/SSL_MODE
 
 #Functional configuration.
 echo -e "true" > /etc/container_environment/USE_STANDARD_PORTS
+echo -e "65500" > /etc/container_environment/MEDIASERVER_LOWEST_PORT
+echo -e "65550" > /etc/container_environment/MEDIASERVER_HIGHEST_PORT
 
 #Log (DEBUG,INFO,WARN)
 echo -e "INFO" > /etc/container_environment/LOG_LEVEL
