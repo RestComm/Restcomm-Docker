@@ -21,7 +21,7 @@ configSipStack() {
 	mv $FILE.bak $FILE
 	echo "Activated Load Balancer on SIP stack configuration file with $balancers"
 
-	sed -e 's|^#org.mobicents.ha.javax.sip.REACHABLE_CHECK=|org.mobicents.ha.javax.sip.REACHABLE_CHECK=false|' $FILE > $FILE.bak
+	sed -e 's|^#org.mobicents.ha.javax.sip.REACHABLE_CHECK=.*|org.mobicents.ha.javax.sip.REACHABLE_CHECK=false|' $FILE > $FILE.bak
 	mv $FILE.bak $FILE
 
 	echo 'Removed reachable checks and specified HTTP Port 8080'
@@ -37,7 +37,9 @@ configStandalone() {
 
 if [ -n "$LOAD_BALANCERS" ]; then
 	echo "Configure load balancers: ${LOAD_BALANCERS}"
-
+	echo "Remove original configurator from restcomm"
+	mv $BASEDIR/bin/restcomm/autoconfig.d/config-load-balancer.sh $BASEDIR/bin/restcomm/autoconfig.d/config-load-balancer.sh_origin
+	echo "Apply config"
 	configSipStack ${LOAD_BALANCERS}
 	configStandalone
 fi
