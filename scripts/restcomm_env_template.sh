@@ -70,3 +70,5 @@ echo -e "PASSWD_FOR_AUTH" > /etc/container_environment/CERTREPOPWRD
 echo -e "URL_FOR_DER_FILE" > /etc/container_environment/DERCONFURL
 echo -e "USER" > /etc/container_environment/DERREPOUSR
 echo -e "PASSED" > /etc/container_environment/DERREPOPWRD
+
+echo -e "" > /etc/container_environment/LOAD_BALANCERS
