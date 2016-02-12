@@ -63,7 +63,7 @@ EXPOSE 5063/tcp
 EXPOSE 80/tcp
 EXPOSE 443/tcp
 EXPOSE 9990/tcp
-EXPOSE 65000-65535/udp
+EXPOSE 65000-65550/udp
 
 RUN mkdir /etc/service/restcomm
 ADD ./scripts/restcomm_service.sh /etc/service/restcomm/run
