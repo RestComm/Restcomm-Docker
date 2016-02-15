@@ -19,7 +19,7 @@ if [ -n "$RESTCOMM_LOGS" ]; then
   sed -i "s|LOGS_DIR_ZIP=.*|LOGS_DIR_ZIP=$RESTCOMM_LOGS/\$DIR_NAME|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
   sed -i "s|RESTCOMM_LOG_BASE=.*|RESTCOMM_LOG_BASE=${RESTCOMM_LOGS}|" /opt/embed/restcomm_docker.sh
 
-  LOGS_LOCATE=`echo $RESTCOMM_LOGS`
+  LOGS_LOCATE="${RESTCOMM_LOGS}"
   sudo mkdir -p "$LOGS_LOCATE"
   RESTCOMM_CORE_LOG=$LOGS_LOCATE
   MMS_LOGS=$LOGS_LOCATE
