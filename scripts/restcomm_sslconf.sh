@@ -29,19 +29,19 @@ if [[ `wget -S --spider $1 $2 $3 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
 }
 
 if [ -n "$TRUSTSTORE_PASSWORD" ]; then
-	sed -i "s/TRUSTSTORE_PASSWORD=.*/TRUSTSTORE_PASSWORD='`echo $TRUSTSTORE_PASSWORD`'/" $BASEDIR/bin/restcomm/restcomm.conf
+	sed -i "s/TRUSTSTORE_PASSWORD=.*/TRUSTSTORE_PASSWORD='${TRUSTSTORE_PASSWORD}'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$TRUSTSTORE_ALIAS" ]; then
-	sed -i "s/TRUSTSTORE_ALIAS=.*/TRUSTSTORE_ALIAS='`echo $TRUSTSTORE_ALIAS`'/" $BASEDIR/bin/restcomm/restcomm.conf
+	sed -i "s/TRUSTSTORE_ALIAS=.*/TRUSTSTORE_ALIAS='${TRUSTSTORE_ALIAS}'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 
 if [ -n "$CERTCONFURL" ]; then
   echo "Certification file URL is: $CERTCONFURL"
   if [ -n "$CERTREPOUSR"  ] && [ -n "$CERTREPOPWRD" ]; then
-  		USR="--user=`echo $CERTREPOUSR`"
-  		PASS="--password=`echo $CERTREPOPWRD`"
+  		USR="--user=${CERTREPOUSR}"
+  		PASS="--password=${CERTREPOPWRD}"
   fi
    URL="$CERTCONFURL $USR $PASS"
    download_conf $URL $TRUSTSTORE_FILE
@@ -50,8 +50,8 @@ fi
 if [ -n "$DERCONFURL" ]; then
   echo "Der file URL is: $DERCONFURL "
   if [ -n "$DERREPOUSR" ] && [ -n "$DERREPOPWRD" ]; then
-  		USR="--user=`echo $DERREPOUSR`"
-  		PASS="--password=`echo $DERREPOPWRD`"
+  		USR="--user=${DERREPOUSR}"
+  		PASS="--password=${DERREPOPWRD}"
   fi
    URL="$DERCONFURL $USR $PASS"
    download_conf $URL $DERFILE
@@ -73,10 +73,10 @@ if [ -n "$SECURESSL" ]; then
 
          TRUSTSTORE_LOCATION=$TRUSTSTORE_FILE
         if [ -n "$RESTCOMMHOST" ]; then
-            HOSTNAME=`echo $RESTCOMMHOST`
+            HOSTNAME=${RESTCOMMHOST}
             keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_LOCATION -dname "CN=$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
         else
-            HOSTNAME=`echo $STATIC_ADDRESS`
+            HOSTNAME=${STATIC_ADDRESS}
             keytool -genkey -alias $TRUSTSTORE_ALIAS -keyalg RSA -keystore $TRUSTSTORE_LOCATION -dname "CN=restcomm" -ext san=ip:"$HOSTNAME" -storepass $TRUSTSTORE_PASSWORD -keypass $TRUSTSTORE_PASSWORD
         fi
         echo $HOSTNAME
@@ -98,7 +98,7 @@ if [ -n "$SECURESSL" ]; then
         \ <connector name="sip-wss" protocol="SIP/2.0" scheme="sip" socket-binding="sip-wss"/>
         ' $BASEDIR/standalone/configuration/standalone-sip.xml
       if [ -n "$STATIC_ADDRESS" ]; then
-        sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"`echo $STATIC_ADDRESS`\" static-server-port=\"5083\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
+        sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"${STATIC_ADDRESS}\" static-server-port=\"5083\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
       fi
       grep -q 'binding name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/binding name=\"sip-ws\".*/ a \
         \<socket-binding name="sip-wss" port="5083"/>' $BASEDIR/standalone/configuration/standalone-sip.xml
@@ -106,8 +106,8 @@ if [ -n "$SECURESSL" ]; then
        sed -i '/org.mobicents.ha.javax.sip.LOCAL_SSL_PORT=443/ a \
       \gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled\
       \javax.net.ssl.keyStore='"$TRUSTSTORE_FILE"'\
-      \javax.net.ssl.keyStorePassword='"`echo $TRUSTSTORE_PASSWORD`"'\
-      \javax.net.ssl.trustStorePassword='"`echo $TRUSTSTORE_PASSWORD`"'\
+      \javax.net.ssl.keyStorePassword='"${TRUSTSTORE_PASSWORD}"'\
+      \javax.net.ssl.trustStorePassword='"${TRUSTSTORE_PASSWORD}"'\
       \javax.net.ssl.trustStore='"$TRUSTSTORE_FILE"'\
       \javax.net.ssl.keyStoreType=JKS' $BASEDIR/standalone/configuration/mss-sip-stack.properties
    fi
