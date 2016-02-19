@@ -209,7 +209,7 @@ if [ -n "$SSL_MODE" ]; then
 	sed -i "s/SSL_MODE=.*/SSL_MODE='`echo $SSL_MODE`'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-if [ -n "$USE_STANDARD_PORTS" ]; then
+if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ]; then
   echo "USE_STANDARD_PORTS $USE_STANDARD_PORTS"
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/mss-sip-stack.properties
