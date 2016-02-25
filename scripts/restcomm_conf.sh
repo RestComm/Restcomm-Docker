@@ -84,6 +84,11 @@ if [ -n "$SMS_PREFIX" ]; then
   sed -i "s/SMS_PREFIX=.*/SMS_PREFIX=`echo $SMS_PREFIX`/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$SMS_OUTBOUND_PROXY_IP" ] && [ -n "$SMS_OUTBOUND_PROXY_PORT" ]; then
+  echo "SMS_OUTBOUND_PROXY:  $SMS_OUTBOUND_PROXY_IP:$SMS_OUTBOUND_PROXY_PORT"
+  sed -i "s/SMS_OUTBOUND_PROXY=.*/SMS_OUTBOUND_PROXY=\'${SMS_OUTBOUND_PROXY_IP}:${SMS_OUTBOUND_PROXY_PORT}\'/"  $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
 if [ -n "$GENERIC_SMPP_TYPE" ]; then
   echo "Generic SMPP type $GENERIC_SMPP_TYPE"
   sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/smpp.conf
