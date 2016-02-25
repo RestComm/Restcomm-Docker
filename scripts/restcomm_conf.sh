@@ -243,7 +243,7 @@ if [ -n "$LOG_LEVEL" ]; then
 		N; s|<level name=\".*\"/>|<level name=\"`echo $LOG_LEVEL`\"/>|
 	}" $BASEDIR/standalone/configuration/standalone-sip.xml
     sed -i  "s|<param name=\"Threshold\" value=\"INFO\" />|<param name=\"Threshold\" value=\"`echo $LOG_LEVEL`\" />|"  $BASEDIR/mediaserver/conf/log4j.xml
-
+    sed -i  "s|<priority value=\"INFO\"/>|<priority value=\"${LOG_LEVEL}\"/>|"  $BASEDIR/mediaserver/conf/log4j.xml
 fi
 
 if [ -n "$CORE_LOGS_LOCATION" ]; then
