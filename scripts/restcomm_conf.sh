@@ -31,6 +31,13 @@ if [ -n "$STATIC_ADDRESS" ]; then
   sed -i "s/STATIC_ADDRESS=.*/STATIC_ADDRESS=`echo $STATIC_ADDRESS`/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$RESTCOMM_PORT" ]; then
+    echo "Setup RESTCOMM_PORT $RESTCOMM_PORT"
+    sed -i "s|8080|$RESTCOMM_PORT|" $BASEDIR/standalone/configuration/standalone-sip.xml
+    sed -i "s|8080|$RESTCOMM_PORT|" $BASEDIR/standalone/configuration/mss-sip-stack.properties
+    sed -i "s|:8080|:$RESTCOMM_PORT|" $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
+fi
+
 if [ -n "$OUTBOUND_PROXY" ]; then
   echo "OUTBOUND_PROXY $OUTBOUND_PROXY"
   sed -i "s/OUTBOUND_PROXY=.*/OUTBOUND_PROXY=`echo $OUTBOUND_PROXY`/" $BASEDIR/bin/restcomm/restcomm.conf
