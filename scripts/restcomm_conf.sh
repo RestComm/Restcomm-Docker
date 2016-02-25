@@ -195,7 +195,6 @@ if [ -n "$SMTP_USER" ]; then
 fi
 
 if [ -n "$INIT_PASSWORD" ]; then
-    juju-log "Update init password"
     # chnange admin password
     SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/restcomm.script
     sed -i "s/uninitialized/active/g" $SQL_FILE
