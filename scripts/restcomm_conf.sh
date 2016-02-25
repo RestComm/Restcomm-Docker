@@ -89,6 +89,26 @@ if [ -n "$SMS_OUTBOUND_PROXY" ]; then
   sed -i "s/SMS_OUTBOUND_PROXY=.*/SMS_OUTBOUND_PROXY=\'${SMS_OUTBOUND_PROXY}\'/"  $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+
+if [ -n "$INIT_PASSWORD" ]; then
+     juju-log "Update init password"
+     # chnange admin password
+     SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/restcomm.script
+     sed -i "s/uninitialized/active/g" $SQL_FILE
+     sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$INIT_PASSWORD/g" $SQL_FILE
+     sed -i "s/2012-04-24 00:00:00.000000000/2016-02-17 10:00:00.575000000/" $SQL_FILE
+     sed -i "s/2012-04-24 00:00:00.000000000/2016-02-17 10:04:00.575000000/" $SQL_FILE
+
+     SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/scripts/mariadb/init.sql
+     sed -i "s/uninitialized/active/g" $SQL_FILE
+     sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$INIT_PASSWORD/g" $SQL_FILE
+     sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
+     sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
+
+     # end
+ fi
+
+
 if [ -n "$GENERIC_SMPP_TYPE" ]; then
   echo "Generic SMPP type $GENERIC_SMPP_TYPE"
   sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/smpp.conf
