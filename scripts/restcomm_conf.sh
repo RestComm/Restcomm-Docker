@@ -26,6 +26,13 @@ if [ -n "$RESTCOMM_LOGS" ]; then
   LOGS_TRACE=$LOGS_LOCATE
 fi
 
+if [ -z "$STATIC_ADDRESS" ]; then
+    echo "Get real public ip for Amazon"
+    # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html
+
+    STATIC_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
+fi
+
 if [ -n "$STATIC_ADDRESS" ]; then
   echo "STATIC_ADDRESS $STATIC_ADDRESS"
   sed -i "s/STATIC_ADDRESS=.*/STATIC_ADDRESS=`echo $STATIC_ADDRESS`/" $BASEDIR/bin/restcomm/restcomm.conf
