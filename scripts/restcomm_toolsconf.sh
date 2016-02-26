@@ -38,7 +38,10 @@ cp -rf $BASEDIR/mms-server-beans.xml $BASEDIR/mediaserver/deploy/server-beans.xm
 sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/dont-config-mobicents-ms.sh
 cp -rf $BASEDIR/dont-config-mobicents-ms.sh $BASEDIR/bin/restcomm/autoconfig.d/dont-config-mobicents-ms.sh
 
-grep -q 'telestax' $BASEDIR/standalone/configuration/mgmt-users.properties || exec $BASEDIR/bin/add-user.sh telestax "${MGMTUSRPASS}" -s
+
+#Load balancer
+chmod 777 $BASEDIR/tools/sip-balancer/lb-log4j.xml
+chmod 777 $BASEDIR/tools/sip-balancer/lb-configuration.properties
 
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
