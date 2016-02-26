@@ -15,7 +15,7 @@ echo "Will check for enviroment variable and configure restcomm.conf"
 
 if [ -n "$MS_COMPATIBILITY_MODE" ]; then
    echo "MS_COMPATIBILITY_MODE $MS_COMPATIBILITY_MODE"
-   sed -i "s/MS_COMPATIBILITY_MODE=.*/MS_COMPATIBILITY_MODE=$MS_COMPATIBILITY_MODE/" $BASEDIR/bin/restcomm/restcomm.conf
+   sed -i "s/MS_COMPATIBILITY_MODE=.*/MS_COMPATIBILITY_MODE=\'$MS_COMPATIBILITY_MODE\'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$MS_ADDRESS" ]; then

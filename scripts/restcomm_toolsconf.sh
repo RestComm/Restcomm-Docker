@@ -37,8 +37,8 @@ cp -rf $BASEDIR/mms-server-beans.xml $BASEDIR/mediaserver/deploy/server-beans.xm
 #need to add to remove media server log reconfigure (at the future we remove this file)
 sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/dont-config-mobicents-ms.sh
 sed -i 's/configUdpManager*/#configUdpManager/' $BASEDIR/dont-config-mobicents-ms.sh
-cp -rf $BASEDIR/dont-config-mobicents-ms.sh $BASEDIR/bin/restcomm/autoconfig.d/dont-config-mobicents-ms.sh
-
+#cp -rf $BASEDIR/dont-config-mobicents-ms.sh $BASEDIR/bin/restcomm/autoconfig.d/dont-config-mobicents-ms.sh
+rm -rf $BASEDIR/dont-config-mobicents-ms.sh
 
 #Load balancer
 chmod 777 $BASEDIR/tools/sip-balancer/lb-log4j.xml
