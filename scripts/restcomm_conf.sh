@@ -13,6 +13,16 @@ MMS_LOGS=$BASEDIR/mediaserver/log
 echo "Will check for enviroment variable and configure restcomm.conf"
 
 
+if [ -n "$MS_COMPATIBILITY_MODE" ]; then
+   echo "MS_COMPATIBILITY_MODE $MS_COMPATIBILITY_MODE"
+   sed -i "s/MS_COMPATIBILITY_MODE=.*/MS_COMPATIBILITY_MODE=$MS_COMPATIBILITY_MODE/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MS_ADDRESS" ]; then
+   echo "MS_ADDRESS $MS_ADDRESS"
+   sed -i "s/MS_ADDRESS=.*/MS_ADDRESS=$MS_ADDRESS/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
 if [ -n "$RESTCOMM_LOGS" ]; then
   echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
   sed -i "s|BASEDIR=.*| |" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
