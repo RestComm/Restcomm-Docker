@@ -127,6 +127,6 @@ if [ -n "$SECURESSL" ]; then
 fi
 
 
-if [  "${USE_STANDARD_PORT^^}" = "TRUE"  ] ; then
+if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ] ; then
   sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
