@@ -36,4 +36,4 @@ echo -e "/var/restcomm/rvd/workspace" > /etc/container_environment/RVD_LOCATION
 echo -e "/var/restcomm/data" > /etc/container_environment/HSQL_PERSIST
 
 #Management subsystem configuration.
-echo -e "RestComm" > /etc/container_environment/MGMTUSRPASS
+echo -e "RestC0mm!" > /etc/container_environment/MGMTUSRPASS
