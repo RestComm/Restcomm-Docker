@@ -224,13 +224,19 @@ if [ -n "$SSL_MODE" ]; then
 	sed -i "s/SSL_MODE=.*/SSL_MODE='`echo $SSL_MODE`'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ]; then
-  echo "USE_STANDARD_PORTS $USE_STANDARD_PORTS"
+if [  "${USE_STANDARD_HTTP_PORTS^^}" = "TRUE"  ]; then
+  echo "USE_STANDARD_HTTP_PORTS  $USE_STANDARD_HTTP_PORTS "
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|8443|443|"  $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|8443|443|"  $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|:8080||"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
+fi
+
+
+
+if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+  echo "USE_STANDARD_SIP_PORTS $USE_STANDARD_SIP_PORTS"
   sed -i "s|5080|5060|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5081|5061|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5082|5062|" $BASEDIR/standalone/configuration/standalone-sip.xml
@@ -239,6 +245,7 @@ if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ]; then
   sed -i "s|5082|5062|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
   sed -i "s|:5080||"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
 fi
+
 
 if [ -n "$RVD_LOCATION" ]; then
   echo "RVD_LOCATION $RVD_LOCATION"
