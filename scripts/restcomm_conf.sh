@@ -41,6 +41,11 @@ if [ -n "$STATIC_ADDRESS" ]; then
   sed -i "s/STATIC_ADDRESS=.*/STATIC_ADDRESS=`echo $STATIC_ADDRESS`/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$NET_INTERFACE" ]; then
+  echo "NET_INTERFACE $NET_INTERFACE"
+  sed -i "s/NET_INTERFACE=.*/NET_INTERFACE=${NET_INTERFACE}/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
 if [ -n "$OUTBOUND_PROXY" ]; then
   echo "OUTBOUND_PROXY $OUTBOUND_PROXY"
   sed -i "s/OUTBOUND_PROXY=.*/OUTBOUND_PROXY=`echo $OUTBOUND_PROXY`/" $BASEDIR/bin/restcomm/restcomm.conf
