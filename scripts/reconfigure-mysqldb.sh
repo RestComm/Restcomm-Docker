@@ -31,7 +31,7 @@ configMybatis() {
 ## Parameters : 1. Private IP
 configureDataSource() {
 	FILE=$RESTCOMM_HOME/standalone/configuration/standalone-sip.xml
-	
+
 	# Update DataSource
 	grep -q 'MySqlDS' $FILE || sed -e "/<datasource jta=\"true\" jndi-name=\"java:\/MySqlDS\" .*>/ {
 		s|<connection-url>.*</connection-url>|<connection-url>jdbc:mysql://$1:3306/$4</connection-url>|
@@ -41,19 +41,24 @@ configureDataSource() {
 		N
 		N
 		N
-		s|<user-name>.*</user-name>|<user-name>telestax</user-name>|
-		s|<password>.*</password>|<password>m0b1c3nt5</password>|
+		s|<user-name>.*</user-name>|<user-name>username</user-name>|
+		s|<password>.*</password>|<password>password</password>|
 	}" $FILE > $FILE.bak
-	mv $FILE.bak $FILE	
+	mv $FILE.bak $FILE
 	echo 'Updated MySQL DataSource Configuration'
 }
 
 configureMySQLDataSource() {
 	FILE=$RESTCOMM_HOME/standalone/configuration/standalone-sip.xml
-	
-	# Update DataSource
-	sed -e "s|<connection-url>.*</connection-url>|<connection-url>jdbc:mysql://$1:3306/$4</connection-url>|g" $FILE > $FILE.bak
-	mv $FILE.bak $FILE	
+
+	if [ -n "$5" ]; then
+		#DB failover configuration.
+		sed -e "s|<connection-url>.*</connection-url>|<connection-url>jdbc:mysql://$1:3306/$4|jdbc:mysql://$5:3306/$4</connection-url>|g" $FILE > $FILE.bak
+	else
+		# Update DataSource
+		sed -e "s|<connection-url>.*</connection-url>|<connection-url>jdbc:mysql://$1:3306/$4</connection-url>|g" $FILE > $FILE.bak
+	fi
+	mv $FILE.bak $FILE
 	sed -e "s|<user-name>.*</user-name>|<user-name>$2</user-name>|g" $FILE > $FILE.bak
 	mv $FILE.bak $FILE	
 	sed -e "s|<password>.*</password>|<password>$3</password>|g" $FILE > $FILE.bak
@@ -91,12 +96,12 @@ configDaoManager() {
 # MAIN
 if [ -n "$MYSQL_USER" ]; then
 	echo 'Configuring MySQL datasource... $MYSQL_HOST $MYSQL_SCHEMA $MYSQL_USER'
-	#configureDataSource $PRIVATE_IP
-	#configureDataSource localhost
+	#configureDataSource $PRIVATE_IP $MYSQL_SNDHOST
+	#configureDataSource localhost $MYSQL_SNDHOST
 	enableDataSource
 	configMybatis
 	configDaoManager
-	configureMySQLDataSource $MYSQL_HOST $MYSQL_USER $MYSQL_PASSWORD $MYSQL_SCHEMA 
+	configureMySQLDataSource $MYSQL_HOST $MYSQL_USER $MYSQL_PASSWORD $MYSQL_SCHEMA $MYSQL_SNDHOST
 	echo 'Finished configuring MySQL datasource!'
-  
+
 fi

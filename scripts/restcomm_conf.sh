@@ -214,6 +214,11 @@ if [ -n "$MYSQL_USER" ]; then
   grep -q 'MYSQL_HOST=' $BASEDIR/bin/restcomm/restcomm.conf || echo "MYSQL_HOST=`echo $MYSQL_HOST`" >> $BASEDIR/bin/restcomm/restcomm.conf
   grep -q 'MYSQL_USER=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_USER=`echo $MYSQL_USER`" >> $BASEDIR/bin/restcomm/restcomm.conf
   grep -q 'MYSQL_PASSWORD=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_PASSWORD=`echo $MYSQL_PASSWORD`" >> $BASEDIR/bin/restcomm/restcomm.conf
+
+ if [ -n "$MYSQL_SNDHOST" ]; then
+     echo "MYSQL_SNDHOST=${MYSQL_SNDHOST}" >> $BASEDIR/bin/restcomm/restcomm.conf
+ fi
+
   if [ -n "$MYSQL_SCHEMA" ]; then
 	grep -q 'MYSQL_SCHEMA=' $BASEDIR/bin/restcomm/restcomm.conf || echo "MYSQL_SCHEMA=`echo $MYSQL_SCHEMA`" >> $BASEDIR/bin/restcomm/restcomm.conf
   else
