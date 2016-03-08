@@ -53,7 +53,7 @@ configureMySQLDataSource() {
 
 	if [ -n "$5" ]; then
 		#DB failover configuration.
-		sed -e "s|<connection-url>.*</connection-url>|<connection-url>jdbc:mysql://$1:3306/$4|jdbc:mysql://$5:3306/$4</connection-url>|g" $FILE > $FILE.bak
+		sed -e "s|<connection-url>.*</connection-url>|<connection-url>jdbc:mysql://$1:3306/$4\|jdbc:mysql://$5:3306/$4</connection-url>|g" $FILE > $FILE.bak
 	else
 		# Update DataSource
 		sed -e "s|<connection-url>.*</connection-url>|<connection-url>jdbc:mysql://$1:3306/$4</connection-url>|g" $FILE > $FILE.bak
@@ -95,7 +95,7 @@ configDaoManager() {
 
 # MAIN
 if [ -n "$MYSQL_USER" ]; then
-	echo 'Configuring MySQL datasource... $MYSQL_HOST $MYSQL_SCHEMA $MYSQL_USER'
+	echo "Configuring MySQL datasource... $MYSQL_HOST $MYSQL_SCHEMA $MYSQL_USER $MYSQL_SNDHOST"
 	#configureDataSource $PRIVATE_IP $MYSQL_SNDHOST
 	#configureDataSource localhost $MYSQL_SNDHOST
 	enableDataSource
