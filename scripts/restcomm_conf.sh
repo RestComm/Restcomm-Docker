@@ -23,6 +23,16 @@ if [ -n "$MS_ADDRESS" ]; then
    sed -i "s/MS_ADDRESS=.*/MS_ADDRESS=$MS_ADDRESS/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$MS_NETWORK" ]; then
+   echo "MS_NETWORK $MS_NETWORK"
+   sed -i "s/MS_NETWORK=.*/MS_NETWORK=$MS_NETWORK/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MS_SUBNET_MASK" ]; then
+   echo "MS_SUBNET_MASK $MS_SUBNET_MASK"
+   sed -i "s/MS_SUBNET_MASK=.*/MS_SUBNET_MASK=$MS_SUBNET_MASK/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
 if [ -n "$RESTCOMM_LOGS" ]; then
   echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
   sed -i "s|BASEDIR=.*| |" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
