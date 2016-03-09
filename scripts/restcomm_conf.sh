@@ -33,6 +33,11 @@ if [ -n "$MS_SUBNET_MASK" ]; then
    sed -i "s/MS_SUBNET_MASK=.*/MS_SUBNET_MASK=$MS_SUBNET_MASK/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$MEDIASERVER_EXTERNAL_ADDRESS" ]; then
+   echo "MEDIASERVER_EXTERNAL_ADDRESS $MEDIASERVER_EXTERNAL_ADDRESS"
+   sed -i "s/MEDIASERVER_EXTERNAL_ADDRESS=.*/MEDIASERVER_EXTERNAL_ADDRESS=$MEDIASERVER_EXTERNAL_ADDRESS/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
 if [ -n "$RESTCOMM_LOGS" ]; then
   echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
   sed -i "s|BASEDIR=.*| |" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
