@@ -250,7 +250,7 @@ if [ -n "$SSL_MODE" ]; then
 fi
 
 if [ -n "$PORT_OFFSET" ]; then
-	sed -i "s|jboss.socket.binding.port-offset:0|jboss.socket.binding.port-offset:${PORT_OFFSET}|"  $BASEDIR/standalone/configuration/standalone-sip.xml
+	sed -i "s|\${jboss.socket.binding.port-offset:0\}|${PORT_OFFSET}|  $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
 
 if [  "${USE_STANDARD_HTTP_PORTS^^}" = "TRUE"  ]; then
