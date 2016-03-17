@@ -249,6 +249,10 @@ if [ -n "$SSL_MODE" ]; then
 	sed -i "s/SSL_MODE=.*/SSL_MODE='`echo $SSL_MODE`'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$PORT_OFFSET" ]; then
+	sed -i "s|jboss.socket.binding.port-offset:100|jboss.socket.binding.port-offset:10|"  $BASEDIR/standalone/configuration/standalone-sip.xml
+fi
+
 if [  "${USE_STANDARD_HTTP_PORTS^^}" = "TRUE"  ]; then
   echo "USE_STANDARD_HTTP_PORTS  $USE_STANDARD_HTTP_PORTS "
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/standalone-sip.xml

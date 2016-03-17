@@ -176,6 +176,7 @@ eval set -- "$TEMP"
 while true ; do
     case "$1" in
         -m )
+           echo "create DIR $LOGS_DIR_ZIP"
            mkdir -p $LOGS_DIR_ZIP
            set_info "$2"
            shift 2
