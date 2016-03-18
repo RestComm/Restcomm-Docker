@@ -14,7 +14,7 @@ echo "Will check for enviroment variable and configure restcomm.conf"
 
 
 if [  "${USESBC^^}" = "FALSE"  ] ; then
-  sed  -i 's|<property name="useSbc">.*</property>|<property name="useSbc">false</property>|' $BASEDIR/mms-server-beans.xml
+  sed -i 's|<property name="useSbc">true</property>|<property name="useSbc">false</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
 fi
 
 
