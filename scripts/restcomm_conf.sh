@@ -13,7 +13,7 @@ MMS_LOGS=$BASEDIR/mediaserver/log
 echo "Will check for enviroment variable and configure restcomm.conf"
 
 
-if [  "${USESB^^}" = "FALSE"  ] ; then
+if [  "${USESBC^^}" = "FALSE"  ] ; then
   sed  -i 's|<property name="useSbc">.*</property>|<property name="useSbc">false</property>|' $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
 
