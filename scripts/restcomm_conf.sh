@@ -9,7 +9,7 @@ source /etc/container_environment.sh
 BASEDIR=/opt/Restcomm-JBoss-AS7
 RESTCOMM_CORE_LOG=$BASEDIR/standalone/log
 MMS_LOGS=$BASEDIR/mediaserver/log
-
+TCPDUMPNET="eth0"
 echo "Will check for enviroment variable and configure restcomm.conf"
 
 
@@ -64,6 +64,7 @@ fi
 
 if [ -n "$NET_INTERFACE" ]; then
   echo "NET_INTERFACE $NET_INTERFACE"
+  TCPDUMPNET=$NET_INTERFACE
   sed -i "s/NET_INTERFACE=.*/NET_INTERFACE=${NET_INTERFACE}/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
@@ -348,7 +349,7 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
     echo "TCPDUMP  is running."
   else
     echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni eth0 -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+    nohup xargs bash -c "tcpdump -pni ${TCPDUMPNET} -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
   fi
 
 fi
