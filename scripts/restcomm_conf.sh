@@ -13,6 +13,12 @@ MMS_LOGS=$BASEDIR/mediaserver/log
 echo "Will check for enviroment variable and configure restcomm.conf"
 
 
+if [  "${USESB^^}" = "FALSE"  ] ; then
+  sed  -i 's|<property name="useSbc">.*</property>|<property name="useSbc">false</property>|' $BASEDIR/standalone/configuration/standalone-sip.xml
+fi
+
+
+
 if [ -n "$MS_COMPATIBILITY_MODE" ]; then
    echo "MS_COMPATIBILITY_MODE $MS_COMPATIBILITY_MODE"
    sed -i "s/MS_COMPATIBILITY_MODE=.*/MS_COMPATIBILITY_MODE=\'$MS_COMPATIBILITY_MODE\'/" $BASEDIR/bin/restcomm/restcomm.conf
