@@ -256,9 +256,7 @@ if [ -n "$SSL_MODE" ]; then
 	sed -i "s/SSL_MODE=.*/SSL_MODE='`echo $SSL_MODE`'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-if [ -n "$PORT_OFFSET" ]; then
-	sed -i "s|\${jboss.socket.binding.port-offset:0\}|${PORT_OFFSET}|"  $BASEDIR/standalone/configuration/standalone-sip.xml
-fi
+
 
 if [  "${USE_STANDARD_HTTP_PORTS^^}" = "TRUE"  ]; then
   echo "USE_STANDARD_HTTP_PORTS  $USE_STANDARD_HTTP_PORTS "
@@ -282,6 +280,28 @@ if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
   sed -i "s|:5080||"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
 fi
 
+
+if [ -n "$PORT_OFFSET" ]; then
+	sed -i "s|\${jboss.socket.binding.port-offset:0\}|${PORT_OFFSET}|"  $BASEDIR/standalone/configuration/standalone-sip.xml
+	if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+
+	    sip=$((5060 + $PORT_OFFSET))
+        tls=$((5061 + $PORT_OFFSET))
+         ws=$((5062 + $PORT_OFFSET))
+
+        sed -i "s|static-server-port=\\\\\"5060\\\\\"|static-server-port=\\\\\"${sip}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+        sed -i "s|static-server-port=\\\\\"5061\\\\\"|static-server-port=\\\\\"${tls}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+        sed -i "s|static-server-port=\\\\\"5062\\\\\"|static-server-port=\\\\\"${ws}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+	else
+        sip=$((5080 + $PORT_OFFSET))
+        tls=$((5081 + $PORT_OFFSET))
+        ws=$((5082 + $PORT_OFFSET))
+
+        sed -i "s|static-server-port=\\\\\"5080\\\\\"|static-server-port=\\\\\"${sip}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+        sed -i "s|static-server-port=\\\\\"5081\\\\\"|static-server-port=\\\\\"${tls}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+        sed -i "s|static-server-port=\\\\\"5082\\\\\"|static-server-port=\\\\\"${ws}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+	fi
+fi
 
 if [ -n "$RVD_LOCATION" ]; then
   echo "RVD_LOCATION $RVD_LOCATION"
