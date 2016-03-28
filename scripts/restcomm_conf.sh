@@ -308,7 +308,7 @@ else
   sed -i "s|<hostname>.*<\/hostname>|<hostname>`echo $STATIC_ADDRESS`<\/hostname>|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
  fi
 
-if [ -n "$PROD_MODE" ]; then
+if [ "${PROD_MODE^^}" = "TRUE" ]; then
     JBOSS_CONFIG=standalone
 
     echo "Update RestComm log level to WARN"
