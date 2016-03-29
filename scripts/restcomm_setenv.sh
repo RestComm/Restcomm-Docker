@@ -75,15 +75,11 @@ GENERIC_SMPP_PEER_PORT
 GENERIC_SMPP_SOURCE_MAP
 GENERIC_SMPP_DEST_MAP
 PROD_MODE
-INIT_PASSWORD"
-
+INIT_PASSWORD
+LOAD_BALANCERS"
 
 for variable in $vars  # Note: No quotes
 do
   jsonval $variable
 done
-
-
-
-
 
