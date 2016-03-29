@@ -46,9 +46,9 @@ chmod 777 $BASEDIR/tools/sip-balancer/lb-configuration.properties
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
 chmod +x /opt/embed/*.sh
-mkdir -p "$(RESTCOMM_LOGS)"/opt/
-cp /tmp/version "$(RESTCOMM_LOGS)"
-cp /opt/embed/dockercleanup.sh  "$(RESTCOMM_LOGS)"/opt/
-cp /opt/embed/restcomm_docker.sh  "$(RESTCOMM_LOGS)"/opt/
+mkdir -p "${RESTCOMM_LOGS}"/opt/
+cp /tmp/version "${RESTCOMM_LOGS}"
+cp /opt/embed/dockercleanup.sh  "${RESTCOMM_LOGS}"/opt/
+cp /opt/embed/restcomm_docker.sh  "${RESTCOMM_LOGS}"/opt/
 
 echo "RestComm configured Properly!"
