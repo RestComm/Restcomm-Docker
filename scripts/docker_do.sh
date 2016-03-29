@@ -93,6 +93,8 @@ if $zflag ; then
  dtar="-z"
 fi
 
+mkdir -p $LOGS_DIR_HOST
+
 tcpdump_logs
 docker_logs $1
 netstat_stats
@@ -293,7 +295,6 @@ else
     fi
 
     if $lflag ; then
-     sudo mkdir -p $LOGS_DIR_HOST
      collect_logs $container
     fi
 
