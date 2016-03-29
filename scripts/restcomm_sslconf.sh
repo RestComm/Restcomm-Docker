@@ -65,6 +65,13 @@ if [ -n "$SECURESSL" ]; then
 
       sed -i "s/DISABLE_HTTP=.*/DISABLE_HTTP='true'/" $BASEDIR/bin/restcomm/restcomm.conf
       sed -i "s/TRUSTSTORE_FILE=.*/TRUSTSTORE_FILE='$TRUSTSTORE_FILE_NAME'/" $BASEDIR/bin/restcomm/restcomm.conf
+
+      if [ -n "$RVD_PORT" ]; then
+            echo "RVD_PORT $RVD_PORT"
+            #If used means that port mapping (e.g: -p 445:443) is not the default (-p 443:443)
+            sed -i "s|<restcommBaseUrl>.*</restcommBaseUrl>|<restcommBaseUrl>https://${STATIC_ADDRESS}:${RVD_PORT}/</restcommBaseUrl>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
+      fi
+
       #Certificate setup (Authority certificate or self-signed)
       if [ "$SECURESSL" = "AUTH" ]; then
         keytool -importcert -alias $TRUSTSTORE_ALIAS -keystore $TRUSTSTORE_FILE -storepass $TRUSTSTORE_PASSWORD -file $BASEDIR/ca-authority.der -noprompt
@@ -110,10 +117,16 @@ if [ -n "$SECURESSL" ]; then
       \javax.net.ssl.trustStorePassword='"`echo $TRUSTSTORE_PASSWORD`"'\
       \javax.net.ssl.trustStore='"$TRUSTSTORE_FILE"'\
       \javax.net.ssl.keyStoreType=JKS' $BASEDIR/standalone/configuration/mss-sip-stack.properties
+   else
+       if [ -n "$RVD_PORT" ]; then
+            echo "RVD_PORT $RVD_PORT"
+            #If used means that port mapping (e.g: -p 85:80) is not the default (-p 80:80)
+            sed -i "s|<restcommBaseUrl>.*</restcommBaseUrl>|<restcommBaseUrl>http://${STATIC_ADDRESS}:${RVD_PORT}/</restcommBaseUrl>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
+      fi
    fi
 fi
 
 
-if [ -n "$USE_STANDARD_PORTS" ]; then
+if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ] ; then
   sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
 fi

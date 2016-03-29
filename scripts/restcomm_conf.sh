@@ -84,6 +84,11 @@ if [ -n "$SMS_PREFIX" ]; then
   sed -i "s/SMS_PREFIX=.*/SMS_PREFIX=`echo $SMS_PREFIX`/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$SMS_OUTBOUND_PROXY" ]; then
+  echo "SMS_OUTBOUND_PROXY:  $SMS_OUTBOUND_PROXY"
+  sed -i "s/SMS_OUTBOUND_PROXY=.*/SMS_OUTBOUND_PROXY=\'${SMS_OUTBOUND_PROXY}\'/"  $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
 if [ -n "$GENERIC_SMPP_TYPE" ]; then
   echo "Generic SMPP type $GENERIC_SMPP_TYPE"
   sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/smpp.conf
@@ -167,6 +172,25 @@ if [ -n "$S3_BUCKET_NAME" ]; then
 	}" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
 fi
 
+if [ -n "$INIT_PASSWORD" ]; then
+    # chnange admin password
+    SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/restcomm.script
+    PASSWORD_ENCRYPTED=`echo -n "${INIT_PASSWORD}" | md5sum |cut -d " " -f1`
+    echo "Update password to ${INIT_PASSWORD}($PASSWORD_ENCRYPTED)"
+    sed -i "s/uninitialized/active/g" $SQL_FILE
+    sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$PASSWORD_ENCRYPTED/g" $SQL_FILE
+    sed -i "s/2012-04-24 00:00:00.000000000/2016-02-17 10:00:00.575000000/" $SQL_FILE
+    sed -i "s/2012-04-24 00:00:00.000000000/2016-02-17 10:04:00.575000000/" $SQL_FILE
+
+    SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/scripts/mariadb/init.sql
+    sed -i "s/uninitialized/active/g" $SQL_FILE
+    sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$PASSWORD_ENCRYPTED/g" $SQL_FILE
+    sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
+    sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
+
+    # end 
+fi
+
 if [ -n "$HSQL_PERSIST" ]; then
   echo "HSQL_PERSIST $HSQL_PERSIST"
   mkdir -p $HSQL_PERSIST
@@ -209,7 +233,7 @@ if [ -n "$SSL_MODE" ]; then
 	sed -i "s/SSL_MODE=.*/SSL_MODE='`echo $SSL_MODE`'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-if [ -n "$USE_STANDARD_PORTS" ]; then
+if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ]; then
   echo "USE_STANDARD_PORTS $USE_STANDARD_PORTS"
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/mss-sip-stack.properties
@@ -238,7 +262,7 @@ if [ -n "$LOG_LEVEL" ]; then
 		N; s|<level name=\".*\"/>|<level name=\"`echo $LOG_LEVEL`\"/>|
 	}" $BASEDIR/standalone/configuration/standalone-sip.xml
     sed -i  "s|<param name=\"Threshold\" value=\"INFO\" />|<param name=\"Threshold\" value=\"`echo $LOG_LEVEL`\" />|"  $BASEDIR/mediaserver/conf/log4j.xml
-
+    sed -i  "s|<priority value=\"INFO\"/>|<priority value=\"${LOG_LEVEL}\"/>|"  $BASEDIR/mediaserver/conf/log4j.xml
 fi
 
 if [ -n "$CORE_LOGS_LOCATION" ]; then
@@ -303,3 +327,27 @@ else
   sed -i "s|<hostname>.*<\/hostname>|<hostname>`echo $STATIC_ADDRESS`<\/hostname>|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
  fi
 
+if [ "${PROD_MODE^^}" = "TRUE" ]; then
+    JBOSS_CONFIG=standalone
+
+    echo "Update RestComm log level to WARN"
+    sed -i 's/INFO/WARN/g' $BASEDIR/$JBOSS_CONFIG/configuration/standalone-sip.xml
+    sed -i 's/ERROR/WARN/g' $BASEDIR/$JBOSS_CONFIG/configuration/standalone-sip.xml
+    sed -i 's/DEBUG/WARN/g' $BASEDIR/$JBOSS_CONFIG/configuration/standalone-sip.xml
+
+    echo "Update RestComm JVM Heap size options"
+    sed -i 's/Xms64m/Xms2048m/g' $BASEDIR/bin/standalone.conf
+    sed -i 's/Xmx512m/Xmx8192m -Xmn512m -Dorg.jboss.resolver.warning=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:+CMSIncrementalPacing -XX:CMSIncrementalDutyCycle=100 -XX:CMSIncrementalDutyCycleMin=100 -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode/g' $BASEDIR/bin/standalone.conf
+    sed -i 's/XX:MaxPermSize=256m/XX:MaxPermSize=512m/g' $BASEDIR/bin/standalone.conf
+
+    echo "Update MMS JVM Heap size options"
+    sed -i 's/java.net.preferIPv4Stack=true/java.net.preferIPv4Stack=true -Xmx8192m -Xmn512m -XX:+CMSIncrementalPacing -XX:CMSIncrementalDutyCycle=100 -XX:CMSIncrementalDutyCycleMin=100 -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:MaxPermSize=512m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000/g' $BASEDIR/mediaserver/bin/run.sh
+
+    echo "Update MMS log level to WARN"
+    sed -i 's/INFO/WARN/g' $BASEDIR/mediaserver/conf/log4j.xml
+    sed -i 's/ERROR/WARN/g' $BASEDIR/mediaserver/conf/log4j.xml
+    sed -i 's/DEBUG/WARN/g' $BASEDIR/mediaserver/conf/log4j.xml
+
+    echo "Update AKKA log level to OFF"
+    sed -i 's/INFO/OFF/g' $BASEDIR/$JBOSS_CONFIG/deployments/restcomm.war/WEB-INF/classes/application.conf
+fi
