@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATE=$(date +%F_%H:%M)
+DATE=$(date +%F_%H_%M)
 DIR_NAME=restcomm_$DATE
 
 RESTCOMM_LOG_BASE=/var/log
@@ -66,7 +66,7 @@ if [ -d "$LOGS_DIR_HOST" ]; then
   return 0
  fi
    exit 1
-}
+}a
 
 system_logs () {
 if [ -d "$LOGS_DIR_HOST" ]; then
