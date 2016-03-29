@@ -66,7 +66,7 @@ if [ -d "$LOGS_DIR_HOST" ]; then
   return 0
  fi
    exit 1
-}a
+}
 
 system_logs () {
 if [ -d "$LOGS_DIR_HOST" ]; then
