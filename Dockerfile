@@ -28,7 +28,6 @@ ADD ./ca-startcom.der /opt/Restcomm-JBoss-AS7/ca-startcom.der
 ADD ./scripts/tcpdump_crontab /etc/cron.d/restcommtcpdump-cron
 ADD ./scripts/core_crontab /etc/cron.d/restcommcore-cron
 ADD ./scripts/mediaserver_crontab /etc/cron.d/restcommmediaserver-cron
-ADD ./scripts/logs_collect.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
 ADD ./scripts/dockercleanup.sh /opt/embed/dockercleanup.sh
 ADD ./scripts/docker_do.sh   /opt/embed/restcomm_docker.sh
 
