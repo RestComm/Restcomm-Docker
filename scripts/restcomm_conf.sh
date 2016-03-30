@@ -26,6 +26,46 @@ if [ -n "$RESTCOMM_LOGS" ]; then
   LOGS_TRACE=$LOGS_LOCATE
 fi
 
+if [ -n "$MS_COMPATIBILITY_MODE" ]; then
+  echo "MS_COMPATIBILITY_MODE $MS_COMPATIBILITY_MODE"
+  sed -i "s/MS_COMPATIBILITY_MODE=.*/MS_COMPATIBILITY_MODE=$MS_COMPATIBILITY_MODE/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MS_ADDRESS" ]; then
+  echo "MS_ADDRESS $MS_ADDRESS"
+  sed -i "s/MS_ADDRESS=.*/MS_ADDRESS=$MS_ADDRESS/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MS_SUBNET_MASK" ]; then
+  echo "MS_SUBNET_MASK $MS_SUBNET_MASK"
+  sed -i "s/MS_SUBNET_MASK=.*/MS_SUBNET_MASK=$MS_SUBNET_MASK/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MS_NETWORK" ]; then
+  echo "MS_NETWORK $MS_NETWORK"
+  sed -i "s/MS_NETWORK=.*/MS_NETWORK=$MS_NETWORK/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$TRUSTSTORE_ALIAS" ]; then
+  echo "TRUSTSTORE_ALIAS $TRUSTSTORE_ALIAS"
+  sed -i "s/TRUSTSTORE_ALIAS=.*/TRUSTSTORE_ALIAS=$TRUSTSTORE_ALIAS/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$TRUSTSTORE_PASSWORD" ]; then
+  echo "TRUSTSTORE_PASSWORD $TRUSTSTORE_PASSWORD"
+  sed -i "s/TRUSTSTORE_PASSWORD=.*/TRUSTSTORE_PASSWORD=$TRUSTSTORE_PASSWORD/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$SSL_MODE" ]; then
+  echo "SSL_MODE $SSL_MODE"
+  sed -i "s/SSL_MODE=.*/SSL_MODE=$SSL_MODE/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$SECURESSL" ]; then
+  echo "SECURESSL $SECURESSL"
+  sed -i "s/SECURESSL=.*/SECURESSL=$SECURESSL/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
 if [ -n "$STATIC_ADDRESS" ]; then
   echo "STATIC_ADDRESS $STATIC_ADDRESS"
   sed -i "s/STATIC_ADDRESS=.*/STATIC_ADDRESS=`echo $STATIC_ADDRESS`/" $BASEDIR/bin/restcomm/restcomm.conf
@@ -170,25 +210,6 @@ if [ -n "$S3_BUCKET_NAME" ]; then
 		N; s|<access-key>.*</access-key>|<access-key>`echo $S3_ACCESS_KEY`</access-key>|
 		N; s|<security-key>.*</security-key>|<security-key>`echo $S3_SECURITY_KEY`</security-key>|
 	}" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
-fi
-
-if [ -n "$INIT_PASSWORD" ]; then
-    # chnange admin password
-    SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/restcomm.script
-    PASSWORD_ENCRYPTED=`echo -n "${INIT_PASSWORD}" | md5sum |cut -d " " -f1`
-    echo "Update password to ${INIT_PASSWORD}($PASSWORD_ENCRYPTED)"
-    sed -i "s/uninitialized/active/g" $SQL_FILE
-    sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$PASSWORD_ENCRYPTED/g" $SQL_FILE
-    sed -i "s/2012-04-24 00:00:00.000000000/2016-02-17 10:00:00.575000000/" $SQL_FILE
-    sed -i "s/2012-04-24 00:00:00.000000000/2016-02-17 10:04:00.575000000/" $SQL_FILE
-
-    SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/scripts/mariadb/init.sql
-    sed -i "s/uninitialized/active/g" $SQL_FILE
-    sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$PASSWORD_ENCRYPTED/g" $SQL_FILE
-    sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
-    sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
-
-    # end 
 fi
 
 if [ -n "$HSQL_PERSIST" ]; then
