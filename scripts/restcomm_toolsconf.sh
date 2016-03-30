@@ -57,17 +57,7 @@ grep -q 'jboss.bind.address.management' $BASEDIR/bin/restcomm/start-restcomm.sh 
 
 
 wget --auth-no-challenge -qc https://raw.githubusercontent.com/RestComm/RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/mms-server-beans.xml -P $BASEDIR
-wget --auth-no-challenge -qc https://raw.githubusercontent.com/RestComm/RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/config-scripts/as7-config-scripts/restcomm/autoconfig.d/dont-config-mobicents-ms.sh -P $BASEDIR
 cp -rf $BASEDIR/mms-server-beans.xml $BASEDIR/mediaserver/deploy/server-beans.xml
-#need to add to remove media server log reconfigure (at the future we remove this file)
-sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/dont-config-mobicents-ms.sh
-sed -i 's/configUdpManager*/#configUdpManager/' $BASEDIR/dont-config-mobicents-ms.sh
-#cp -rf $BASEDIR/dont-config-mobicents-ms.sh $BASEDIR/bin/restcomm/autoconfig.d/dont-config-mobicents-ms.sh
-rm -rf $BASEDIR/dont-config-mobicents-ms.sh
-
-#Load balancer
-chmod 777 $BASEDIR/tools/sip-balancer/lb-log4j.xml
-chmod 777 $BASEDIR/tools/sip-balancer/lb-configuration.properties
 
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
