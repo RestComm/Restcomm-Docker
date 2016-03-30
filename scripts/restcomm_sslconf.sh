@@ -110,7 +110,7 @@ if [ -n "$SECURESSL" ]; then
             sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"`echo $STATIC_ADDRESS`\" static-server-port=\"5063\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
         else
         echo "lefty1 NOT Entered USE_STANDARD_PORTS 5083"
-            sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"`echo $STATIC_ADDRESS`\" static-server-port=\"5083\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
+            sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"`echo $STATIC_ADDRESS`\" static-server-port=\"5063\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
         fi
       fi
       grep -q 'binding name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/binding name=\"sip-ws\".*/ a \
@@ -134,7 +134,7 @@ fi
 
 
 if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ] ; then
-echo "lefty1 NOT Entered USE_STANDARD_PORTS 5083 to 5063"
+echo "lefty1 NOT Entered USE_STANDARD_PORTS 5083 too "
   sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
