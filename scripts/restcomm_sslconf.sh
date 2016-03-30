@@ -104,15 +104,6 @@ if [ -n "$SECURESSL" ]; then
       grep -q 'connector name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/connector name=\"sip-ws\".*/ a \
         \ <connector name="sip-wss" protocol="SIP/2.0" scheme="sip" socket-binding="sip-wss"/>
         ' $BASEDIR/standalone/configuration/standalone-sip.xml
-      if [ -n "$STATIC_ADDRESS" ]; then
-        if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ] ; then
-        echo "lefty1 Entered USE_STANDARD_PORTS 5063"
-            sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"`echo $STATIC_ADDRESS`\" static-server-port=\"5063\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
-        else
-        echo "lefty1 NOT Entered USE_STANDARD_PORTS 5083"
-            sed -i "s|<connector name=\"sip-wss\" .*/>|<connector name=\"sip-wss\" protocol=\"SIP/2.0\" scheme=\"sip\" socket-binding=\"sip-wss\" use-static-address=\"true\" static-server-address=\"`echo $STATIC_ADDRESS`\" static-server-port=\"5063\"/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
-        fi
-      fi
       grep -q 'binding name="sip-wss"' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i '/binding name=\"sip-ws\".*/ a \
         \<socket-binding name="sip-wss" port="5083"/>' $BASEDIR/standalone/configuration/standalone-sip.xml
        grep -q 'gov.nist.javax.sip.TLS_CLIENT_AUTH_TYPE=Disabled' $BASEDIR/standalone/configuration/mss-sip-stack.properties ||
@@ -135,6 +126,6 @@ fi
 
 if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ] ; then
 echo "lefty1 NOT Entered USE_STANDARD_PORTS 5083 too "
-  sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
+  sed -i "s|5083|5063|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
   sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
