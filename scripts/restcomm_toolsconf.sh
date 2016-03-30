@@ -15,10 +15,35 @@ if [ -n "$SECURESSL" ]; then
   sed -i "s|5082|5083|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
 fi
 
-if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ]; then
-  sed -i "s|5082|5062|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
-  sed -i "s|5083|5063|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+  if [ -n "$SECURESSL" ]; then
+    sed -i "s|5083|5063|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+  else
+    sed -i "s|5082|5062|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+   fi
 fi
+
+if [ -n "$PORT_OFFSET" ]; then
+   if [ -n "$SECURESSL" ]; then
+      if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+          wss=$((5063 + $PORT_OFFSET))
+          sed -i "s|5063|${wss}|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+      else
+          wss=$((5083 + $PORT_OFFSET))
+          sed -i "s|5083|${wss}|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+      fi
+    else
+       if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+          wss=$((5062 + $PORT_OFFSET))
+          sed -i "s|5062|${wss}|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+      else
+          wss=$((5082 + $PORT_OFFSET))
+          sed -i "s|5082|${wss}|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+      fi
+    fi
+
+fi
+
 
 grep -q 'gather-statistics' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i "s|congestion-control-interval=\".*\"|& gather-statistics=\"true\"|" $BASEDIR/standalone/configuration/standalone-sip.xml
 
@@ -36,8 +61,9 @@ wget --auth-no-challenge -qc https://raw.githubusercontent.com/RestComm/RestComm
 cp -rf $BASEDIR/mms-server-beans.xml $BASEDIR/mediaserver/deploy/server-beans.xml
 #need to add to remove media server log reconfigure (at the future we remove this file)
 sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/dont-config-mobicents-ms.sh
-cp -rf $BASEDIR/dont-config-mobicents-ms.sh $BASEDIR/bin/restcomm/autoconfig.d/dont-config-mobicents-ms.sh
-
+sed -i 's/configUdpManager*/#configUdpManager/' $BASEDIR/dont-config-mobicents-ms.sh
+#cp -rf $BASEDIR/dont-config-mobicents-ms.sh $BASEDIR/bin/restcomm/autoconfig.d/dont-config-mobicents-ms.sh
+rm -rf $BASEDIR/dont-config-mobicents-ms.sh
 
 #Load balancer
 chmod 777 $BASEDIR/tools/sip-balancer/lb-log4j.xml

@@ -9,7 +9,7 @@ source /etc/container_environment.sh
 BASEDIR=/opt/Restcomm-JBoss-AS7
 RESTCOMM_CORE_LOG=$BASEDIR/standalone/log
 MMS_LOGS=$BASEDIR/mediaserver/log
-
+TCPDUMPNET="eth0"
 echo "Will check for enviroment variable and configure restcomm.conf"
 
 
@@ -29,6 +29,12 @@ fi
 if [ -n "$STATIC_ADDRESS" ]; then
   echo "STATIC_ADDRESS $STATIC_ADDRESS"
   sed -i "s/STATIC_ADDRESS=.*/STATIC_ADDRESS=`echo $STATIC_ADDRESS`/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$NET_INTERFACE" ]; then
+  echo "NET_INTERFACE $NET_INTERFACE"
+  TCPDUMPNET=$NET_INTERFACE
+  sed -i "s/NET_INTERFACE=.*/NET_INTERFACE=${NET_INTERFACE}/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$OUTBOUND_PROXY" ]; then
@@ -218,6 +224,11 @@ if [ -n "$MYSQL_USER" ]; then
   grep -q 'MYSQL_HOST=' $BASEDIR/bin/restcomm/restcomm.conf || echo "MYSQL_HOST=`echo $MYSQL_HOST`" >> $BASEDIR/bin/restcomm/restcomm.conf
   grep -q 'MYSQL_USER=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_USER=`echo $MYSQL_USER`" >> $BASEDIR/bin/restcomm/restcomm.conf
   grep -q 'MYSQL_PASSWORD=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_PASSWORD=`echo $MYSQL_PASSWORD`" >> $BASEDIR/bin/restcomm/restcomm.conf
+
+ if [ -n "$MYSQL_SNDHOST" ]; then
+     echo "MYSQL_SNDHOST=${MYSQL_SNDHOST}" >> $BASEDIR/bin/restcomm/restcomm.conf
+ fi
+
   if [ -n "$MYSQL_SCHEMA" ]; then
 	grep -q 'MYSQL_SCHEMA=' $BASEDIR/bin/restcomm/restcomm.conf || echo "MYSQL_SCHEMA=`echo $MYSQL_SCHEMA`" >> $BASEDIR/bin/restcomm/restcomm.conf
   else
@@ -233,13 +244,21 @@ if [ -n "$SSL_MODE" ]; then
 	sed -i "s/SSL_MODE=.*/SSL_MODE='`echo $SSL_MODE`'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ]; then
-  echo "USE_STANDARD_PORTS $USE_STANDARD_PORTS"
+
+
+if [  "${USE_STANDARD_HTTP_PORTS^^}" = "TRUE"  ]; then
+  echo "USE_STANDARD_HTTP_PORTS  $USE_STANDARD_HTTP_PORTS "
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|8443|443|"  $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|8443|443|"  $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|:8080||"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
+fi
+
+
+
+if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+  echo "USE_STANDARD_SIP_PORTS $USE_STANDARD_SIP_PORTS"
   sed -i "s|5080|5060|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5081|5061|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5082|5062|" $BASEDIR/standalone/configuration/standalone-sip.xml
@@ -247,6 +266,29 @@ if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ]; then
   sed -i "s|5081|5061|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
   sed -i "s|5082|5062|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
   sed -i "s|:5080||"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
+fi
+
+
+if [ -n "$PORT_OFFSET" ]; then
+	sed -i "s|\${jboss.socket.binding.port-offset:0\}|${PORT_OFFSET}|"  $BASEDIR/standalone/configuration/standalone-sip.xml
+	if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+
+	    sip=$((5060 + $PORT_OFFSET))
+        tls=$((5061 + $PORT_OFFSET))
+         ws=$((5062 + $PORT_OFFSET))
+
+        sed -i "s|static-server-port=\\\\\"5060\\\\\"|static-server-port=\\\\\"${sip}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+        sed -i "s|static-server-port=\\\\\"5061\\\\\"|static-server-port=\\\\\"${tls}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+        sed -i "s|static-server-port=\\\\\"5062\\\\\"|static-server-port=\\\\\"${ws}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+	else
+        sip=$((5080 + $PORT_OFFSET))
+        tls=$((5081 + $PORT_OFFSET))
+        ws=$((5082 + $PORT_OFFSET))
+
+        sed -i "s|static-server-port=\\\\\"5080\\\\\"|static-server-port=\\\\\"${sip}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+        sed -i "s|static-server-port=\\\\\"5081\\\\\"|static-server-port=\\\\\"${tls}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+        sed -i "s|static-server-port=\\\\\"5082\\\\\"|static-server-port=\\\\\"${ws}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
+	fi
 fi
 
 if [ -n "$RVD_LOCATION" ]; then
@@ -315,7 +357,7 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
     echo "TCPDUMP  is running."
   else
     echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni eth0 -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+    nohup xargs bash -c "tcpdump -pni ${TCPDUMPNET} -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
   fi
 
 fi
