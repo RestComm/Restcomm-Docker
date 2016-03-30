@@ -15,7 +15,7 @@ if [ -n "$SECURESSL" ]; then
   sed -i "s|5082|5083|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
 fi
 
-if [  "${USE_STANDARD_PORT^^}" = "TRUE"  ]; then
+if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ]; then
   sed -i "s|5082|5062|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
   sed -i "s|5083|5063|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
 fi
