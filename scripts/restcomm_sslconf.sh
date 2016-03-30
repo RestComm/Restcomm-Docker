@@ -133,4 +133,5 @@ fi
 
 if [  "${USE_STANDARD_PORTS^^}" = "TRUE"  ] ; then
   sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
+  sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
