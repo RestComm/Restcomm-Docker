@@ -83,7 +83,8 @@ MS_SUBNET_MASK
 MS_NETWORK
 MEDIASERVER_EXTERNAL_ADDRESS
 PORT_OFFSET
-USESBC"
+USESBC
+dtmfDbi"
 
 
 for variable in $vars  # Note: No quotes
