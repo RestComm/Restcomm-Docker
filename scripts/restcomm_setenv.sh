@@ -86,7 +86,7 @@ PORT_OFFSET
 USESBC
 PROD_MODE
 INIT_PASSWORD
-dtmfDbi"
+$DTMFDBI"
 
 
 for variable in $vars  # Note: No quotes

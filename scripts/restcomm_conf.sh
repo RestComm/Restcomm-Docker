@@ -17,8 +17,8 @@ if [  "${USESBC^^}" = "FALSE"  ] ; then
   sed -i 's|<property name="useSbc">true</property>|<property name="useSbc">false</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
 fi
 
-if [  -n "$dtmfDbi" ] ; then
-  sed -i 's|<property name="dtmfDetectorDbi">.*</property>|<property name="dtmfDetectorDbi">${dtmfDbi}</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
+if [  -n "$DTMFDBI" ] ; then
+  sed -i 's|<property name="dtmfDetectorDbi">.*</property>|<property name="dtmfDetectorDbi">${DTMFDBI}</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
 fi
 
 
