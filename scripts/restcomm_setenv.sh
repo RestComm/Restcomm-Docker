@@ -85,7 +85,8 @@ MEDIASERVER_EXTERNAL_ADDRESS
 PORT_OFFSET
 USESBC
 PROD_MODE
-INIT_PASSWORD"
+INIT_PASSWORD
+dtmfDbi"
 
 
 for variable in $vars  # Note: No quotes

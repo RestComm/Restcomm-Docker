@@ -13,6 +13,15 @@ TCPDUMPNET="eth0"
 echo "Will check for enviroment variable and configure restcomm.conf"
 
 
+if [  "${USESBC^^}" = "FALSE"  ] ; then
+  sed -i 's|<property name="useSbc">true</property>|<property name="useSbc">false</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
+fi
+
+if [  -n "$dtmfDbi" ] ; then
+  sed -i 's|<property name="dtmfDetectorDbi">.*</property>|<property name="dtmfDetectorDbi">${dtmfDbi}</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
+fi
+
+
 if [ -n "$RESTCOMM_LOGS" ]; then
   echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
   sed -i "s|BASEDIR=.*| |" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
