@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: restcomm-core-controller
+spec:
+  replicas: 1
+  selector:
+    app: restcomm-core
+  template:
+    metadata:
+      labels:
+        app: restcomm-core 
+    spec:
+      containers:
+      - name: restcomm-core
+        image: restcomm/restcomm
+        ports:
+          - name: http
+            containerPort: 80  
+            protocol: TCP
+          - name: https
+            containerPort: 443
+            protocol: TCP
+          - name: tcp9990
+            containerPort: 9990
+            protocol: TCP
+          - name: sip-tcp
+            containerPort: 5060
+            protocol: TCP
+          - name: sip-udp
+            containerPort: 5060
+            protocol: UDP
+          - name: sip-tls
+            containerPort: 5061
+            protocol: TCP
+          - name: sip-ws
+            containerPort: 5062
+            protocol: TCP 
+          - name: sip-wss
+            containerPort: 5063
+            protocol: TCP
+          - name: rtp0
+            containerPort: 65000
+            protocol: UDP
+          - name: rtp1
+            containerPort: 65001
+            protocol: UDP
+          - name: rtp2
+            containerPort: 65002
+            protocol: UDP
+          - name: rtp3
+            containerPort: 65003
+            protocol: UDP
+          - name: rtp4
+            containerPort: 65004
+            protocol: UDP
+        env:
+          - name: ENVCONFURL
+            value: https://raw.githubusercontent.com/RestComm/Restcomm-Docker/master/scripts/restcomm_env_locally.sh
+          - name: STATIC_ADDRESS
+            value: 192.168.0.71
+          - name: MEDIASERVER_LOWEST_PORT
+            value: "65000"
+          - name: MEDIASERVER_HIGHEST_PORT
+            value: "65004"
