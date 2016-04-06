@@ -21,6 +21,30 @@ if [  -n "$DTMFDBI" ] ; then
   sed -i "s|<property name=\"dtmfDetectorDbi\">0</property>|<property name=\"dtmfDetectorDbi\">${DTMFDBI}</property>|" $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
 fi
 
+if [ -n "$MS_COMPATIBILITY_MODE" ]; then
+   echo "MS_COMPATIBILITY_MODE $MS_COMPATIBILITY_MODE"
+   sed -i "s/MS_COMPATIBILITY_MODE=.*/MS_COMPATIBILITY_MODE=\'$MS_COMPATIBILITY_MODE\'/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MS_ADDRESS" ]; then
+   echo "MS_ADDRESS $MS_ADDRESS"
+   sed -i "s/MS_ADDRESS=.*/MS_ADDRESS=$MS_ADDRESS/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MS_NETWORK" ]; then
+   echo "MS_NETWORK $MS_NETWORK"
+   sed -i "s/MS_NETWORK=.*/MS_NETWORK=$MS_NETWORK/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MS_SUBNET_MASK" ]; then
+   echo "MS_SUBNET_MASK $MS_SUBNET_MASK"
+   sed -i "s/MS_SUBNET_MASK=.*/MS_SUBNET_MASK=$MS_SUBNET_MASK/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$MEDIASERVER_EXTERNAL_ADDRESS" ]; then
+   echo "MEDIASERVER_EXTERNAL_ADDRESS $MEDIASERVER_EXTERNAL_ADDRESS"
+   sed -i "s/MEDIASERVER_EXTERNAL_ADDRESS=.*/MEDIASERVER_EXTERNAL_ADDRESS=$MEDIASERVER_EXTERNAL_ADDRESS/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
 
 if [ -n "$RESTCOMM_LOGS" ]; then
   echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
