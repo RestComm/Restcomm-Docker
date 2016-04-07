@@ -130,23 +130,23 @@ fi
 
 if [ -n "$GENERIC_SMPP_TYPE" ]; then
   echo "Generic SMPP type $GENERIC_SMPP_TYPE"
-  sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_SYSTEM_ID=.*/SMPP_SYSTEM_ID="`echo $GENERIC_SMPP_ID`"/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_PASSWORD=.*/SMPP_PASSWORD="`echo $GENERIC_SMPP_PASSWORD`"/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_SYSTEM_TYPE=.*/SMPP_SYSTEM_TYPE="`echo $GENERIC_SMPP_TYPE`"/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_PEER_IP=.*/SMPP_PEER_IP="`echo $GENERIC_SMPP_PEER_IP`"/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_PEER_PORT=.*/SMPP_PEER_PORT="`echo $GENERIC_SMPP_PEER_PORT`"/" $BASEDIR/bin/restcomm/smpp.conf
+  sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_SYSTEM_ID=.*/SMPP_SYSTEM_ID="`echo $GENERIC_SMPP_ID`"/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_PASSWORD=.*/SMPP_PASSWORD="`echo $GENERIC_SMPP_PASSWORD`"/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_SYSTEM_TYPE=.*/SMPP_SYSTEM_TYPE="`echo $GENERIC_SMPP_TYPE`"/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_PEER_IP=.*/SMPP_PEER_IP="`echo $GENERIC_SMPP_PEER_IP`"/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_PEER_PORT=.*/SMPP_PEER_PORT="`echo $GENERIC_SMPP_PEER_PORT`"/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s|<connection activateAddressMapping=\"false\" sourceAddressMap=\"\" destinationAddressMap=\"\" tonNpiValue=\"1\">|<connection activateAddressMapping=\"false\" sourceAddressMap=\""`echo $GENERIC_SMPP_SOURCE_MAP`"\" destinationAddressMap=\""`echo $GENERIC_SMPP_DEST_MAP`"\" tonNpiValue=\"1\">|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
 fi
 
 if [ -n "$NEXMO_SMPP_TYPE" ]; then
   echo "NEXMO_SMPP_TYPE $NEXMO_SMPP_TYPE"
-  sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_SYSTEM_ID=.*/SMPP_SYSTEM_ID='`echo $DID_LOGIN`'/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_PASSWORD=.*/SMPP_PASSWORD='`echo $DID_PASSWORD`'/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_SYSTEM_TYPE=.*/SMPP_SYSTEM_TYPE='`echo $NEXMO_SMPP_TYPE`'/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_PEER_IP=.*/SMPP_PEER_IP='smpp0.nexmo.com'/" $BASEDIR/bin/restcomm/smpp.conf
-  sed -i "s/SMPP_PEER_PORT=.*/SMPP_PEER_PORT='8000'/" $BASEDIR/bin/restcomm/smpp.conf
+  sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_SYSTEM_ID=.*/SMPP_SYSTEM_ID='`echo $DID_LOGIN`'/" $BASEDIR/bin/restcomm.conf
+  sed -i "s/SMPP_PASSWORD=.*/SMPP_PASSWORD='`echo $DID_PASSWORD`'/" $BASEDIR/bin/restcomm.conf
+  sed -i "s/SMPP_SYSTEM_TYPE=.*/SMPP_SYSTEM_TYPE='`echo $NEXMO_SMPP_TYPE`'/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_PEER_IP=.*/SMPP_PEER_IP='smpp0.nexmo.com'/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_PEER_PORT=.*/SMPP_PEER_PORT='8000'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s|<connection activateAddressMapping=\"false\" sourceAddressMap=\"\" destinationAddressMap=\"\" tonNpiValue=\"1\">|<connection activateAddressMapping=\"false\" sourceAddressMap=\"6666\" destinationAddressMap=\"7777\" tonNpiValue=\"1\">|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
 fi
 
