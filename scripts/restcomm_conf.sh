@@ -142,8 +142,8 @@ fi
 if [ -n "$NEXMO_SMPP_TYPE" ]; then
   echo "NEXMO_SMPP_TYPE $NEXMO_SMPP_TYPE"
   sed -i "s/SMPP_ACTIVATE=.*/SMPP_ACTIVATE='true'/" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s/SMPP_SYSTEM_ID=.*/SMPP_SYSTEM_ID='`echo $DID_LOGIN`'/" $BASEDIR/bin/restcomm.conf
-  sed -i "s/SMPP_PASSWORD=.*/SMPP_PASSWORD='`echo $DID_PASSWORD`'/" $BASEDIR/bin/restcomm.conf
+  sed -i "s/SMPP_SYSTEM_ID=.*/SMPP_SYSTEM_ID='`echo $DID_LOGIN`'/" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s/SMPP_PASSWORD=.*/SMPP_PASSWORD='`echo $DID_PASSWORD`'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s/SMPP_SYSTEM_TYPE=.*/SMPP_SYSTEM_TYPE='`echo $NEXMO_SMPP_TYPE`'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s/SMPP_PEER_IP=.*/SMPP_PEER_IP='smpp0.nexmo.com'/" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s/SMPP_PEER_PORT=.*/SMPP_PEER_PORT='8000'/" $BASEDIR/bin/restcomm/restcomm.conf
