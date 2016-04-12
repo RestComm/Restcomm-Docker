@@ -443,3 +443,17 @@ if [ "${PROD_MODE^^}" = "TRUE" ]; then
     echo "Update AKKA log level to OFF"
     sed -i 's/INFO/OFF/g' $BASEDIR/$JBOSS_CONFIG/deployments/restcomm.war/WEB-INF/classes/application.conf
 fi
+
+if [ -n "$JAVA_OPTS_EXTRA" ]; then
+    echo "Add extra java options: $JAVA_OPTS_EXTRA"
+
+    # patch restcomm java opts
+    grep 'JAVA_OPTS="$JAVA_OPTS_EXTRA $JAVA_OPTS"' $BASEDIR/bin/standalone.conf || 
+    echo 'JAVA_OPTS="$JAVA_OPTS_EXTRA $JAVA_OPTS"' >> $BASEDIR/bin/standalone.conf
+
+    # patch mediaserver java opts
+    grep 'JAVA_OPTS="$JAVA_OPTS_EXTRA $JAVA_OPTS"' $BASEDIR/mediaserver/bin/run.sh ||
+    sed -i -e '/# Setup MMS specific properties/ {
+        N; /JAVA_OPTS=.*/a JAVA_OPTS="$JAVA_OPTS_EXTRA $JAVA_OPTS"
+    }' $BASEDIR/mediaserver/bin/run.sh
+fi
