@@ -56,8 +56,8 @@ grep -q 'org.mobicents.ext.javax.sip.congestion.SIP_SCANNERS.*' $BASEDIR/standal
 grep -q 'jboss.bind.address.management' $BASEDIR/bin/restcomm/start-restcomm.sh || sed -i 's|RESTCOMM_HOME/bin/standalone.sh -b .*|RESTCOMM_HOME/bin/standalone.sh -b $bind_address -Djboss.bind.address.management=$bind_address|' $BASEDIR/bin/restcomm/start-restcomm.sh
 
 
-wget --auth-no-challenge -qc https://raw.githubusercontent.com/RestComm/RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/mms-server-beans.xml -P $BASEDIR
-cp -rf $BASEDIR/mms-server-beans.xml $BASEDIR/mediaserver/deploy/server-beans.xml
+#wget --auth-no-challenge -qc https://raw.githubusercontent.com/RestComm/RestComm/0dfe74423b2099a87a54ebc576b6568c596016fd/restcomm/configuration/mms-server-beans.xml -P $BASEDIR
+#cp -rf $BASEDIR/mms-server-beans.xml $BASEDIR/mediaserver/deploy/server-beans.xml
 
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
