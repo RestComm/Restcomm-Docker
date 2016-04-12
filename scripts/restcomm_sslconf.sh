@@ -133,10 +133,8 @@ if [ -n "$PORT_OFFSET" ]; then
     if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
         wss=$((5063 + $PORT_OFFSET))
          sed -i "s|5063|${wss}|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-         sed -i "s|5063|${wss}|" $BASEDIR/standalone/configuration/standalone-sip.xml
     else
         wss=$((5083 + $PORT_OFFSET))
          sed -i "s|5083|${wss}|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-         sed -i "s|5083|${wss}|" $BASEDIR/standalone/configuration/standalone-sip.xml
     fi
 fi
