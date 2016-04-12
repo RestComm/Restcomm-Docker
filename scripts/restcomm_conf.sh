@@ -326,6 +326,7 @@ if [ -n "$PORT_OFFSET" ]; then
 	sed -i "s|2727|${localMGCP}|"    $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
 	remoteMGCP=$((2427 + $PORT_OFFSET))
 	sed -i "s|2427|${remoteMGCP}|"    $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+	sed -i "s|2427|${remoteMGCP}|"    $BASEDIR/mediaserver/deploy/server-beans.xml
 fi
 
 if [ -n "$RVD_LOCATION" ]; then
