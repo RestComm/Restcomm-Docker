@@ -322,6 +322,8 @@ if [ -n "$PORT_OFFSET" ]; then
         sed -i "s|static-server-port=\\\\\"5081\\\\\"|static-server-port=\\\\\"${tls}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
         sed -i "s|static-server-port=\\\\\"5082\\\\\"|static-server-port=\\\\\"${ws}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
 	fi
+	MGCP=$((2427 + $PORT_OFFSET))
+	 sed -i "s|2427|${MGCP}|"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
 fi
 
 if [ -n "$RVD_LOCATION" ]; then
