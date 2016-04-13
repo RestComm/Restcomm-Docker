@@ -16,10 +16,12 @@ RUN add-apt-repository ppa:webupd8team/java -y
 RUN apt-cache search mysql-client-core
 RUN apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-installer mysql-client-core-5.6 openssl unzip nfs-common tcpdump && apt-get autoremove && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
-#RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt | cat`.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ /opt/Restcomm-JBoss-AS7/
-RUN wget -qc  https://mobicents.ci.cloudbees.com/job/RestComm/836/artifact/Restcomm-JBoss-AS7-`wget -qO- https://mobicents.ci.cloudbees.com/job/RestComm/836/artifact/restcomm-version.txt | cat`.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ /opt/Restcomm-JBoss-AS7/
+# download restcomm
+ENV install_dir /opt/Restcomm-JBoss-AS7
+RUN wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt -O version.txt
+RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`cat version.txt`.zip -O Restcomm-JBoss-AS7.zip && unzip Restcomm-JBoss-AS7.zip -d /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && mv version.txt ${install_dir} && rm Restcomm-JBoss-AS7.zip
 
-RUN wget -qO- https://mobicents.ci.cloudbees.com/job/RestComm/836/artifact/restcomm-version.txt | cat > /tmp/version
+RUN cp ${install_dir}/version.txt /tmp/version
 
 RUN mkdir -p /opt/embed/
 
