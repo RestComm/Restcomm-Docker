@@ -44,7 +44,7 @@ if [  "${ACTIVATE_LB^^}" = "TRUE"  ] && [ -n "$LB_ADDRESS" ]; then
 
     if [ -n "$LB_SIP_PORT_WSS" ]; then
         echo "LB_SIP_PORT_WSS $LB_SIP_PORT_WSS"
-        sed -i "s/LB_SIP_PORT_WSS=.*/LB_SIP_PORT_WSS='{$LB_SIP_PORT_WSS}'/" $BASEDIR/bin/restcomm/restcomm.conf
+        sed -i "s/LB_SIP_PORT_WSS=.*/LB_SIP_PORT_WSS='${LB_SIP_PORT_WSS}'/" $BASEDIR/bin/restcomm/restcomm.conf
     fi
 fi
 
@@ -326,7 +326,7 @@ fi
 
 
 
-if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]&& [  "${ACTIVATE_LB^^}" = "FALSE"  ]; then
   echo "USE_STANDARD_SIP_PORTS $USE_STANDARD_SIP_PORTS"
   sed -i "s|5080|5060|" $BASEDIR/standalone/configuration/standalone-sip.xml
   sed -i "s|5081|5061|" $BASEDIR/standalone/configuration/standalone-sip.xml
@@ -338,7 +338,7 @@ if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
 fi
 
 
-if [ -n "$PORT_OFFSET" ]; then
+if [ -n "$PORT_OFFSET" ] && [  "${ACTIVATE_LB^^}" = "FALSE"  ] ; then
 	sed -i "s|\${jboss.socket.binding.port-offset:0\}|${PORT_OFFSET}|"  $BASEDIR/standalone/configuration/standalone-sip.xml
 	if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
 

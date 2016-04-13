@@ -9,13 +9,20 @@ unzip $BASEDIR/standalone/deployments/olympus.war -d $BASEDIR/standalone/deploym
 rm -f $BASEDIR/standalone/deployments/olympus.war
 mv -f $BASEDIR/standalone/deployments/olympus-exploded.war $BASEDIR/standalone/deployments/olympus.war
 
+if [  "${ACTIVATE_LB^^}" = "TRUE"  ]; then
+ if [ -n "$LB_SIP_PORT_WSS" ]; then
+        echo "LB_SIP_PORT_WSS standalone.conf $LB_SIP_PORT_WSS"
+        sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+        sed -i "s|5082|${LB_SIP_PORT_WSS}|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
+  fi
+fi
 
-if [ -n "$SECURESSL" ]; then
+if [ -n "$SECURESSL" ]&& [  "${ACTIVATE_LB^^}" = "FALSE"  ]; then
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
   sed -i "s|5082|5083|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
 fi
 
-if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]&& [  "${ACTIVATE_LB^^}" = "FALSE"  ]; then
   if [ -n "$SECURESSL" ]; then
     sed -i "s|5083|5063|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
   else
@@ -23,7 +30,7 @@ if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
    fi
 fi
 
-if [ -n "$PORT_OFFSET" ]; then
+if [ -n "$PORT_OFFSET" ]&& [  "${ACTIVATE_LB^^}" = "FALSE"  ]; then
    if [ -n "$SECURESSL" ]; then
       if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
           wss=$((5063 + $PORT_OFFSET))
