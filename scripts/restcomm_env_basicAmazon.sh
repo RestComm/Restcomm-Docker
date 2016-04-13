@@ -16,7 +16,8 @@ echo -e "restcomm" > /etc/container_environment/TRUSTSTORE_ALIAS
 
 
 #Functional configuration.
-echo -e "TRUE" > /etc/container_environment/USE_STANDARD_PORTS
+echo -e "TRUE" > /etc/container_environment/USE_STANDARD_HTTP_PORTS
+echo -e "TRUE" > /etc/container_environment/USE_STANDARD_SIP_PORTS
 echo -e "65000" > /etc/container_environment/MEDIASERVER_LOWEST_PORT
 echo -e "65050" > /etc/container_environment/MEDIASERVER_HIGHEST_PORT
 

@@ -19,7 +19,8 @@ echo -e "allowall" > /etc/container_environment/SSL_MODE
 
 
 #Functional configuration.
-echo -e "TRUE" > /etc/container_environment/USE_STANDARD_PORTS
+echo -e "TRUE" > /etc/container_environment/USE_STANDARD_HTTP_PORTS
+echo -e "TRUE" > /etc/container_environment/USE_STANDARD_SIP_PORTS
 echo -e "65000" > /etc/container_environment/MEDIASERVER_LOWEST_PORT
 echo -e "65050" > /etc/container_environment/MEDIASERVER_HIGHEST_PORT
 
@@ -72,4 +73,4 @@ echo -e "USER" > /etc/container_environment/DERREPOUSR
 echo -e "PASSED" > /etc/container_environment/DERREPOPWRD
 
 #support loadbalancers
-echo -e "" > /etc/container_environment/LOAD_BALANCERS 
+echo -e "" > /etc/container_environment/LOAD_BALANCERS

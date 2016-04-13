@@ -37,30 +37,71 @@ cat > $MYSQLDB_MODULE/module.xml << 'EOF'
 </module>
 EOF
 
-# Update JBoss configuration to create a MariaDB datasource
-grep -q 'driver name="com.mysql"' $FILE || sed -e '/<drivers>/ a\
-\                    <driver name="com.mysql" module="com.mysql">\
-\			 <driver-class>com.mysql.jdbc.Driver</driver-class>\
-\                        <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>\
-\                    </driver>' \
-    -e '/<datasources>/ a\
-\                <datasource jta="true" jndi-name="java:/MySqlDS" pool-name="MySqlDS_Pool" enabled="true" use-java-context="true" use-ccm="true"> \
-\                    <connection-url>jdbc:mysql://localhost:3306/restcomm</connection-url> \
-\                    <driver>com.mysql</driver> \
-\                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation> \
-\                    <pool> \
-\                        <min-pool-size>100</min-pool-size> \
-\                        <max-pool-size>200</max-pool-size> \
-\                    </pool> \
-\                    <security> \
-\                        <user-name>telestax</user-name> \
-\                        <password>m0b1c3nt5</password> \
-\                    </security> \
-\                    <statement> \
-\                        <prepared-statement-cache-size>100</prepared-statement-cache-size> \
-\                        <share-prepared-statements/> \
-\                    </statement> \
-\                </datasource>' $STANDALONE_SIP > $STANDALONE_SIP.bak
-mv $STANDALONE_SIP.bak $STANDALONE_SIP
+
+
+
+ if [ -n "$MYSQL_SNDHOST" ]; then
+     # Update JBoss configuration to create a MariaDB datasource
+    grep -q 'driver name="com.mysql"' $FILE || sed -e '/<drivers>/ a\
+    \                    <driver name="com.mysql" module="com.mysql">\
+    \			 <driver-class>com.mysql.jdbc.Driver</driver-class>\
+    \                        <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>\
+    \                    </driver>' \
+        -e '/<datasources>/ a\
+    \                <datasource jta="true" jndi-name="java:/MySqlDS" pool-name="MySqlDS_Pool" enabled="true" use-java-context="true" use-ccm="true"> \
+    \                    <connection-url>jdbc:mysql://localhost:3306/restcomm</connection-url> \
+    \                       <url-delimiter>|</url-delimiter>                                   \
+    \                        <connection-property name="readOnly">false</connection-property>  \
+    \                    <driver>com.mysql</driver> \
+    \                      <driver-class>com.mysql.jdbc.Driver</driver-class>        \
+    \                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation> \
+    \                    <pool> \
+    \                        <min-pool-size>5</min-pool-size> \
+    \                        <max-pool-size>50</max-pool-size> \
+    \                    </pool> \
+    \                    <security> \
+    \                        <user-name>username</user-name> \
+    \                        <password>password</password> \
+    \                    </security> \
+    \                    <statement> \
+    \                        <prepared-statement-cache-size>100</prepared-statement-cache-size> \
+    \                        <share-prepared-statements/> \
+    \                    </statement> \
+    \                    <validation> \
+    \                       <background-validation>true</background-validation> \
+    \                       <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"></valid-connection-checker> \
+    \                       <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"></exception-sorter> \
+    \                       <check-valid-connection-sql>select 1</check-valid-connection-sql> \
+    \                   </validation> \
+    \                </datasource>' $STANDALONE_SIP > $STANDALONE_SIP.bak
+        mv $STANDALONE_SIP.bak $STANDALONE_SIP
+
+ else
+    # Update JBoss configuration to create a MariaDB datasource
+    grep -q 'driver name="com.mysql"' $FILE || sed -e '/<drivers>/ a\
+    \                    <driver name="com.mysql" module="com.mysql">\
+    \			 <driver-class>com.mysql.jdbc.Driver</driver-class>\
+    \                        <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>\
+    \                    </driver>' \
+        -e '/<datasources>/ a\
+    \                <datasource jta="true" jndi-name="java:/MySqlDS" pool-name="MySqlDS_Pool" enabled="true" use-java-context="true" use-ccm="true"> \
+    \                    <connection-url>jdbc:mysql://localhost:3306/restcomm</connection-url> \
+    \                    <driver>com.mysql</driver> \
+    \                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation> \
+    \                    <pool> \
+    \                        <min-pool-size>100</min-pool-size> \
+    \                        <max-pool-size>200</max-pool-size> \
+    \                    </pool> \
+    \                    <security> \
+    \                        <user-name>username</user-name> \
+    \                        <password>password</password> \
+    \                    </security> \
+    \                    <statement> \
+    \                        <prepared-statement-cache-size>100</prepared-statement-cache-size> \
+    \                        <share-prepared-statements/> \
+    \                    </statement> \
+    \                </datasource>' $STANDALONE_SIP > $STANDALONE_SIP.bak
+        mv $STANDALONE_SIP.bak $STANDALONE_SIP
+fi
 
 echo "create mysql datasource done"
