@@ -14,9 +14,6 @@ echo -e "allowall" > /etc/container_environment/SSL_MODE
 echo -e "changeme" > /etc/container_environment/TRUSTSTORE_PASSWORD
 echo -e "restcomm" > /etc/container_environment/TRUSTSTORE_ALIAS
 
-echo -e "false" > /etc/container_environment/USESBC
-echo -e "50" > /etc/container_environment/PORT_OFFSET
-echo -e "-30" > /etc/container_environment/DTMFDBI
 
 #Functional configuration.
 echo -e "TRUE" > /etc/container_environment/USE_STANDARD_HTTP_PORTS

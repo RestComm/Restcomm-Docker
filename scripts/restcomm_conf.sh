@@ -13,42 +13,6 @@ TCPDUMPNET="eth0"
 echo "Will check for enviroment variable and configure restcomm.conf"
 
 
-if [  "${ACTIVATE_LB^^}" = "TRUE"  ] && [ -n "$LB_ADDRESS" ]; then
-    sed -i "s/ACTIVATE_LB=.*/ACTIVATE_LB='TRUE'/" $BASEDIR/bin/restcomm/restcomm.conf
-    sed -i "s/LB_ADDRESS=.*/LB_ADDRESS='${LB_ADDRESS}'/" $BASEDIR/bin/restcomm/restcomm.conf
-
-    if [ -n "$LB_INTERNAL_PORT" ]; then
-        echo "LB_INTERNAL_PORT $LB_INTERNAL_PORT"
-        sed -i "s/LB_INTERNAL_PORT=.*/LB_INTERNAL_PORT='${LB_INTERNAL_PORT}'/" $BASEDIR/bin/restcomm/restcomm.conf
-    fi
-
-    if [ -n "$LB_SIP_PORT_UDP" ]; then
-        echo "LB_SIP_PORT_UDP $LB_SIP_PORT_UDP"
-        sed -i "s/LB_SIP_PORT_UDP=.*/LB_SIP_PORT_UDP='${LB_SIP_PORT_UDP}'/" $BASEDIR/bin/restcomm/restcomm.conf
-    fi
-
-    if [ -n "$LB_SIP_PORT_TCP" ]; then
-        echo "LB_SIP_PORT_TCP $LB_SIP_PORT_TCP"
-        sed -i "s/LB_SIP_PORT_TCP=.*/LB_SIP_PORT_TCP='${LB_SIP_PORT_TCP}'/" $BASEDIR/bin/restcomm/restcomm.conf
-    fi
-
-    if [ -n "$LB_SIP_PORT_TLS" ]; then
-        echo "LB_SIP_PORT_TLS $LB_SIP_PORT_TLS"
-        sed -i "s/LB_SIP_PORT_TLS=.*/LB_SIP_PORT_TLS='${LB_SIP_PORT_TLS}'/" $BASEDIR/bin/restcomm/restcomm.conf
-    fi
-
-    if [ -n "$LB_SIP_PORT_WS" ]; then
-        echo "LB_SIP_PORT_WS $LB_SIP_PORT_WS"
-        sed -i "s/LB_SIP_PORT_WS=.*/LB_SIP_PORT_WS='${LB_SIP_PORT_WS}'/" $BASEDIR/bin/restcomm/restcomm.conf
-    fi
-
-    if [ -n "$LB_SIP_PORT_WSS" ]; then
-        echo "LB_SIP_PORT_WSS $LB_SIP_PORT_WSS"
-        sed -i "s/LB_SIP_PORT_WSS=.*/LB_SIP_PORT_WSS='{$LB_SIP_PORT_WSS}'/" $BASEDIR/bin/restcomm/restcomm.conf
-    fi
-fi
-
-
 if [  "${USESBC^^}" = "FALSE"  ]; then
   sed -i 's|<property name="useSbc">true</property>|<property name="useSbc">false</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
 fi

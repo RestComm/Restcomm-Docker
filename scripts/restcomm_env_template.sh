@@ -73,4 +73,4 @@ echo -e "USER" > /etc/container_environment/DERREPOUSR
 echo -e "PASSED" > /etc/container_environment/DERREPOPWRD
 
 #support loadbalancers
-echo -e "" > /etc/container_environment/ACTIVATE_LB
+echo -e "" > /etc/container_environment/LOAD_BALANCERS
