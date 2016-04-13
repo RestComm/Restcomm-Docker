@@ -33,3 +33,7 @@ RVD_LOCATION=/var/restcomm/rvd/workspace
 
 #HSQL-persist data
 HSQL_PERSIST=/var/restcomm/data
+
+
+#Backwords compatibility will be removed in next release..
+USE_STANDARD_PORTS=TRUE

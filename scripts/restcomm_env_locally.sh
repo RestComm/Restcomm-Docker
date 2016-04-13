@@ -35,3 +35,7 @@ echo -e "/var/restcomm/rvd/workspace" > /etc/container_environment/RVD_LOCATION
 
 #HSQL-persist data - Need to mount this path on the host. else data is not persistent.
 echo -e "/var/restcomm/data" > /etc/container_environment/HSQL_PERSIST
+
+
+#Backwords compatibility will be removed in next release..
+echo -e "TRUE" > /etc/container_environment/USE_STANDARD_PORTS
