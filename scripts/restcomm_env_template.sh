@@ -74,3 +74,8 @@ echo -e "PASSED" > /etc/container_environment/DERREPOPWRD
 
 #support loadbalancers
 echo -e "" > /etc/container_environment/LOAD_BALANCERS
+
+
+
+#Backwords compatibility will be removed in next release..
+echo -e "TRUE" > /etc/container_environment/USE_STANDARD_PORTS
