@@ -227,7 +227,7 @@ if [ -n "$INIT_PASSWORD" ]; then
     sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
     sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
 
-    # end 
+    # end
 fi
 
 if [ -n "$HSQL_PERSIST" ]; then
@@ -333,6 +333,7 @@ if [ -n "$RVD_LOCATION" ]; then
   echo "RVD_LOCATION $RVD_LOCATION"
   mkdir -p `echo $RVD_LOCATION`
   sed -i "s|<workspaceLocation>.*</workspaceLocation>|<workspaceLocation>`echo $RVD_LOCATION`</workspaceLocation>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
+  cp -ar $BASEDIR/standalone/deployments/restcomm-rvd.war/workspace/* $RVD_LOCATION
 fi
 
 if [ -n "$LOG_LEVEL" ]; then
