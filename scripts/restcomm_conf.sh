@@ -335,7 +335,7 @@ if [ -n "$RVD_LOCATION" ]; then
   sed -i "s|<workspaceLocation>.*</workspaceLocation>|<workspaceLocation>`echo $RVD_LOCATION`</workspaceLocation>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
 
   COPYFLAG=$RVD_LOCATION/.demos_initialized
-  if [ -f "$COPYFLAG"];
+  if [ -f "$COPYFLAG" ];
   then
     //Do nothing, we already copied the demo file to the new workspace
     echo "RVD demo application are already copied"
