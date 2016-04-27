@@ -18,10 +18,7 @@ RUN apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-
 
 # download restcomm
 ENV install_dir /opt/Restcomm-JBoss-AS7
-RUN wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt -O version.txt
-RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`cat version.txt`.zip -O Restcomm-JBoss-AS7.zip && unzip Restcomm-JBoss-AS7.zip -d /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && mv version.txt ${install_dir} && rm Restcomm-JBoss-AS7.zip
-
-RUN cp ${install_dir}/version.txt /tmp/version
+RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt | cat`.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt -O ${install_dir}/version.txt && cp ${install_dir}/version.txt /tmp/version
 
 RUN mkdir -p /opt/embed/
 
@@ -71,5 +68,3 @@ EXPOSE 65000-65535/udp
 
 RUN mkdir /etc/service/restcomm
 ADD ./scripts/restcomm_service.sh /etc/service/restcomm/run
-
-
