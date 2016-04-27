@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-
 
 # download restcomm
 ENV install_dir /opt/Restcomm-JBoss-AS7
-RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt | cat`.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt -O ${install_dir}/version.txt && cp ${install_dir}/version.txt /tmp/version
+RUN wget -qc https://mobicents.ci.cloudbees.com/job/RestComm/879/artifact/Restcomm-JBoss-AS7-7.6.0.879.zip -O- | bsdtar -xvf - -C /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && wget -qO- https://mobicents.ci.cloudbees.com/job/RestComm/879/artifact/restcomm-version.txt -O ${install_dir}/version.txt && cp ${install_dir}/version.txt /tmp/version
 
 RUN mkdir -p /opt/embed/
 
