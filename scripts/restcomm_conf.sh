@@ -360,7 +360,7 @@ fi
 if [ -n "$CORE_LOGS_LOCATION" ]; then
   echo "CORE_LOGS_LOCATION $CORE_LOGS_LOCATION"
   mkdir -p `echo $CORE_LOGS_LOCATION`
-  sed -i "s|find .*server.log|find $RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`/restcommCore-server.log|" /etc/cron.d/restcommcore-cron
+  sed -i "s|find .*server.log|find $RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`/restcommCore-server.log*|" /etc/cron.d/restcommcore-cron
   sed -i "s|<file relative-to=\"jboss.server.log.dir\" path=\".*\"\/>|<file path=\"$RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`/restcommCore-server.log\"\/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
   #logs collect script conficuration
   sed -i "s/RESTCOMM_CORE_FILE=server.log/RESTCOMM_CORE_FILE=restcommCore-server.log/" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
@@ -373,7 +373,7 @@ fi
 if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   echo "MEDIASERVER_LOGS_LOCATION $MEDIASERVER_LOGS_LOCATION"
   mkdir -p `echo $MEDIASERVER_LOGS_LOCATION`
-  sed -i "s|find .*server.log|find $MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log|" /etc/cron.d/restcommmediaserver-cron
+  sed -i "s|find .*server.log|find $MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log*|" /etc/cron.d/restcommmediaserver-cron
   sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
   #Daily log rotation for MS.
   sed -i "s|<appender name=\"FILE\" class=\"org\.apache\.log4j\.RollingFileAppender\"|<appender name=\"FILE\" class=\"org\.apache\.log4j\.DailyRollingFileAppender\"|"  $BASEDIR/mediaserver/conf/log4j.xml
