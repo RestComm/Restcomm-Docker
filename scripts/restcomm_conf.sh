@@ -407,9 +407,8 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
     echo "TCPDUMP  is running."
   else
     echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
   fi
-
 fi
 
 if [ -n "$RESTCOMMHOST" ]; then
