@@ -29,6 +29,11 @@ fi
 if [ -n "$MS_ADDRESS" ]; then
    echo "MS_ADDRESS $MS_ADDRESS"
    sed -i "s/MS_ADDRESS=.*/MS_ADDRESS=$MS_ADDRESS/" $BASEDIR/bin/restcomm/restcomm.conf
+
+   #disable internal mediaserver
+   MS_EXTERNAL=TRUE
+   echo "MS_EXTERNAL $MS_EXTERNAL"
+   sed -i "s/MS_EXTERNAL=.*/MS_EXTERNAL=$MS_EXTERNAL/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$MS_NETWORK" ]; then
