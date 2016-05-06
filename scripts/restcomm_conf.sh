@@ -337,7 +337,7 @@ if [ -n "$RVD_LOCATION" ]; then
   COPYFLAG=$RVD_LOCATION/.demos_initialized
   if [ -f "$COPYFLAG" ];
   then
-    //Do nothing, we already copied the demo file to the new workspace
+    #Do nothing, we already copied the demo file to the new workspace
     echo "RVD demo application are already copied"
   else
     echo "Will copy RVD demo applications to the new workspace $RVD_LOCATION"
