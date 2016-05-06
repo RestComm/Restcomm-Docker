@@ -414,7 +414,7 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
     #!/bin/bash
     nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
 EOT
-    chmod 755 $TCPFILE
+    chmod 777 $TCPFILE
 fi
 
 if [ -n "$RESTCOMMHOST" ]; then
