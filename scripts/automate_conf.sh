@@ -48,5 +48,8 @@ fi
 
 . /tmp/.restcommenv.sh
 
+#auto delete script after run once. No need more.
+rm -- "$0"
+
 
 

@@ -467,3 +467,7 @@ if [ "${PROD_MODE^^}" = "TRUE" ]; then
     echo "Update AKKA log level to OFF"
     sed -i 's/INFO/OFF/g' $BASEDIR/$JBOSS_CONFIG/deployments/restcomm.war/WEB-INF/classes/application.conf
 fi
+
+
+#auto delete script after run once. No need more.
+rm -- "$0"

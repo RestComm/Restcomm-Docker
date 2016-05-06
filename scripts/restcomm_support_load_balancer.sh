@@ -43,3 +43,7 @@ if [ -n "$LOAD_BALANCERS" ]; then
 	configSipStack ${LOAD_BALANCERS}
 	configStandalone
 fi
+
+
+#auto delete script after run once. No need more.
+rm -- "$0"
