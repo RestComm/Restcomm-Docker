@@ -64,3 +64,7 @@ cp /opt/embed/dockercleanup.sh  "${RESTCOMM_LOGS}"/opt/
 cp /opt/embed/restcomm_docker.sh  "${RESTCOMM_LOGS}"/opt/
 
 echo "RestComm configured Properly!"
+
+
+#auto delete script after run once. No need more.
+rm -- "$0"

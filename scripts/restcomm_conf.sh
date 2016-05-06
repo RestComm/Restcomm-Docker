@@ -407,14 +407,19 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   mkdir -p $LOGS_TRACE/$RESTCOMM_TRACE_LOG
   sed -i "s|find .*restcomm_trace_|find $LOGS_TRACE/`echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
   sed -i "s|RESTCOMM_TRACE=.*|RESTCOMM_TRACE=\$RESTCOMM_LOG_BASE/`echo $RESTCOMM_TRACE_LOG`|"  /opt/embed/restcomm_docker.sh
-  ps cax | grep tcpdump > /dev/null
-  if [ $? -eq 0 ]; then
-    echo "TCPDUMP  is running."
-  else
-    echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni ${TCPDUMPNET} -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
-  fi
+  #ps cax | grep tcpdump > /dev/null
+  #if [ $? -eq 0 ]; then
+   # echo "TCPDUMP  is running."
+  #else
+    #echo "TCPDUMP is not running, need to run it."
+    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
 
+    TCPFILE="/etc/my_init.d/restcommtrace.sh"
+    cat <<EOT >> $TCPFILE
+#!/bin/bash
+    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+EOT
+    chmod 777 $TCPFILE
 fi
 
 if [ -n "$RESTCOMMHOST" ]; then
@@ -448,3 +453,7 @@ if [ "${PROD_MODE^^}" = "TRUE" ]; then
     echo "Update AKKA log level to OFF"
     sed -i 's/INFO/OFF/g' $BASEDIR/$JBOSS_CONFIG/deployments/restcomm.war/WEB-INF/classes/application.conf
 fi
+
+
+#auto delete script after run once. No need more.
+rm -- "$0"

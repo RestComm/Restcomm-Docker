@@ -138,3 +138,7 @@ if [ -n "$PORT_OFFSET" ]; then
          sed -i "s|5083|${wss}|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
     fi
 fi
+
+
+#auto delete script after run once. No need more.
+rm -- "$0"
