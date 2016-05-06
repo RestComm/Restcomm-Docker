@@ -369,6 +369,18 @@ if [ -n "$RVD_LOCATION" ]; then
   echo "RVD_LOCATION $RVD_LOCATION"
   mkdir -p `echo $RVD_LOCATION`
   sed -i "s|<workspaceLocation>.*</workspaceLocation>|<workspaceLocation>`echo $RVD_LOCATION`</workspaceLocation>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
+
+  COPYFLAG=$RVD_LOCATION/.demos_initialized
+  if [ -f "$COPYFLAG" ];
+  then
+   #Do nothing, we already copied the demo file to the new workspace
+    echo "RVD demo application are already copied"
+  else
+    echo "Will copy RVD demo applications to the new workspace $RVD_LOCATION"
+    cp -ar $BASEDIR/standalone/deployments/restcomm-rvd.war/workspace/* $RVD_LOCATION
+    touch $COPYFLAG
+  fi
+
 fi
 
 if [ -n "$LOG_LEVEL" ]; then
