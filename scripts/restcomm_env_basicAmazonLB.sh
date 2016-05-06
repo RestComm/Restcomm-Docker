@@ -45,8 +45,8 @@ echo -e "/var/restcomm/data" > /etc/container_environment/HSQL_PERSIST
 echo -e "TRUE" > /etc/container_environment/ACTIVATE_LB
 echo -e "174.129.212.36" > /etc/container_environment/LB_ADDRESS
 echo -e "5065" > /etc/container_environment/LB_INTERNAL_PORT
-echo -e "5080" > /etc/container_environment/LB_SIP_PORT_UDP
-echo -e "5080" > /etc/container_environment/LB_SIP_PORT_TCP
-echo -e "5081" > /etc/container_environment/LB_SIP_PORT_TLS
-echo -e "5082" > /etc/container_environment/LB_SIP_PORT_WS
-echo -e "5083" > /etc/container_environment/LB_SIP_PORT_WSS
+echo -e "5060" > /etc/container_environment/LB_SIP_PORT_UDP
+echo -e "5060" > /etc/container_environment/LB_SIP_PORT_TCP
+echo -e "5061" > /etc/container_environment/LB_SIP_PORT_TLS
+echo -e "5062" > /etc/container_environment/LB_SIP_PORT_WS
+echo -e "5063" > /etc/container_environment/LB_SIP_PORT_WSS
