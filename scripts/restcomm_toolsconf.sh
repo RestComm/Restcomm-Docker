@@ -46,13 +46,6 @@ fi
 
 
 grep -q 'gather-statistics' $BASEDIR/standalone/configuration/standalone-sip.xml || sed -i "s|congestion-control-interval=\".*\"|& gather-statistics=\"true\"|" $BASEDIR/standalone/configuration/standalone-sip.xml
-
-sed -i "s|#gov.nist.javax.sip.SIP_MESSAGE_VALVE=org.mobicents.ext.javax.sip.congestion.CongestionControlMessageValve|gov.nist.javax.sip.SIP_MESSAGE_VALVE=org.mobicents.ext.javax.sip.congestion.CongestionControlMessageValve|" $BASEDIR/standalone/configuration/mss-sip-stack.properties
-sed -i "s|#org.mobicents.ext.javax.sip.congestion.CONGESTION_CONTROL_MONITOR_INTERVAL=.*|org.mobicents.ext.javax.sip.congestion.CONGESTION_CONTROL_MONITOR_INTERVAL=-1|" $BASEDIR/standalone/configuration/mss-sip-stack.properties
-grep -q 'org.mobicents.ext.javax.sip.congestion.SIP_SCANNERS.*' $BASEDIR/standalone/configuration/mss-sip-stack.properties || sed -i '/gov.nist.javax.sip.SIP_MESSAGE_VALVE.*/ a \
-\org.mobicents.ext.javax.sip.congestion.SIP_SCANNERS=sipvicious,sipcli,friendly-scanner,VaxSIPUserAgent
-' $BASEDIR/standalone/configuration/mss-sip-stack.properties
-
 grep -q 'jboss.bind.address.management' $BASEDIR/bin/restcomm/start-restcomm.sh || sed -i 's|RESTCOMM_HOME/bin/standalone.sh -b .*|RESTCOMM_HOME/bin/standalone.sh -b $bind_address -Djboss.bind.address.management=$bind_address|' $BASEDIR/bin/restcomm/start-restcomm.sh
 
 chmod +x $BASEDIR/bin/*.sh
