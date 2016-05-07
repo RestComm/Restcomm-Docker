@@ -216,6 +216,11 @@ if [ -n "$S3_BUCKET_NAME" ]; then
 	}" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
 fi
 
+if [ -n "$S3_BUCKET_REGION" ]; then
+  echo "S3_BUCKET_REGION $S3_BUCKET_REGION"
+  sed -i "s|<bucket-region>.*</bucket-region>|<bucket-region>`echo $S3_BUCKET_REGION`</bucket-region>|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+fi
+
 if [ -n "$INIT_PASSWORD" ]; then
     # chnange admin password
     SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/restcomm.script
