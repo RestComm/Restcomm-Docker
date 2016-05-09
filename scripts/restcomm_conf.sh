@@ -282,8 +282,6 @@ if [ -n "$SSL_MODE" ]; then
 	sed -i "s/SSL_MODE=.*/SSL_MODE='`echo $SSL_MODE`'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-
-
 if [  "${USE_STANDARD_HTTP_PORTS^^}" = "TRUE"  ]; then
   echo "USE_STANDARD_HTTP_PORTS  $USE_STANDARD_HTTP_PORTS "
   sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/standalone-sip.xml
@@ -292,8 +290,6 @@ if [  "${USE_STANDARD_HTTP_PORTS^^}" = "TRUE"  ]; then
   sed -i "s|8443|443|"  $BASEDIR/standalone/configuration/mss-sip-stack.properties
   sed -i "s|:8080||"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
 fi
-
-
 
 if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
   echo "USE_STANDARD_SIP_PORTS $USE_STANDARD_SIP_PORTS"
@@ -407,14 +403,9 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   mkdir -p $LOGS_TRACE/$RESTCOMM_TRACE_LOG
   sed -i "s|find .*restcomm_trace_|find $LOGS_TRACE/`echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
   sed -i "s|RESTCOMM_TRACE=.*|RESTCOMM_TRACE=\$RESTCOMM_LOG_BASE/`echo $RESTCOMM_TRACE_LOG`|"  /opt/embed/restcomm_docker.sh
-  #ps cax | grep tcpdump > /dev/null
-  #if [ $? -eq 0 ]; then
-   # echo "TCPDUMP  is running."
-  #else
-    #echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+  nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
 
-    TCPFILE="/etc/my_init.d/restcommtrace.sh"
+  TCPFILE="/etc/my_init.d/restcommtrace.sh"
     cat <<EOT >> $TCPFILE
 #!/bin/bash
     nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
