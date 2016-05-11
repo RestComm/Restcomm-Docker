@@ -18,31 +18,55 @@ if [  "${ACTIVATE_LB^^}" = "TRUE"  ] && [ -n "$LB_ADDRESS" ]; then
     sed -i "s/LB_ADDRESS=.*/LB_ADDRESS='${LB_ADDRESS}'/" $BASEDIR/bin/restcomm/restcomm.conf
 
     if [ -n "$LB_INTERNAL_PORT" ]; then
+
+        if [ -n "$PORT_OFFSET" ]; then
+            LB_INTERNAL_PORT=$(("${LB_INTERNAL_PORT}" + $PORT_OFFSET))
+        fi
         echo "LB_INTERNAL_PORT $LB_INTERNAL_PORT"
         sed -i "s/LB_INTERNAL_PORT=.*/LB_INTERNAL_PORT='${LB_INTERNAL_PORT}'/" $BASEDIR/bin/restcomm/restcomm.conf
     fi
 
     if [ -n "$LB_SIP_PORT_UDP" ]; then
+
+        if [ -n "$PORT_OFFSET" ]; then
+            LB_SIP_PORT_UDP=$(("${LB_SIP_PORT_UDP}" + $PORT_OFFSET))
+        fi
         echo "LB_SIP_PORT_UDP $LB_SIP_PORT_UDP"
         sed -i "s/LB_SIP_PORT_UDP=.*/LB_SIP_PORT_UDP='${LB_SIP_PORT_UDP}'/" $BASEDIR/bin/restcomm/restcomm.conf
     fi
 
     if [ -n "$LB_SIP_PORT_TCP" ]; then
+
+        if [ -n "$PORT_OFFSET" ]; then
+             LB_SIP_PORT_TCP=$(("${LB_SIP_PORT_TCP}" + $PORT_OFFSET))
+        fi
         echo "LB_SIP_PORT_TCP $LB_SIP_PORT_TCP"
         sed -i "s/LB_SIP_PORT_TCP=.*/LB_SIP_PORT_TCP='${LB_SIP_PORT_TCP}'/" $BASEDIR/bin/restcomm/restcomm.conf
     fi
 
     if [ -n "$LB_SIP_PORT_TLS" ]; then
+
+        if [ -n "$PORT_OFFSET" ]; then
+            LB_SIP_PORT_TLS=$(("${LB_SIP_PORT_TLS}" + $PORT_OFFSET))
+        fi
         echo "LB_SIP_PORT_TLS $LB_SIP_PORT_TLS"
         sed -i "s/LB_SIP_PORT_TLS=.*/LB_SIP_PORT_TLS='${LB_SIP_PORT_TLS}'/" $BASEDIR/bin/restcomm/restcomm.conf
     fi
 
     if [ -n "$LB_SIP_PORT_WS" ]; then
+
+        if [ -n "$PORT_OFFSET" ]; then
+            LB_SIP_PORT_WS=$(("${LB_SIP_PORT_WS}" + $PORT_OFFSET))
+        fi
         echo "LB_SIP_PORT_WS $LB_SIP_PORT_WS"
         sed -i "s/LB_SIP_PORT_WS=.*/LB_SIP_PORT_WS='${LB_SIP_PORT_WS}'/" $BASEDIR/bin/restcomm/restcomm.conf
     fi
 
     if [ -n "$LB_SIP_PORT_WSS" ]; then
+
+        if [ -n "$PORT_OFFSET" ]; then
+            LB_SIP_PORT_WSS=$(("${LB_SIP_PORT_WSS}" + $PORT_OFFSET))
+        fi
         echo "LB_SIP_PORT_WSS $LB_SIP_PORT_WSS"
         sed -i "s/LB_SIP_PORT_WSS=.*/LB_SIP_PORT_WSS='${LB_SIP_PORT_WSS}'/" $BASEDIR/bin/restcomm/restcomm.conf
     fi
