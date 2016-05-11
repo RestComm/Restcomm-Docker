@@ -51,3 +51,6 @@ echo -e "5080" > /etc/container_environment/LB_SIP_PORT_TCP
 echo -e "5081" > /etc/container_environment/LB_SIP_PORT_TLS
 echo -e "5082" > /etc/container_environment/LB_SIP_PORT_WS
 echo -e "5083" > /etc/container_environment/LB_SIP_PORT_WSS
+
+#Port offset
+echo -e "100" > /etc/container_environment/PORT_OFFSET
