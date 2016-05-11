@@ -338,9 +338,9 @@ if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]&& [  "${ACTIVATE_LB^^}" = "FALSE
 fi
 
 
-if [ -n "$PORT_OFFSET" ] && [  "${ACTIVATE_LB^^}" = "FALSE"  ] ; then
+if [ -n "$PORT_OFFSET" ]; then
 	sed -i "s|\${jboss.socket.binding.port-offset:0\}|${PORT_OFFSET}|"  $BASEDIR/standalone/configuration/standalone-sip.xml
-	if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+	if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ] &&  [  "${ACTIVATE_LB^^}" = "FALSE"  ]; then
 
 	    sip=$((5060 + $PORT_OFFSET))
         tls=$((5061 + $PORT_OFFSET))

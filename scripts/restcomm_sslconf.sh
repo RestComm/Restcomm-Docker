@@ -135,8 +135,8 @@ if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ] && [  "${ACTIVATE_LB^^}" = "FALS
       sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
 fi
 
-if [ -n "$PORT_OFFSET" ] && [  "${ACTIVATE_LB^^}" = "FALSE"  ] ; then
-    if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+if [ -n "$PORT_OFFSET" ]  ; then
+    if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ] && [  "${ACTIVATE_LB^^}" = "FALSE"  ]; then
         wss=$((5063 + $PORT_OFFSET))
          sed -i "s|5063|${wss}|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
     else
