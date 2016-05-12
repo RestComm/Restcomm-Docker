@@ -353,6 +353,12 @@ if [ -n "$RVD_LOCATION" ]; then
 
 fi
 
+#Patch provided for the RVD backup Directory for the migration process (in order to save the backup at the host need to  mount this directory e.g. -v host_path:RVD_MIGRATION_BACKUP).
+if [ -n "$RVD_MIGRATION_BACKUP" ]; then
+    echo "RVD_MIGRATION_BACKUP $RVD_MIGRATION_BACKUP"
+    sed -i "s|<workspaceBackupLocation>.*</workspaceBackupLocation>|<workspaceBackupLocation>${RVD_MIGRATION_BACKUP}</workspaceBackupLocation>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
+fi
+
 if [ -n "$LOG_LEVEL" ]; then
   echo "LOG_LEVEL $LOG_LEVEL"
   sed -i "s|<logger category=\"org.mobicents.servlet.sip\">|<logger category=\"org.mobicents.servlet\">|" $BASEDIR/standalone/configuration/standalone-sip.xml
