@@ -18,10 +18,6 @@ if [  "${ACTIVATE_LB^^}" = "TRUE"  ] && [ -n "$LB_ADDRESS" ]; then
     sed -i "s/LB_ADDRESS=.*/LB_ADDRESS='${LB_ADDRESS}'/" $BASEDIR/bin/restcomm/restcomm.conf
 
     if [ -n "$LB_INTERNAL_PORT" ]; then
-
-        if [ -n "$PORT_OFFSET" ]; then
-            LB_INTERNAL_PORT=$((${LB_INTERNAL_PORT} + $PORT_OFFSET))
-        fi
         echo "LB_INTERNAL_PORT $LB_INTERNAL_PORT"
         sed -i "s/LB_INTERNAL_PORT=.*/LB_INTERNAL_PORT='${LB_INTERNAL_PORT}'/" $BASEDIR/bin/restcomm/restcomm.conf
     fi
