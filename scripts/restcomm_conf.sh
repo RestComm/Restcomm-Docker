@@ -26,6 +26,11 @@ if [ -n "$MS_COMPATIBILITY_MODE" ]; then
    sed -i "s/MS_COMPATIBILITY_MODE=.*/MS_COMPATIBILITY_MODE=\'$MS_COMPATIBILITY_MODE\'/" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
+if [ -n "$RECORDINGS_PATH" ]; then
+   echo "RECORDINGS_PATH $RECORDINGS_PATH"
+   sed -i "s/RECORDINGS_PATH=.*/RECORDINGS_PATH=\'$RECORDINGS_PATH\'/" $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
 if [ -n "$MS_ADDRESS" ]; then
    echo "MS_ADDRESS $MS_ADDRESS"
    sed -i "s/MS_ADDRESS=.*/MS_ADDRESS=$MS_ADDRESS/" $BASEDIR/bin/restcomm/restcomm.conf
