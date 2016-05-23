@@ -294,50 +294,22 @@ fi
 
 if [  "${USE_STANDARD_HTTP_PORTS^^}" = "TRUE"  ]; then
   echo "USE_STANDARD_HTTP_PORTS  $USE_STANDARD_HTTP_PORTS "
-  sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/standalone-sip.xml
-  sed -i "s|8080|80|"   $BASEDIR/standalone/configuration/mss-sip-stack.properties
-  sed -i "s|8443|443|"  $BASEDIR/standalone/configuration/standalone-sip.xml
-  sed -i "s|8443|443|"  $BASEDIR/standalone/configuration/mss-sip-stack.properties
-  sed -i "s|:8080||"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
+  sed -i "s|HTTP_PORT=.*|HTTP_PORT=80|"   $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|HTTPS_PORT=.*|HTTPS_PORT=443|"   $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
   echo "USE_STANDARD_SIP_PORTS $USE_STANDARD_SIP_PORTS"
-  sed -i "s|5080|5060|" $BASEDIR/standalone/configuration/standalone-sip.xml
-  sed -i "s|5081|5061|" $BASEDIR/standalone/configuration/standalone-sip.xml
-  sed -i "s|5082|5062|" $BASEDIR/standalone/configuration/standalone-sip.xml
-  sed -i "s|5080|5060|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-  sed -i "s|5081|5061|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-  sed -i "s|5082|5062|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-  sed -i "s|:5080||"    $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
+  sed -i "s|SIP_PORT_UDP=.*|SIP_PORT_UDP=5060|"   $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SIP_PORT_TCP=.*|SIP_PORT_TCP=5060|"   $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SIP_PORT_TLS=.*|SIP_PORT_TLS=5061|"   $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SIP_PORT_WS=.*|SIP_PORT_WS=5062|"     $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SIP_PORT_WSS=.*|SIP_PORT_WSS=5063|"   $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-
 if [ -n "$PORT_OFFSET" ]; then
-	sed -i "s|\${jboss.socket.binding.port-offset:0\}|${PORT_OFFSET}|"  $BASEDIR/standalone/configuration/standalone-sip.xml
-	if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
-
-	    sip=$((5060 + $PORT_OFFSET))
-        tls=$((5061 + $PORT_OFFSET))
-         ws=$((5062 + $PORT_OFFSET))
-
-        sed -i "s|static-server-port=\\\\\"5060\\\\\"|static-server-port=\\\\\"${sip}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-        sed -i "s|static-server-port=\\\\\"5061\\\\\"|static-server-port=\\\\\"${tls}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-        sed -i "s|static-server-port=\\\\\"5062\\\\\"|static-server-port=\\\\\"${ws}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-	else
-        sip=$((5080 + $PORT_OFFSET))
-        tls=$((5081 + $PORT_OFFSET))
-        ws=$((5082 + $PORT_OFFSET))
-
-        sed -i "s|static-server-port=\\\\\"5080\\\\\"|static-server-port=\\\\\"${sip}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-        sed -i "s|static-server-port=\\\\\"5081\\\\\"|static-server-port=\\\\\"${tls}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-        sed -i "s|static-server-port=\\\\\"5082\\\\\"|static-server-port=\\\\\"${ws}\\\\\"|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-	fi
-	localMGCP=$((2727 + $PORT_OFFSET))
-	sed -i "s|2727|${localMGCP}|"    $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
-	remoteMGCP=$((2427 + $PORT_OFFSET))
-	sed -i "s|2427|${remoteMGCP}|"    $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
-	sed -i "s|2427|${remoteMGCP}|"    $BASEDIR/mediaserver/deploy/server-beans.xml
+    echo "PORT_OFFSET $PORT_OFFSET"
+    sed -i "s|PORT_OFFSET=.*|SIP_PORT_UDP=${PORT_OFFSET}|"   $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$RVD_LOCATION" ]; then

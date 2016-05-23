@@ -123,22 +123,5 @@ if [ -n "$SECURESSL" ]; then
    fi
 fi
 
-
-if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ] ; then
-      sed -i "s|5083|5063|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-      sed -i "s|5083|5063|" $BASEDIR/standalone/configuration/standalone-sip.xml
-fi
-
-if [ -n "$PORT_OFFSET" ]; then
-    if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
-        wss=$((5063 + $PORT_OFFSET))
-         sed -i "s|5063|${wss}|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-    else
-        wss=$((5083 + $PORT_OFFSET))
-         sed -i "s|5083|${wss}|" $BASEDIR/bin/restcomm/autoconfig.d/config-sip-connectors.sh
-    fi
-fi
-
-
 #auto delete script after run once. No need more.
 rm -- "$0"
