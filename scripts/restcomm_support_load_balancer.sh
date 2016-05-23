@@ -9,39 +9,49 @@
 
 BASEDIR=/opt/Restcomm-JBoss-AS7
 
-configSipStack() {
-	FILE="$BASEDIR/standalone/configuration/mss-sip-stack.properties"
-	balancers=$1
-
-	echo "Will change mss-sip-stack.properties using $balancers"
-
-	sed -e 's|^#org.mobicents.ha.javax.sip.BALANCERS=|org.mobicents.ha.javax.sip.BALANCERS=|' $FILE > $FILE.bak
-	mv $FILE.bak $FILE
-	sed -e "s|org.mobicents.ha.javax.sip.BALANCERS=.*|org.mobicents.ha.javax.sip.BALANCERS=$balancers|" $FILE > $FILE.bak
-	mv $FILE.bak $FILE
-	echo "Activated Load Balancer on SIP stack configuration file with $balancers"
-
-	sed -e 's|^#org.mobicents.ha.javax.sip.REACHABLE_CHECK=.*|org.mobicents.ha.javax.sip.REACHABLE_CHECK=false|' $FILE > $FILE.bak
-	mv $FILE.bak $FILE
-
-	echo 'Removed reachable checks and specified HTTP Port 8080'
+configIP() {
+if [ -z "$LB_PUBLIC_IP" ]; then echo "Need to set LB_PUBLIC_IP"; exit 1;
+else
+	echo "LB_PUBLIC_IP $LB_PUBLIC_IP"
+    sed -i "s|LB_PUBLIC_IP=.*|LB_PUBLIC_IP=${LB_PUBLIC_IP}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
+if [ -n "$LB_INTERNAL_IP" ]; then
+  echo "LB_INTERNAL_IP $LB_INTERNAL_IP"
+  sed -i "s|LB_INTERNAL_IP=.*|LB_INTERNAL_IP=${LB_INTERNAL_IP}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
 }
 
-configStandalone() {
-	FILE="$BASEDIR/standalone/configuration/standalone-sip.xml"
-
-	sed -e "s|path-name=\".*\" \(app-dispatcher-class=.*\)|path-name=\"org.mobicents.ha.balancing.only\" \1|g" $FILE > $FILE.bak
-	mv -f $FILE.bak $FILE
-	echo "changed the MSS Path Setting to org.mobicents.ha.balancing.only" 
+configPorts() {
+if [ -n "$LB_SIP_PORT_UDP" ]; then
+  echo "LB_SIP_PORT_UDP $LB_SIP_PORT_UDP"
+  sed -i "s|LB_SIP_PORT_UDP=.*|LB_SIP_PORT_UDP=${LB_SIP_PORT_UDP}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
+if [ -n "$LB_SIP_PORT_TCP" ]; then
+  echo "LB_SIP_PORT_TCP $LB_SIP_PORT_TCP"
+  sed -i "s|LB_SIP_PORT_TCP=.*|LB_SIP_PORT_TCP=${LB_SIP_PORT_TCP}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
+if [ -n "$LB_SIP_PORT_TLS" ]; then
+  echo "LB_SIP_PORT_TLS $LB_SIP_PORT_TLS"
+  sed -i "s|LB_SIP_PORT_TLS=.*|LB_SIP_PORT_TLS=${LB_SIP_PORT_TLS}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
+if [ -n "$LB_SIP_PORT_WS" ]; then
+  echo "LB_SIP_PORT_WS $LB_SIP_PORT_WS"
+  sed -i "s|LB_SIP_PORT_WS=.*|LB_SIP_PORT_WS=${LB_SIP_PORT_WS}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
+if [ -n "$LB_SIP_PORT_WSS" ]; then
+  echo "LB_SIP_PORT_WSS $LB_SIP_PORT_WSS"
+  sed -i "s|LB_SIP_PORT_WSS=.*|LB_SIP_PORT_WSS=${LB_SIP_PORT_WSS}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
+if [ -n "$LB_RMI_PORT" ]; then
+  echo "LB_RMI_PORT $LB_RMI_PORT"
+  sed -i "s|LB_RMI_PORT=.*|LB_RMI_PORT=${LB_RMI_PORT}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
 }
 
-if [ -n "$LOAD_BALANCERS" ]; then
-	echo "Configure load balancers: ${LOAD_BALANCERS}"
-	echo "Remove original configurator from restcomm"
-	mv $BASEDIR/bin/restcomm/autoconfig.d/config-load-balancer.sh $BASEDIR/bin/restcomm/autoconfig.d/config-load-balancer.sh_origin
-	echo "Apply config"
-	configSipStack ${LOAD_BALANCERS}
-	configStandalone
+if [  "${ACTIVATE_LB^^}" = "TRUE"  ]; then
+	echo "Configure load balancers..."
+	configIP
+	configPorts
 fi
 
 
