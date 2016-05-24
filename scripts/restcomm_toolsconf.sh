@@ -10,7 +10,7 @@ rm -f $BASEDIR/standalone/deployments/olympus.war
 mv -f $BASEDIR/standalone/deployments/olympus-exploded.war $BASEDIR/standalone/deployments/olympus.war
 
 #download Mayday Project war.
-wget --auth-no-challenge -qc https://mobicents.ci.cloudbees.com/job/Mayday-Web/lastSuccessfulBuild/artifact/target/Mayday.war -P $BASEDIR/standalone/deployments
+wget --auth-no-challenge -qc https://mobicents.ci.cloudbees.com/job/Mayday-Web/lastSuccessfulBuild/artifact/target/MayDay.war -P $BASEDIR/standalone/deployments
 
 if [ -n "$SECURESSL" ]; then
   sed -i "s|ws:|wss:|" $BASEDIR/standalone/deployments/olympus.war/resources/js/controllers/register.js
