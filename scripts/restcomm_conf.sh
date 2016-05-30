@@ -464,9 +464,26 @@ fi
 if [ -n "$RC_JAVA_OPTS_EXTRA" ]; then
     echo "Add restcomm extra java options: $RC_JAVA_OPTS_EXTRA"
 
-    # patch restcomm java opts
-    grep 'JAVA_OPTS="$RC_JAVA_OPTS_EXTRA $JAVA_OPTS"' $BASEDIR/bin/standalone.conf || 
-    echo 'JAVA_OPTS="$RC_JAVA_OPTS_EXTRA $JAVA_OPTS"' >> $BASEDIR/bin/standalone.conf
+    JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
+
+   if [[ $RC_JAVA_OPTS_EXTRA == *"Xms"* ]]; then
+        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Xms64m'//g')
+   fi
+
+   if [[ $RC_JAVA_OPTS_EXTRA == *"Xmx"* ]]; then
+        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Xmx512m'//g')
+    fi
+
+    if [[ $RC_JAVA_OPTS_EXTRA == *"MaxPermSize"* ]]; then
+        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-XX:MaxPermSize=256m'//g')
+    fi
+
+    if [[ $RC_JAVA_OPTS_EXTRA == *"preferIPv4Stack"* ]]; then
+        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Djava.net.preferIPv4Stack=true'//g')
+    fi
+
+    sed -i 's| JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"|JAVA_OPTS="$JAVA_OPTS $RC_JAVA_OPTS_EXTRA" |' $BASEDIR/bin/standalone.conf
+
 fi
 
 if [ -n "$MS_JAVA_EXTRA_OPTS" ]; then
