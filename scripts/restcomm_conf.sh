@@ -465,24 +465,23 @@ if [ -n "$RC_JAVA_OPTS_EXTRA" ]; then
     RC_JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
 
    if [[ $RC_JAVA_OPTS_EXTRA == *"Xms"* ]]; then
-        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Xms64m'//g')
+        RC_JAVA_OPTS=$(echo "$RC_JAVA_OPTS" | sed 's/'-Xms64m'//g')
    fi
 
    if [[ $RC_JAVA_OPTS_EXTRA == *"Xmx"* ]]; then
-        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Xmx512m'//g')
+        RC_JAVA_OPTS=$(echo "$RC_JAVA_OPTS" | sed 's/'-Xmx512m'//g')
     fi
 
     if [[ $RC_JAVA_OPTS_EXTRA == *"MaxPermSize"* ]]; then
-        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-XX:MaxPermSize=256m'//g')
+        RC_JAVA_OPTS=$(echo "$RC_JAVA_OPTS" | sed 's/'-XX:MaxPermSize=256m'//g')
     fi
 
     if [[ $RC_JAVA_OPTS_EXTRA == *"preferIPv4Stack"* ]]; then
-        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Djava.net.preferIPv4Stack=true'//g')
+        RC_JAVA_OPTS=$(echo "$RC_JAVA_OPTS" | sed 's/'-Djava.net.preferIPv4Stack=true'//g')
     fi
 
-    export RC_JAVA_OPTS
 
-    sed -i 's| JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"|JAVA_OPTS="$RC_JAVA_OPTS $RC_JAVA_OPTS_EXTRA" |' $BASEDIR/bin/standalone.conf
+    sed -i "s| JAVA_OPTS=\"-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true\"|JAVA_OPTS=\"${RC_JAVA_OPTS} ${RC_JAVA_OPTS_EXTRA}\" |" $BASEDIR/bin/standalone.conf
 
 fi
 
