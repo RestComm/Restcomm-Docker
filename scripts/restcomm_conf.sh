@@ -337,7 +337,7 @@ if [ -n "$RVD_LOCATION" ]; then
   COPYFLAG=$RVD_LOCATION/.demos_initialized
   if [ -f "$COPYFLAG" ];
   then
-    //Do nothing, we already copied the demo file to the new workspace
+   #Do nothing, we already copied the demo file to the new workspace
     echo "RVD demo application are already copied"
   else
     echo "Will copy RVD demo applications to the new workspace $RVD_LOCATION"
@@ -360,7 +360,7 @@ fi
 if [ -n "$CORE_LOGS_LOCATION" ]; then
   echo "CORE_LOGS_LOCATION $CORE_LOGS_LOCATION"
   mkdir -p `echo $CORE_LOGS_LOCATION`
-  sed -i "s|find .*server.log|find $RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`/restcommCore-server.log|" /etc/cron.d/restcommcore-cron
+  sed -i "s|find .*server.log|find $RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`/restcommCore-server.log*|" /etc/cron.d/restcommcore-cron
   sed -i "s|<file relative-to=\"jboss.server.log.dir\" path=\".*\"\/>|<file path=\"$RESTCOMM_CORE_LOG/`echo $CORE_LOGS_LOCATION`/restcommCore-server.log\"\/>|" $BASEDIR/standalone/configuration/standalone-sip.xml
   #logs collect script conficuration
   sed -i "s/RESTCOMM_CORE_FILE=server.log/RESTCOMM_CORE_FILE=restcommCore-server.log/" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
@@ -373,7 +373,7 @@ fi
 if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   echo "MEDIASERVER_LOGS_LOCATION $MEDIASERVER_LOGS_LOCATION"
   mkdir -p `echo $MEDIASERVER_LOGS_LOCATION`
-  sed -i "s|find .*server.log|find $MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log|" /etc/cron.d/restcommmediaserver-cron
+  sed -i "s|find .*server.log|find $MMS_LOGS/`echo $MEDIASERVER_LOGS_LOCATION`/media-server.log*|" /etc/cron.d/restcommmediaserver-cron
   sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
   #Daily log rotation for MS.
   sed -i "s|<appender name=\"FILE\" class=\"org\.apache\.log4j\.RollingFileAppender\"|<appender name=\"FILE\" class=\"org\.apache\.log4j\.DailyRollingFileAppender\"|"  $BASEDIR/mediaserver/conf/log4j.xml
@@ -402,14 +402,29 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   mkdir -p $LOGS_TRACE/$RESTCOMM_TRACE_LOG
   sed -i "s|find .*restcomm_trace_|find $LOGS_TRACE/`echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
   sed -i "s|RESTCOMM_TRACE=.*|RESTCOMM_TRACE=\$RESTCOMM_LOG_BASE/`echo $RESTCOMM_TRACE_LOG`|"  /opt/embed/restcomm_docker.sh
-  ps cax | grep tcpdump > /dev/null
+
+   ps cax | grep tcpdump > /dev/null
   if [ $? -eq 0 ]; then
     echo "TCPDUMP  is running."
   else
     echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni ${TCPDUMPNET} -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 9990\" -G 9000 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
   fi
 
+ #Used to start TCPDUMP when restarting container
+ TCPFILE="/etc/my_init.d/restcommtrace.sh"
+    cat <<EOT >> $TCPFILE
+    #!/bin/bash
+
+     ps cax | grep tcpdump > /dev/null
+  if [ $? -eq 0 ]; then
+    echo "TCPDUMP  is running."
+  else
+    echo "TCPDUMP is not running, need to run it."
+    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+  fi
+EOT
+    chmod 777 $TCPFILE
 fi
 
 if [ -n "$RESTCOMMHOST" ]; then
@@ -443,3 +458,41 @@ if [ "${PROD_MODE^^}" = "TRUE" ]; then
     echo "Update AKKA log level to OFF"
     sed -i 's/INFO/OFF/g' $BASEDIR/$JBOSS_CONFIG/deployments/restcomm.war/WEB-INF/classes/application.conf
 fi
+
+if [ -n "$RC_JAVA_OPTS_EXTRA" ]; then
+    echo "Add restcomm extra java options: $RC_JAVA_OPTS_EXTRA"
+
+    JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
+
+   if [[ $RC_JAVA_OPTS_EXTRA == *"Xms"* ]]; then
+        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Xms64m'//g')
+   fi
+
+   if [[ $RC_JAVA_OPTS_EXTRA == *"Xmx"* ]]; then
+        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Xmx512m'//g')
+    fi
+
+    if [[ $RC_JAVA_OPTS_EXTRA == *"MaxPermSize"* ]]; then
+        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-XX:MaxPermSize=256m'//g')
+    fi
+
+    if [[ $RC_JAVA_OPTS_EXTRA == *"preferIPv4Stack"* ]]; then
+        JAVA_OPTS=$(echo "$JAVA_OPTS" | sed 's/'-Djava.net.preferIPv4Stack=true'//g')
+    fi
+
+    sed -i 's| JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"|JAVA_OPTS="$JAVA_OPTS $RC_JAVA_OPTS_EXTRA" |' $BASEDIR/bin/standalone.conf
+
+fi
+
+if [ -n "$MS_JAVA_EXTRA_OPTS" ]; then
+    echo "Add mediasercer extra java options: $MS_JAVA_EXTRA_OPTS"
+    # patch mediaserver java opts
+    grep 'JAVA_OPTS="$MS_JAVA_EXTRA_OPTS $JAVA_OPTS"' $BASEDIR/mediaserver/bin/run.sh ||
+    sed -i -e '/# Setup MMS specific properties/ {
+        N; /JAVA_OPTS=.*/a JAVA_OPTS="$MS_JAVA_EXTRA_OPTS $JAVA_OPTS"
+    }' $BASEDIR/mediaserver/bin/run.sh
+fi
+
+
+#auto delete script after run once. No need more.
+rm -- "$0"
