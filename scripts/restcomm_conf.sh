@@ -16,7 +16,7 @@ echo "Will check for enviroment variable and configure restcomm.conf"
 
 if [ -n "$MGCP_RESPONSE_TIMEOUT" ]; then
    echo "MGCP_RESPONSE_TIMEOUT $MGCP_RESPONSE_TIMEOUT"
-   sed -i "s|<response-timeou>.*</response-timeout>|<response-timeou>${MGCP_RESPONSE_TIMEOUT}</response-timeout> |"  $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+   sed -i "s|<response-timeou>.*</response-timeout>|<response-timeou>${MGCP_RESPONSE_TIMEOUT}</response-timeout> |"  $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
 
 fi
 
@@ -411,7 +411,7 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   sed -i "s|RESTCOMM_TRACE=.*|RESTCOMM_TRACE=\$RESTCOMM_LOG_BASE/`echo $RESTCOMM_TRACE_LOG`|"  /opt/embed/restcomm_docker.sh
 
   sipHPort=5083
-  sipLPort =5080
+  sipLPort=5080
   mgcpL=2427
   mgcpR=2727
   http=80
