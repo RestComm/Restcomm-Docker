@@ -437,6 +437,7 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
  TCPFILE="/etc/my_init.d/restcommtrace.sh"
     cat <<EOT >> $TCPFILE
     #!/bin/bash
+
     nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange $sipLPort-$sipHPort or (udp and portrange $MEDIASERVER_LOWEST_PORT-$MEDIASERVER_HIGHEST_PORT) or port $http or port $https or port $mgcpL or port $mgcpR\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
 
 EOT
