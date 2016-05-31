@@ -13,6 +13,13 @@ TCPDUMPNET="eth0"
 echo "Will check for enviroment variable and configure restcomm.conf"
 
 
+
+if [ -n "$MGCP_RESPONSE_TIMEOUT" ]; then
+   echo "MGCP_RESPONSE_TIMEOUT $MGCP_RESPONSE_TIMEOUT"
+   sed -i "s|<response-timeou>.*</response-timeout>|<response-timeou>${MGCP_RESPONSE_TIMEOUT}</response-timeout> |"  $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+
+fi
+
 if [  "${USESBC^^}" = "FALSE"  ]; then
   sed -i 's|<property name="useSbc">true</property>|<property name="useSbc">false</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
 fi
@@ -403,26 +410,35 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   sed -i "s|find .*restcomm_trace_|find $LOGS_TRACE/`echo $RESTCOMM_TRACE_LOG`/restcomm_trace_|" /etc/cron.d/restcommtcpdump-cron
   sed -i "s|RESTCOMM_TRACE=.*|RESTCOMM_TRACE=\$RESTCOMM_LOG_BASE/`echo $RESTCOMM_TRACE_LOG`|"  /opt/embed/restcomm_docker.sh
 
-   ps cax | grep tcpdump > /dev/null
-  if [ $? -eq 0 ]; then
-    echo "TCPDUMP  is running."
-  else
-    echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+  sipHPort=5083
+  sipLPort =5080
+  mgcpL=2427
+  mgcpR=2727
+  http=80
+  https=443
+  if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
+    sipHPort=5063
+    sipLPort =5060
   fi
 
+ if [ -n "$PORT_OFFSET" ]; then
+	    mgcpL=$((mgcpL + $PORT_OFFSET))
+        mgcpR=$((mgcpR + $PORT_OFFSET))
+        sipHPort=$((sipHPort + $PORT_OFFSET))
+        sipLPort=$((sipLPort + $PORT_OFFSET))
+        https=$((https + $PORT_OFFSET))
+        http=$((http + $PORT_OFFSET))
+ fi
+
+   nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange ${sipLPort}-${sipHPort} or (udp and portrange ${MEDIASERVER_LOWEST_PORT}-${MEDIASERVER_HIGHEST_PORT}) or port ${http} or port ${https}  or port ${mgcpL}  or port ${mgcpR} \" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
+
  #Used to start TCPDUMP when restarting container
+
  TCPFILE="/etc/my_init.d/restcommtrace.sh"
     cat <<EOT >> $TCPFILE
     #!/bin/bash
+    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange $sipLPort-$sipHPort or (udp and portrange $MEDIASERVER_LOWEST_PORT-$MEDIASERVER_HIGHEST_PORT) or port $http or port $https or port $mgcpL or port $mgcpR\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
 
-     ps cax | grep tcpdump > /dev/null
-  if [ $? -eq 0 ]; then
-    echo "TCPDUMP  is running."
-  else
-    echo "TCPDUMP is not running, need to run it."
-    nohup xargs bash -c "tcpdump -pni any -t -n -s 0  \"portrange 5060-5063 or (udp and portrange 65000-65535) or port 80 or port 443 or port 2427 or port 2727\" -G 3500 -w $LOGS_TRACE/$RESTCOMM_TRACE_LOG/restcomm_trace_%Y-%m-%d_%H:%M:%S-%Z.pcap -z gzip" &
-  fi
 EOT
     chmod 777 $TCPFILE
 fi
