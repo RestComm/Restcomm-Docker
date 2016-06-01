@@ -16,7 +16,7 @@ echo "Will check for enviroment variable and configure restcomm.conf"
 
 if [ -n "$MGCP_RESPONSE_TIMEOUT" ]; then
    echo "MGCP_RESPONSE_TIMEOUT $MGCP_RESPONSE_TIMEOUT"
-   sed -i "s|<response-timeou>.*</response-timeout>|<response-timeou>${MGCP_RESPONSE_TIMEOUT}</response-timeout> |"  $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
+   sed -i "s|<response-timeout>.*</response-timeout>|<response-timeout>${MGCP_RESPONSE_TIMEOUT}</response-timeout> |"  $BASEDIR/bin/restcomm/autoconfig.d/config-restcomm.sh
 
 fi
 
