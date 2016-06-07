@@ -25,6 +25,15 @@ RUN cp ${install_dir}/version.txt /tmp/version
 
 RUN mkdir -p /opt/embed/
 
+#graylog needed files
+ADD ./resources/jvmtop.jar /opt/resources/jvmtop.jar
+ADD ./monitoring/serveram_crontab /etc/cron.d/serveram_cron
+ADD ./monitoring/hd_crontab /etc/cron.d/hdspace-cron
+ADD ./monitoring/msjvm_crontab /etc/cron.d/msjvm_cron
+ADD ./monitoring/MediaServerJVM.sh /opt/embed/mediaserverjvm.sh
+ADD ./monitoring/ServerRam.sh /opt/embed/serveram.sh
+ADD ./monitoring/hd_monitoring.sh /opt/embed/hdmonitoring.sh
+
 ADD ./scripts/populate-update-mysqldb.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/populate-update-mysqldb.sh
 ADD ./scripts/create-mysql-datasource.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/create-mysql-datasource.sh
 ADD ./scripts/reconfigure-mysqldb.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/reconfigure-mysqldb.sh
