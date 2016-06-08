@@ -27,7 +27,7 @@ RUN mkdir -p /opt/embed/
 
 #graylog needed files
 ADD ./resources/jvmtop.jar /opt/resources/jvmtop.jar
-ADD ./monitoring/serveram_crontab /etc/cron.d/serveram_cron
+ADD ./monitoring/serverram_crontab /etc/cron.d/serveram_cron
 ADD ./monitoring/hd_crontab /etc/cron.d/hdspace-cron
 ADD ./monitoring/msjvm_crontab /etc/cron.d/msjvm_cron
 ADD ./monitoring/MediaServerJVM.sh /opt/embed/mediaserverjvm.sh
