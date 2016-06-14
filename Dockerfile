@@ -50,7 +50,6 @@ RUN chmod +x /etc/my_init.d/restcomm*.sh
 
 RUN chmod +x /opt/embed/*.sh
 RUN chmod +x /tmp/.restcommenv.sh
-#RUN /bin/bash -c "source /opt/embed/restcommenv.sh"
 
 EXPOSE 5080/udp
 EXPOSE 5080/tcp

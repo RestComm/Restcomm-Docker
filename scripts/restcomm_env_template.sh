@@ -67,11 +67,6 @@ echo -e "URL_FOR_CERTIFICATE" > /etc/container_environment/CERTCONFURL
 echo -e "USER_FOR_AUTH" > /etc/container_environment/CERTREPOUSR
 echo -e "PASSWD_FOR_AUTH" > /etc/container_environment/CERTREPOPWRD
 
-#Configuration  to pull der file(If secure=AUTH).
-echo -e "URL_FOR_DER_FILE" > /etc/container_environment/DERCONFURL
-echo -e "USER" > /etc/container_environment/DERREPOUSR
-echo -e "PASSED" > /etc/container_environment/DERREPOPWRD
-
 #support loadbalancers
 echo -e "" > /etc/container_environment/LOAD_BALANCERS
 
