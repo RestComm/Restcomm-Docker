@@ -38,6 +38,7 @@ ADD ./scripts/populate-update-mysqldb.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/po
 ADD ./scripts/create-mysql-datasource.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/create-mysql-datasource.sh
 ADD ./scripts/reconfigure-mysqldb.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/reconfigure-mysqldb.sh
 ADD ./ca-startcom.der /opt/Restcomm-JBoss-AS7/ca-startcom.der
+
 ADD ./scripts/tcpdump_crontab /etc/cron.d/restcommtcpdump-cron
 ADD ./scripts/core_crontab /etc/cron.d/restcommcore-cron
 ADD ./scripts/mediaserver_crontab /etc/cron.d/restcommmediaserver-cron
@@ -48,6 +49,7 @@ ADD ./scripts/docker_do.sh   /opt/embed/restcomm_docker.sh
 RUN touch /var/log/cron.log
 
 RUN mkdir -p /etc/my_init.d
+
 
 ADD ./scripts/automate_conf.sh /etc/my_init.d/restcommautomate.sh
 ADD ./scripts/restcomm_setenv.sh /tmp/.restcommenv.sh

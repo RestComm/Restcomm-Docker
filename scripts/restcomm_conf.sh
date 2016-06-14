@@ -418,7 +418,7 @@ if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   https=443
   if [  "${USE_STANDARD_SIP_PORTS^^}" = "TRUE"  ]; then
     sipHPort=5063
-    sipLPort =5060
+    sipLPort=5060
   fi
 
  if [ -n "$PORT_OFFSET" ]; then
