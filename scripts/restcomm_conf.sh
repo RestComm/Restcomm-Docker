@@ -247,7 +247,7 @@ fi
 
 if [ -n "$PORT_OFFSET" ]; then
     echo "PORT_OFFSET $PORT_OFFSET"
-    sed -i "s|PORT_OFFSET=.*|SIP_PORT_UDP=${PORT_OFFSET}|"   $BASEDIR/bin/restcomm/restcomm.conf
+    sed -i "s|PORT_OFFSET=.*|PORT_OFFSET=${PORT_OFFSET}|"   $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$PLAY_WAIT_MUSIC" ]; then
