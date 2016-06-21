@@ -1,7 +1,4 @@
 #! /bin/bash
-
-#copy of https://github.com/RestComm/juju-charms/blob/master/mobicents-restcomm-charm/trusty/mobicents-restcomm/lib/mobicents/configuration/config-load-balancer.sh
-
 ##
 ## Description: Support external load balancer
 ## Author     : Gennadiy Dubina

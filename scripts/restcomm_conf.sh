@@ -132,6 +132,7 @@ fi
 if [ -n "$RESTCOMM_LOGS" ]; then
   echo "RESTCOMM_LOGS $RESTCOMM_LOGS"
   sed -i "s|BASEDIR=.*| |" $BASEDIR/bin/restcomm/logs_collect.sh
+  sed -i "s|./jvmtop.sh|${BASEDIR}/bin/restcomm/jvmtop.sh|" $BASEDIR/bin/restcomm/logs_collect.sh
   sed -i "s|LOGS_DIR_ZIP=.*|LOGS_DIR_ZIP=$RESTCOMM_LOGS/\$DIR_NAME|" $BASEDIR/bin/restcomm/logs_collect.sh
   sed -i "s|RESTCOMM_LOG_BASE=.*|RESTCOMM_LOG_BASE=${RESTCOMM_LOGS}|" /opt/embed/restcomm_docker.sh
 
@@ -285,6 +286,7 @@ if [ -n "$INIT_PASSWORD" ]; then
     sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$PASSWORD_ENCRYPTED/g" $SQL_FILE
     sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
     sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
+
     # end
 fi
 
