@@ -315,7 +315,7 @@ fi
 if [ -n "$MYSQL_USER" ]; then
   echo "MYSQL_USER $MYSQL_USER MYSQL_HOST $MYSQL_HOST MYSQL_SCHEMA $MYSQL_SCHEMA"
   grep -q 'MYSQL_HOST=' $BASEDIR/bin/restcomm/restcomm.conf || echo "MYSQL_HOST='${MYSQL_HOST}'" >> $BASEDIR/bin/restcomm/restcomm.conf
-  grep -q 'MYSQL_USER=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_USER=${MYSQL_USER}'" >> $BASEDIR/bin/restcomm/restcomm.conf
+  grep -q 'MYSQL_USER=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_USER='${MYSQL_USER}'" >> $BASEDIR/bin/restcomm/restcomm.conf
   grep -q 'MYSQL_PASSWORD=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_PASSWORD='${MYSQL_PASSWORD}'" >> $BASEDIR/bin/restcomm/restcomm.conf
 
  if [ -n "$MYSQL_SNDHOST" ]; then
