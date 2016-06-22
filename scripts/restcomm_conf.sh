@@ -335,7 +335,7 @@ if [ -n "$MYSQL_USER" ]; then
 fi
 
 if [ -n "$SSL_MODE" ]; then
-	sed -i "s|SSL_MODE=.*|SSL_MODE='${SSL_MODE}'|" $BASEDIR/bin/restcomm/restcomm.conf
+	sed -i "s|SSL_MODE=.*|SSL_MODE='${SSL_MODE}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 if [ -n "$RVD_LOCATION" ]; then
