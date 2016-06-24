@@ -166,7 +166,8 @@ if [ -n "$SMPP_ACTIVATE" ]; then
   sed -i "s|SMPP_SYSTEM_TYPE=.*|SMPP_SYSTEM_TYPE='${GENERIC_SMPP_TYPE}'" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s|SMPP_PEER_IP=.*|SMPP_PEER_IP='${GENERIC_SMPP_PEER_IP}'" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s|SMPP_PEER_PORT=.*|SMPP_PEER_PORT='${GENERIC_SMPP_PEER_PORT}'" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|<connection activateAddressMapping=\"false\" sourceAddressMap=\"\" destinationAddressMap=\"\" tonNpiValue=\"1\">|<connection activateAddressMapping=\"false\" sourceAddressMap=\"${GENERIC_SMPP_SOURCE_MAP}\" destinationAddressMap=\"${GENERIC_SMPP_DEST_MAP}\" tonNpiValue=\"1\">|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+  sed -i "s|SMPP_SOURCE_MAP=.*|SMPP_SOURCE_MAP='${SMPP_SOURCE_MAP}'" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_DEST_MAP=.*|SMPP_DEST_MAP='${SMPP_DEST_MAP}'" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$NEXMO_SMPP_TYPE" ]; then
@@ -177,7 +178,8 @@ if [ -n "$NEXMO_SMPP_TYPE" ]; then
   sed -i "s|SMPP_SYSTEM_TYPE=.*|SMPP_SYSTEM_TYPE='${NEXMO_SMPP_TYPE}'|" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s|SMPP_PEER_IP=.*|SMPP_PEER_IP='smpp0.nexmo.com'|" $BASEDIR/bin/restcomm/restcomm.conf
   sed -i "s|SMPP_PEER_PORT=.*|SMPP_PEER_PORT='8000'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|<connection activateAddressMapping=\"false\" sourceAddressMap=\"\" destinationAddressMap=\"\" tonNpiValue=\"1\">|<connection activateAddressMapping=\"false\" sourceAddressMap=\"6666\" destinationAddressMap=\"7777\" tonNpiValue=\"1\">|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+  sed -i "s|SMPP_SOURCE_MAP=.*|SMPP_SOURCE_MAP='${SMPP_SOURCE_MAP}'" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_DEST_MAP=.*|SMPP_DEST_MAP='${SMPP_DEST_MAP}'" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$DID_ENDPOINT" ]; then
@@ -255,105 +257,47 @@ if [ -n "$PLAY_WAIT_MUSIC" ]; then
     sed -i "s|PLAY_WAIT_MUSIC=.*|PLAY_WAIT_MUSIC=${PLAY_WAIT_MUSIC}|"   $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-if [ -n "$S3_BUCKET_NAME" ]; then
-  echo "S3_BUCKET_NAME $S3_BUCKET_NAME S3_ACCESS_KEY $S3_ACCESS_KEY S3_SECURITY_KEY $S3_SECURITY_KEY"
-  sed -i "/<amazon-s3>/ {
-		N; s|<enabled>.*</enabled>|<enabled>true</enabled>|
-		N; s|<bucket-name>.*</bucket-name>|<bucket-name>${S3_BUCKET_NAME}</bucket-name>|
-		N; s|<folder>.*</folder>|<folder>logs</folder>|
-		N; s|<access-key>.*</access-key>|<access-key>${S3_ACCESS_KEY}</access-key>|
-		N; s|<security-key>.*</security-key>|<security-key>${S3_SECURITY_KEY}</security-key>|
-	}" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
-fi
-
-if [ -n "$S3_BUCKET_REGION" ]; then
-  echo "S3_BUCKET_REGION $S3_BUCKET_REGION"
-  sed -i "s|<bucket-region>.*</bucket-region>|<bucket-region>${S3_BUCKET_REGION}</bucket-region>|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+if [ "${ACTIVATE_S3_BUCKET^^}" = "TRUE" ]; then
+  echo "S3_BUCKET_NAME $S3_BUCKET_NAME S3_ACCESS_KEY $S3_ACCESS_KEY S3_SECURITY_KEY $S3_SECURITY_KEY S3_BUCKET_REGION $S3_BUCKET_REGION"
+  sed -i "s|ACTIVATE_S3_BUCKET=.*|ACTIVATE_S3_BUCKET=${ACTIVATE_S3_BUCKET}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|S3_BUCKET_NAME=.*|S3_BUCKET_NAME=${S3_BUCKET_NAME}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|S3_ACCESS_KEY=.*|S3_ACCESS_KEY=${S3_ACCESS_KEY}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|S3_SECURITY_KEY=.*|S3_SECURITY_KEY=${S3_SECURITY_KEY}|"   $BASEDIR/bin/restcomm/advanced.conf
+  if [ -n "$S3_BUCKET_REGION" ]; then
+        sed -i "s|S3_BUCKET_REGION=.*|S3_BUCKET_REGION=${S3_BUCKET_REGION}|"   $BASEDIR/bin/restcomm/advanced.conf
+  fi
 fi
 
 if [ -n "$INIT_PASSWORD" ]; then
-    # chnange admin password
-    SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/restcomm.script
-    PASSWORD_ENCRYPTED=`echo -n "${INIT_PASSWORD}" | md5sum |cut -d " " -f1`
-    echo "Update password to ${INIT_PASSWORD}($PASSWORD_ENCRYPTED)"
-    sed -i "s/uninitialized/active/g" $SQL_FILE
-    sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$PASSWORD_ENCRYPTED/g" $SQL_FILE
-    sed -i "s/2012-04-24 00:00:00.000000000/2016-02-17 10:00:00.575000000/" $SQL_FILE
-    sed -i "s/2012-04-24 00:00:00.000000000/2016-02-17 10:04:00.575000000/" $SQL_FILE
-
-    SQL_FILE=$BASEDIR/standalone/deployments/restcomm.war/WEB-INF/scripts/mariadb/init.sql
-    sed -i "s/uninitialized/active/g" $SQL_FILE
-    sed -i "s/77f8c12cc7b8f8423e5c38b035249166/$PASSWORD_ENCRYPTED/g" $SQL_FILE
-    sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
-    sed -i 's/Date("2012-04-24")/now()/' $SQL_FILE
-
-    # end
+    sed -i "s|INIT_PASSWORD=.*|INIT_PASSWORD=${INIT_PASSWORD}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 if [ -n "$HSQL_PERSIST" ]; then
   echo "HSQL_PERSIST $HSQL_PERSIST"
-  mkdir -p $HSQL_PERSIST
-  sed -i "s|<data-files>.*</data-files>|<data-files>${HSQL_PERSIST}</data-files>|"  $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
-  cp $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/data/hsql/* $HSQL_PERSIST
+  sed -i "s|HSQL_DIR=.*|HSQL_DIR=${HSQL_PERSIST}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 if [ -n "$SMTP_USER" ]; then
-  echo "SMTP_USER $SMTP_USER SMTP_PASSWORD $SMTP_PASSWORD SMTP_HOST $SMTP_HOST"
-  sed -i "/<smtp-notify>/ {
-		N; s|<host>.*</host>|<host>${SMTP_HOST}</host>|
-		N; s|<user>.*</user>|<user>${SMTP_USER}</user>|
-		N; s|<password>.*</password>|<password>${SMTP_PASSWORD}</password>|
-	}" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
-
-  sed -i "/<smtp-service>/ {
-		N; s|<host>.*</host>|<host>${SMTP_HOST}</host>|
-		N; s|<user>.*</user>|<user>${SMTP_USER}</user>|
-		N; s|<password>.*</password>|<password>${SMTP_PASSWORD}</password>|
-	}" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/conf/restcomm.xml
+  echo "SMTP_USER $SMTP_USER SMTP_PASSWORD $SMTP_PASSWORD SMTP_HOST $SMTP_HOST SMTP_PORT $SMTP_PORT"
+  sed -i "s|SMTP_USER=.*|SMTP_USER=${SMTP_USER}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|SMTP_PASSWORD=.*|SMTP_PASSWORD=${SMTP_PASSWORD}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|SMTP_HOST=.*|SMTP_HOST=${SMTP_HOST}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|SMTP_PORT=.*|SMTP_PORT=${SMTP_PORT}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 
-if [ -n "$MYSQL_USER" ]; then
-  echo "MYSQL_USER $MYSQL_USER MYSQL_HOST $MYSQL_HOST MYSQL_SCHEMA $MYSQL_SCHEMA"
-  grep -q 'MYSQL_HOST=' $BASEDIR/bin/restcomm/restcomm.conf || echo "MYSQL_HOST='${MYSQL_HOST}'" >> $BASEDIR/bin/restcomm/restcomm.conf
-  grep -q 'MYSQL_USER=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_USER='${MYSQL_USER}'" >> $BASEDIR/bin/restcomm/restcomm.conf
-  grep -q 'MYSQL_PASSWORD=' $BASEDIR/bin/restcomm/restcomm.conf ||  echo "MYSQL_PASSWORD='${MYSQL_PASSWORD}'" >> $BASEDIR/bin/restcomm/restcomm.conf
-
- if [ -n "$MYSQL_SNDHOST" ]; then
-     echo "MYSQL_SNDHOST=${MYSQL_SNDHOST}" >> $BASEDIR/bin/restcomm/restcomm.conf
- fi
-
-  if [ -n "$MYSQL_SCHEMA" ]; then
-	grep -q 'MYSQL_SCHEMA=' $BASEDIR/bin/restcomm/restcomm.conf || echo "MYSQL_SCHEMA='${MYSQL_SCHEMA}'" >> $BASEDIR/bin/restcomm/restcomm.conf
-  else
-	$MYSQL_SCHEMA="restcomm"
-	  grep -q 'MYSQL_SCHEMA=' $BASEDIR/bin/restcomm/restcomm.conf || echo "MYSQL_SCHEMA='${MYSQL_SCHEMA}'" >> $BASEDIR/bin/restcomm/restcomm.conf
-  fi
-
-  echo "MYSQL_USER $MYSQL_USER MYSQL_HOST $MYSQL_HOST MYSQL_SCHEMA $MYSQL_SCHEMA"
-  sed -i "s|restcomm;|${MYSQL_SCHEMA};|" $BASEDIR/standalone/deployments/restcomm.war/WEB-INF/scripts/mariadb/init.sql
-  source $BASEDIR/bin/restcomm/populate-update-mysqldb.sh $MYSQL_HOST $MYSQL_USER $MYSQL_PASSWORD $MYSQL_SCHEMA
-fi
-
-if [ -n "$SSL_MODE" ]; then
-	sed -i "s|SSL_MODE=.*|SSL_MODE='${SSL_MODE}'|" $BASEDIR/bin/restcomm/advanced.conf
+if [ "${ENABLE_MYSQL^^}" = "TRUE" ]; then
+  echo "ENABLE_MYSQL $ENABLE_MYSQL MYSQL_USER $MYSQL_USER MYSQL_HOST $MYSQL_HOST MYSQL_SCHEMA $MYSQL_SCHEMA MYSQL_SNDHOST $MYSQL_SNDHOST"
+  sed -i "s|ENABLE_MYSQL=.*|ENABLE_MYSQL=${ENABLE_MYSQL}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|MYSQL_USER=.*|MYSQL_USER=${MYSQL_USER}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|MYSQL_PASSWORD=.*|MYSQL_PASSWORD=${MYSQL_PASSWORD}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|MYSQL_HOST=.*|MYSQL_HOST=${MYSQL_HOST}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|MYSQL_SCHEMA=.*|MYSQL_SCHEMA=${MYSQL_SCHEMA}|"   $BASEDIR/bin/restcomm/advanced.conf
+  sed -i "s|MYSQL_SNDHOST=.*|MYSQL_SNDHOST=${MYSQL_SNDHOST}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 if [ -n "$RVD_LOCATION" ]; then
   echo "RVD_LOCATION $RVD_LOCATION"
-  mkdir -p `echo $RVD_LOCATION`
-  sed -i "s|<workspaceLocation>.*</workspaceLocation>|<workspaceLocation>${RVD_LOCATION}</workspaceLocation>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
-
-  COPYFLAG=$RVD_LOCATION/.demos_initialized
-  if [ -f "$COPYFLAG" ];
-  then
-   #Do nothing, we already copied the demo file to the new workspace
-    echo "RVD demo application are already copied"
-  else
-    echo "Will copy RVD demo applications to the new workspace $RVD_LOCATION"
-    cp -ar $BASEDIR/standalone/deployments/restcomm-rvd.war/workspace/* $RVD_LOCATION
-    touch $COPYFLAG
-  fi
-
+  sed -i "s|RVD_LOCATION=.*|RVD_LOCATION=${RVD_LOCATION}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 #Patch provided for the RVD backup Directory for the migration process (in order to save the backup at the host need to  mount this directory e.g. -v host_path:RVD_MIGRATION_BACKUP).
@@ -364,12 +308,20 @@ fi
 
 if [ -n "$LOG_LEVEL" ]; then
   echo "LOG_LEVEL $LOG_LEVEL"
-  sed -i "s|<logger category=\"org.mobicents.servlet.sip\">|<logger category=\"org.mobicents.servlet\">|" $BASEDIR/standalone/configuration/standalone-sip.xml
-  sed -i "/<logger category=\"org.mobicents.servlet\">/ {
-		N; s|<level name=\".*\"/>|<level name=\"${LOG_LEVEL}\"/>|
-	}" $BASEDIR/standalone/configuration/standalone-sip.xml
-    sed -i  "s|<param name=\"Threshold\" value=\"INFO\" />|<param name=\"Threshold\" value=\"${LOG_LEVEL}\" />|"  $BASEDIR/mediaserver/conf/log4j.xml
-    sed -i  "s|<priority value=\"INFO\"/>|<priority value=\"${LOG_LEVEL}\"/>|"  $BASEDIR/mediaserver/conf/log4j.xml
+  sed -i "s|LOG_LEVEL=.*|LOG_LEVEL=${LOG_LEVEL}|"   $BASEDIR/bin/restcomm/restcomm.conf #Used for RMS & RC console-handler.
+fi
+
+if [ -n "$LOG_LEVEL_COMPONENT_GOVNIST" ]; then
+    sed -i "s|LOG_LEVEL_COMPONENT_GOVNIST=.*|LOG_LEVEL_COMPONENT_GOVNIST=${LOG_LEVEL_COMPONENT_GOVNIST}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$LOG_LEVEL_COMPONENT_SIPSERVLET" ]; then
+    sed -i "s|LOG_LEVEL_COMPONENT_SIPSERVLET=.*|LOG_LEVEL_COMPONENT_SIPSERVLET=${LOG_LEVEL_COMPONENT_SIPSERVLET}|"   $BASEDIR/bin/restcomm/restcomm.conf
+fi
+
+if [ -n "$AKKA_LOG_LEVEL" ]; then
+  echo "AKKA_LOG_LEVEL $AKKA_LOG_LEVEL"
+  sed -i "s|AKKA_LOG_LEVEL=.*|AKKA_LOG_LEVEL=${LOG_LEVEL}|"   $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$CORE_LOGS_LOCATION" ]; then
@@ -381,7 +333,6 @@ if [ -n "$CORE_LOGS_LOCATION" ]; then
   sed -i "s/RESTCOMM_CORE_FILE=server.log/RESTCOMM_CORE_FILE=restcommCore-server.log/" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
   sed -i "s|RESTCOMM_CORE_LOG=.*|RESTCOMM_CORE_LOG=$RESTCOMM_CORE_LOG/${CORE_LOGS_LOCATION}|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
   sed -i "s|RESTCOMM_LOG_BASE=.*|RESTCOMM_LOG_BASE=${CORE_LOGS_LOCATION}|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
-
 fi
 
 #Media-server Log configuration.
@@ -399,9 +350,6 @@ if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   sed -i "s|MMS_LOGS=.*|MMS_LOGS=$MMS_LOGS/${MEDIASERVER_LOGS_LOCATION}|" /opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh
 fi
 
-if [ -n "$GOVNIST_LOG_LEVEL" ]; then
-  sed -i "/<logger category=\"gov.nist\">/ {N; s/<level name=\"INFO\"\/>/<level name=\"${GOVNIST_LOG_LEVEL}\"\/>/}" $BASEDIR/standalone/configuration/standalone-sip.xml
-fi
 
 if [ -n "$RESTCOMM_TRACE_LOG" ]; then
   echo "RESTCOMM_TRACE_LOG $RESTCOMM_TRACE_LOG"
@@ -445,31 +393,25 @@ EOT
     chmod 777 $TCPFILE
 fi
 
-if [ "${PROD_MODE^^}" = "TRUE" ]; then
-    JBOSS_CONFIG=standalone
-
-    echo "Update RestComm log level to WARN"
-    sed -i 's/INFO/WARN/g' $BASEDIR/$JBOSS_CONFIG/configuration/standalone-sip.xml
-    sed -i 's/ERROR/WARN/g' $BASEDIR/$JBOSS_CONFIG/configuration/standalone-sip.xml
-    sed -i 's/DEBUG/WARN/g' $BASEDIR/$JBOSS_CONFIG/configuration/standalone-sip.xml
-
-    echo "Update MMS log level to WARN"
-    sed -i 's/INFO/WARN/g' $BASEDIR/mediaserver/conf/log4j.xml
-    sed -i 's/ERROR/WARN/g' $BASEDIR/mediaserver/conf/log4j.xml
-    sed -i 's/DEBUG/WARN/g' $BASEDIR/mediaserver/conf/log4j.xml
-
-    echo "Update AKKA log level to OFF"
-    sed -i 's/INFO/OFF/g' $BASEDIR/$JBOSS_CONFIG/deployments/restcomm.war/WEB-INF/classes/application.conf
-fi
-
 if [ -n "$RC_JAVA_OPTS" ]; then
     echo "RestComm java options: $RC_JAVA_OPTS"
-    sed -i "s|RC_JAVA_OPTS=.*|RC_JAVA_OPTS='${RC_JAVA_OPTS}'|" $BASEDIR/bin/restcomm/restcomm.conf
+    sed -i "s|RC_JAVA_OPTS=.*|RC_JAVA_OPTS='${RC_JAVA_OPTS}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 if [ -n "$RMS_JAVA_OPTS" ]; then
     echo "mediasercer java options: $RMS_JAVA_OPTS"
-    sed -i "s|RMS_JAVA_OPTS=.*|RMS_JAVA_OPTS='${RMS_JAVA_OPTS}'|" $BASEDIR/bin/restcomm/restcomm.conf
+    sed -i "s|RMS_JAVA_OPTS=.*|RMS_JAVA_OPTS='${RMS_JAVA_OPTS}'|" $BASEDIR/bin/restcomm/advanced.conf
+fi
+
+if [ -n "$MGMT_PASS" ] && [ -n "$MGMT_USER" ]; then
+    sed -i "s|MGMT_PASS=.*|MGMT_PASS='${MGMT_PASS}'|" $BASEDIR/bin/restcomm/advanced.conf
+    sed -i "s|MGMT_USER=.*|MGMT_USER='${MGMT_USER}'|" $BASEDIR/bin/restcomm/advanced.conf
+fi
+
+if [ -n "$RVD_PORT" ]; then
+    echo "RVD_PORT $RVD_PORT"
+    #If used means that port mapping (e.g: -p 445:443) is not the default (-p 443:443)
+    sed -i "s|RVD_PORT=.*|RVD_PORT='${RVD_PORT}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 ##Additional SIP connector if set

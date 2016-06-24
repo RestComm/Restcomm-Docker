@@ -4,8 +4,6 @@ source /etc/container_environment.sh
 
 BASEDIR=/opt/Restcomm-JBoss-AS7
 
-grep -q 'jboss.bind.address.management' $BASEDIR/bin/restcomm/start-restcomm.sh || sed -i 's|RESTCOMM_HOME/bin/standalone.sh -b .*|RESTCOMM_HOME/bin/standalone.sh -b $bind_address -Djboss.bind.address.management=$bind_address|' $BASEDIR/bin/restcomm/start-restcomm.sh
-
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
 chmod +x /opt/embed/*.sh

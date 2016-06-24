@@ -25,8 +25,6 @@ RUN cp ${install_dir}/version.txt /tmp/version
 
 RUN mkdir -p /opt/embed/
 
-ADD ./scripts/populate-update-mysqldb.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/populate-update-mysqldb.sh
-ADD ./scripts/create-mysql-datasource.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/create-mysql-datasource.sh
 ADD ./scripts/reconfigure-mysqldb.sh /opt/Restcomm-JBoss-AS7/bin/restcomm/autoconfig.d/reconfigure-mysqldb.sh
 ADD ./ca-startcom.der /opt/Restcomm-JBoss-AS7/ca-startcom.der
 ADD ./scripts/tcpdump_crontab /etc/cron.d/restcommtcpdump-cron
