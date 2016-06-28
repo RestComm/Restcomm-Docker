@@ -158,28 +158,16 @@ if [ -n "$DID_PASSWORD" ]; then
   sed -i "s|DID_PASSWORD=.*|DID_PASSWORD='${DID_PASSWORD}'|" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
-if [ -n "$SMPP_ACTIVATE" ]; then
-  echo "Generic SMPP type $GENERIC_SMPP_TYPE"
+if [  "${SMPP_ACTIVATE^^}" = "TRUE"  ]; then
+  echo "Generic SMPP type $SMPP_TYPE, $SMPP_ID "
   sed -i "s|SMPP_ACTIVATE=.*|SMPP_ACTIVATE='true'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_SYSTEM_ID=.*|SMPP_SYSTEM_ID='${GENERIC_SMPP_ID}'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_PASSWORD=.*|SMPP_PASSWORD='${GENERIC_SMPP_PASSWORD}'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_SYSTEM_TYPE=.*|SMPP_SYSTEM_TYPE='${GENERIC_SMPP_TYPE}'" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_PEER_IP=.*|SMPP_PEER_IP='${GENERIC_SMPP_PEER_IP}'" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_PEER_PORT=.*|SMPP_PEER_PORT='${GENERIC_SMPP_PEER_PORT}'" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_SOURCE_MAP=.*|SMPP_SOURCE_MAP='${SMPP_SOURCE_MAP}'" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_DEST_MAP=.*|SMPP_DEST_MAP='${SMPP_DEST_MAP}'" $BASEDIR/bin/restcomm/restcomm.conf
-fi
-
-if [ -n "$NEXMO_SMPP_TYPE" ]; then
-  echo "NEXMO_SMPP_TYPE $NEXMO_SMPP_TYPE"
-  sed -i "s|SMPP_ACTIVATE=.*|SMPP_ACTIVATE='true'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_SYSTEM_ID=.*|SMPP_SYSTEM_ID='${DID_LOGIN}'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_PASSWORD=.*|SMPP_PASSWORD='${DID_PASSWORD}'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_SYSTEM_TYPE=.*|SMPP_SYSTEM_TYPE='${NEXMO_SMPP_TYPE}'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_PEER_IP=.*|SMPP_PEER_IP='smpp0.nexmo.com'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_PEER_PORT=.*|SMPP_PEER_PORT='8000'|" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_SOURCE_MAP=.*|SMPP_SOURCE_MAP='${SMPP_SOURCE_MAP}'" $BASEDIR/bin/restcomm/restcomm.conf
-  sed -i "s|SMPP_DEST_MAP=.*|SMPP_DEST_MAP='${SMPP_DEST_MAP}'" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_SYSTEM_ID=.*|SMPP_SYSTEM_ID='${SMPP_ID}'|" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_PASSWORD=.*|SMPP_PASSWORD='${SMPP_PASSWORD}'|" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_SYSTEM_TYPE=.*|SMPP_SYSTEM_TYPE='${SMPP_TYPE}'|" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_PEER_IP=.*|SMPP_PEER_IP='${SMPP_PEER_IP}'|" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_PEER_PORT=.*|SMPP_PEER_PORT='${SMPP_PEER_PORT}'|" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_SOURCE_MAP=.*|SMPP_SOURCE_MAP='${SMPP_SOURCE_MAP}'|" $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|SMPP_DEST_MAP=.*|SMPP_DEST_MAP='${SMPP_DEST_MAP}'|" $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$DID_ENDPOINT" ]; then
@@ -408,13 +396,12 @@ if [ -n "$MGMT_PASS" ] && [ -n "$MGMT_USER" ]; then
     sed -i "s|MGMT_USER=.*|MGMT_USER='${MGMT_USER}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
-if [ -n "$RVD_PORT" ]; then
-    echo "RVD_PORT $RVD_PORT"
-    #If used means that port mapping (e.g: -p 445:443) is not the default (-p 443:443)
-    sed -i "s|RVD_PORT=.*|RVD_PORT='${RVD_PORT}'|" $BASEDIR/bin/restcomm/advanced.conf
-fi
+
 
 ##Additional SIP connector if set
 grep "ADDITIONAL_CONNECTOR_" /etc/container_environment.sh | cut -d " " -f2 |while read line; do  echo $line >> $BASEDIR/bin/restcomm/advanced.conf;   done
+
+##RMS pool configuration
+grep "RESOURCE_" /etc/container_environment.sh | cut -d " " -f2 |while read line; do  echo $line >> $BASEDIR/bin/restcomm/advanced.conf;   done
 #auto delete script after run once. No need more.
 rm -- "$0"
