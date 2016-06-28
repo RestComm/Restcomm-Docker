@@ -153,7 +153,10 @@ else
 fi
 }
 
-
+change_log() {
+    echo -en "\e[92mchange log level for $2 to $3 for container $1\e[0m\n"
+    docker exec $1  /bin/sh -c "/opt/Restcomm-JBoss-AS7/bin/restcomm/set-log-level.sh $2 $3"
+}
 
 usage () {
    cat << EOF
@@ -172,6 +175,8 @@ options:
 -p : pull from hub (-L obligatory).
 -L : login to docker hub.
 -c : container to use.
+-a : change log level (-c CONTAINER-a "servlet govnist" -k WARN or -c CONTAINER -a "servlet" -k INFO , -c CONTAINER -a list , etc)
+-k : set log level (Can be used only with -a)
 -d : delete container.
 -h : prints this message
 EOF
@@ -193,6 +198,8 @@ tflag=false
 Hflag=false
 nflag=false
 zflag=false
+aflag=false
+kflag=false
 login=false
 
 
@@ -205,7 +212,7 @@ then
     exit 0
 else
 
-    while getopts ":rH:n:sSp:c:ilLdht:z" opt; do
+    while getopts ":rH:n:sSp:c:a:k:ilLdht:z" opt; do
       case $opt in
             s )
                sflag=true
@@ -252,6 +259,14 @@ else
              z )
                zflag=true
             ;;
+               a )
+                aflag=true
+                input=$OPTARG
+            ;;
+            k )
+                kflag=true
+                level=$OPTARG
+            ;;
             h )
                usage
             ;;
@@ -279,8 +294,13 @@ else
     done;
 
 
-    if [[ ( "$sflag" = "true" || "$Sflag" = "true" || "$lflag" = "true" || "$dflag" = "true" )  &&  ( "$cflag" = "false" ) ]]; then
-        echo " For flags (-s, -S, -l, -d)  a container must  be specified  (-c) " >&2
+    if [[ ( "$sflag" = "true" || "$Sflag" = "true" || "$lflag" = "true" || "$dflag" = "true" || "$aflag" = "true"  )  &&  ( "$cflag" = "false" ) ]]; then
+        echo " For flags (-s, -S, -l, -d, -a)  a container must  be specified  (-c) " >&2
+        exit 1
+    fi
+
+    if [[ "$aflag" = "true" && "$input" != "list"  &&  "$kflag" = "false" ]]; then
+        echo " For flag -a  flag -k  must  be specified " >&2
         exit 1
     fi
 
@@ -331,4 +351,7 @@ else
         info_container
     fi
 
+    if $aflag ; then
+        change_log $container \""$input"\" $level
+    fi
 fi

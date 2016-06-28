@@ -33,18 +33,10 @@ if [[ "$SECURESSL" = "SELF" ||  "$SECURESSL" = "AUTH" ]]; then
     keytool -importcert -alias startssl -keystore /usr/lib/jvm/java-7-oracle/jre/lib/security/cacerts -storepass changeit -file $BASEDIR/ca-startcom.der -noprompt
 	sed -i "s|SECURESSL=.*|SECURESSL='${SECURESSL}'|" $BASEDIR/bin/restcomm/advanced.conf
 	sed -i "s|TRUSTSTORE_FILE=.*|TRUSTSTORE_FILE='${TRUSTSTORE_FILE_NAME}'|" $BASEDIR/bin/restcomm/advanced.conf
+fi
 
-    if [ -n "$RVD_PORT" ]; then
-        echo "RVD_PORT $RVD_PORT"
-        #If used means that port mapping (e.g: -p 445:443) is not the default (-p 443:443)
-        sed -i "s|<restcommBaseUrl>.*</restcommBaseUrl>|<restcommBaseUrl>https://${STATIC_ADDRESS}:${RVD_PORT}/</restcommBaseUrl>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
-    fi
-else
-     if [ -n "$RVD_PORT" ]; then
-            echo "RVD_PORT $RVD_PORT"
-            #If used means that port mapping (e.g: -p 85:80) is not the default (-p 80:80)
-            sed -i "s|<restcommBaseUrl>.*</restcommBaseUrl>|<restcommBaseUrl>http://${STATIC_ADDRESS}:${RVD_PORT}/</restcommBaseUrl>|" $BASEDIR/standalone/deployments/restcomm-rvd.war/WEB-INF/rvd.xml
-      fi
+if [ -n "$SSL_MODE" ]; then
+	sed -i "s|SSL_MODE=.*|SSL_MODE='${SSL_MODE}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 if [ -n "$TRUSTSTORE_PASSWORD" ]; then
