@@ -122,11 +122,11 @@ if [ -n "$SMS_OUTBOUND_PROXY" ]; then
 fi
 
 if [  "${USESBC^^}" = "FALSE"  ]; then
-  sed -i 's|<property name="useSbc">true</property>|<property name="useSbc">false</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
+  sed -i 's|<property name="useSbc">true</property>|<property name="useSbc">false</property>|' $BASEDIR/bin/restcomm/autoconfig.d/config-rms.sh
 fi
 
 if [  -n "$DTMFDBI" ]; then
-  sed -i "s|<property name=\"dtmfDetectorDbi\">0</property>|<property name=\"dtmfDetectorDbi\">${DTMFDBI}</property>|" $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
+  sed -i "s|<property name=\"dtmfDetectorDbi\">0</property>|<property name=\"dtmfDetectorDbi\">${DTMFDBI}</property>|" $BASEDIR/bin/restcomm/autoconfig.d/config-rms.sh
 fi
 
 if [ -n "$RESTCOMM_LOGS" ]; then
@@ -328,7 +328,7 @@ if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   echo "MEDIASERVER_LOGS_LOCATION $MEDIASERVER_LOGS_LOCATION"
   mkdir -p `echo $MEDIASERVER_LOGS_LOCATION`
   sed -i "s|find .*server.log|find $MMS_LOGS/${MEDIASERVER_LOGS_LOCATION}/media-server.log*|" /etc/cron.d/restcommmediaserver-cron
-  sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/bin/restcomm/autoconfig.d/config-mobicents-ms.sh
+  sed -i 's/configLogDirectory$/#configLogDirectory/' $BASEDIR/bin/restcomm/autoconfig.d/config-rms.sh
   #Daily log rotation for MS.
   sed -i "s|<appender name=\"FILE\" class=\"org\.apache\.log4j\.RollingFileAppender\"|<appender name=\"FILE\" class=\"org\.apache\.log4j\.DailyRollingFileAppender\"|"  $BASEDIR/mediaserver/conf/log4j.xml
   sed -i "s|<param name=\"Append\" value=\"false\"|<param name=\"Append\" value=\"true\"|"  $BASEDIR/mediaserver/conf/log4j.xml
