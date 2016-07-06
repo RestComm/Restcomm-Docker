@@ -256,8 +256,8 @@ if [ "${ACTIVATE_S3_BUCKET^^}" = "TRUE" ]; then
   fi
 fi
 
-if [ -n "$INIT_PASSWORD" ]; then
-    sed -i "s|INIT_PASSWORD=.*|INIT_PASSWORD=${INIT_PASSWORD}|"   $BASEDIR/bin/restcomm/advanced.conf
+if [ -n "$INITIAL_ADMIN_PASSWORD" ]; then
+    sed -i "s|INITIAL_ADMIN_PASSWORD=.*|INITIAL_ADMIN_PASSWORD=${INITIAL_ADMIN_PASSWORD}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 
 if [ -n "$HSQL_PERSIST" ]; then
