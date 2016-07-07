@@ -22,8 +22,9 @@ rm -rf /var/lib/apt/lists/*
 
 # download restcomm
 ENV install_dir /opt/Restcomm-JBoss-AS7
-RUN wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt -O version.txt && mv version.txt /tmp/version
-RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`cat /tmp/version`.zip -O Restcomm-JBoss-AS7.zip && \
+
+RUN wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm-new-mediaserver-config/3/artifact/restcomm-version.txt -O version.txt && mv version.txt /tmp/version
+RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm-new-mediaserver-config/3/artifact/Restcomm-JBoss-AS7-`cat /tmp/version`.zip -O Restcomm-JBoss-AS7.zip && \
 unzip Restcomm-JBoss-AS7.zip -d /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && \
 rm Restcomm-JBoss-AS7.zip
 
