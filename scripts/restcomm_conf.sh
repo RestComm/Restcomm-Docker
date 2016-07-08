@@ -122,11 +122,11 @@ if [ -n "$SMS_OUTBOUND_PROXY" ]; then
 fi
 
 if [  "${USESBC^^}" = "FALSE"  ]; then
-   sed -i "s|USESBC=.*|USESBC='${USESBC}|"  $BASEDIR/bin/restcomm/restcomm.conf
+   sed -i "s|USESBC=.*|USESBC=${USESBC}|"  $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [  -n "$DTMFDBI" ]; then
-  sed -i "s|DTMFDBI=.*|DTMFDBI='${DTMFDBI}|"  $BASEDIR/bin/restcomm/restcomm.conf
+  sed -i "s|DTMFDBI=.*|DTMFDBI='${DTMFDBI}'|"  $BASEDIR/bin/restcomm/restcomm.conf
 fi
 
 if [ -n "$RESTCOMM_LOGS" ]; then
