@@ -9,7 +9,7 @@ CMD ["/sbin/my_init"]
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections && \
+echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true |  /usr/bin/debconf-set-selections && \
 locale-gen en_US en_US.UTF-8 && \
 dpkg-reconfigure locales
 
