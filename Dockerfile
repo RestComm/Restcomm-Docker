@@ -15,7 +15,7 @@ dpkg-reconfigure locales
 
 RUN add-apt-repository ppa:webupd8team/java -y && \
 apt-cache search mysql-client-core && \
-apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-installer mysql-client-core-5.7 openssl unzip nfs-common tcpdump dnsutils && \
+apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-installer mysql-client-core-5.7 openssl unzip nfs-common tcpdump dnsutils net-tools && \
 apt-get autoremove && \
 apt-get autoclean && \
 rm -rf /var/lib/apt/lists/*
