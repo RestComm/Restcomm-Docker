@@ -9,22 +9,21 @@ CMD ["/sbin/my_init"]
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections && \
+echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true |  /usr/bin/debconf-set-selections && \
 locale-gen en_US en_US.UTF-8 && \
 dpkg-reconfigure locales
 
 RUN add-apt-repository ppa:webupd8team/java -y && \
 apt-cache search mysql-client-core && \
-apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-installer mysql-client-core-5.6 openssl unzip nfs-common tcpdump dnsutils && \
+apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-installer mysql-client-core-5.7 openssl unzip nfs-common tcpdump dnsutils net-tools && \
 apt-get autoremove && \
 apt-get autoclean && \
 rm -rf /var/lib/apt/lists/*
 
 # download restcomm
 ENV install_dir /opt/Restcomm-JBoss-AS7
-
-RUN wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm-new-mediaserver-config/6/artifact/restcomm-version.txt -O version.txt && mv version.txt /tmp/version
-RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm-new-mediaserver-config/6/artifact/Restcomm-JBoss-AS7-`cat /tmp/version`.zip -O Restcomm-JBoss-AS7.zip && \
+RUN wget -qO- https://mobicents.ci.cloudbees.com/job/RestComm/967/artifact/restcomm-version.txt -O version.txt && mv version.txt /tmp/version
+RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/967/artifact/Restcomm-JBoss-AS7-`cat /tmp/version`.zip -O Restcomm-JBoss-AS7.zip && \
 unzip Restcomm-JBoss-AS7.zip -d /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && \
 rm Restcomm-JBoss-AS7.zip
 
