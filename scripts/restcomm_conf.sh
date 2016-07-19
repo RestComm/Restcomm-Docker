@@ -401,7 +401,12 @@ if [ -n "$MGMT_PASS" ] && [ -n "$MGMT_USER" ]; then
     sed -i "s|MGMT_USER=.*|MGMT_USER='${MGMT_USER}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
-
+#USSD configuration
+if [ -n "$USSDGATEWAYURI" ]; then
+    sed -i "s|USSDGATEWAYURI=.*|USSDGATEWAYURI='${USSDGATEWAYURI}'|" $BASEDIR/bin/restcomm/advanced.conf
+    sed -i "s|USSDGATEWAYUSER=.*|USSDGATEWAYUSER='${USSDGATEWAYUSER}'|" $BASEDIR/bin/restcomm/advanced.conf
+    sed -i "s|USSDGATEWAYPASSWORD=.*|USSDGATEWAYPASSWORD='${USSDGATEWAYPASSWORD}'|" $BASEDIR/bin/restcomm/advanced.conf
+fi
 
 ##Additional SIP connector if set
 grep "ADDITIONAL_CONNECTOR_" /etc/container_environment.sh | cut -d " " -f2 |while read line; do  echo $line >> $BASEDIR/bin/restcomm/advanced.conf;   done
