@@ -42,7 +42,7 @@ cp /opt/embed/dockercleanup.sh  "${RESTCOMM_LOGS}"/opt/
 cp /opt/embed/restcomm_docker.sh  "${RESTCOMM_LOGS}"/opt/
 
 # Ensure cron is allowed to run"
-sed -i 's/^(session\s+required\s+pam_loginuid.so.*$)/# \1/g' /etc/pam.d/cron
+sed -i 's/^\(session\s\+required\s\+pam_loginuid\.so.*$\)/# \1/g' /etc/pam.d/cron
 
 mkdir -p /etc/service/restcomm
 mv /tmp/restcomm_service.sh /etc/service/restcomm/run
