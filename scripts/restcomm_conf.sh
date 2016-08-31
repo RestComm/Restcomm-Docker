@@ -26,12 +26,7 @@ fi
 if [ -n "$RESTCOMM_HOSTNAME" ]; then
   echo "HOSTNAME $RESTCOMM_HOSTNAME"
   sed -i "s|RESTCOMM_HOSTNAME=.*|RESTCOMM_HOSTNAME='${RESTCOMM_HOSTNAME}'|" $BASEDIR/bin/restcomm/restcomm.conf
-
-  if [  "${ADDHOSTNAME^^}" = "TRUE"  ]; then
-    echo "ADD $RESTCOMM_HOSTNAME $STATIC_ADDRESS to /etc/hosts "
-    echo "$RESTCOMM_HOSTNAME $STATIC_ADDRESS" >> /etc/hosts
  fi
-fi
 
 #MS Network Configuration
 if [ -n "$MS_ADDRESS" ]; then
