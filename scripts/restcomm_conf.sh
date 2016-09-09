@@ -265,6 +265,11 @@ if [ -n "$INITIAL_ADMIN_PASSWORD" ]; then
     sed -i "s|INITIAL_ADMIN_PASSWORD=.*|INITIAL_ADMIN_PASSWORD=${INITIAL_ADMIN_PASSWORD}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 
+if [ -n "$INITIAL_ADMIN_USER" ]; then
+    sed -i "s|INITIAL_ADMIN_USER=.*|INITIAL_ADMIN_USER=${INITIAL_ADMIN_USER}|"   $BASEDIR/bin/restcomm/advanced.conf
+fi
+
+
 if [ -n "$HSQL_PERSIST" ]; then
   echo "HSQL_PERSIST $HSQL_PERSIST"
   sed -i "s|HSQL_DIR=.*|HSQL_DIR=${HSQL_PERSIST}|"   $BASEDIR/bin/restcomm/advanced.conf
