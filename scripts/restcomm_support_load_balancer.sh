@@ -20,29 +20,53 @@ fi
 }
 
 configPorts() {
-if [ -n "$LB_SIP_PORT_UDP" ]; then
-  echo "LB_SIP_PORT_UDP $LB_SIP_PORT_UDP"
-  sed -i "s|LB_SIP_PORT_UDP=.*|LB_SIP_PORT_UDP=${LB_SIP_PORT_UDP}|"   $BASEDIR/bin/restcomm/advanced.conf
+if [ -n "$LB_INTERNAL_PORT_UDP" ]; then
+  echo "LB_INTERNAL_PORT_UDP $LB_INTERNAL_PORT_UDP"
+  sed -i "s|LB_INTERNAL_PORT_UDP=.*|LB_INTERNAL_PORT_UDP=${LB_INTERNAL_PORT_UDP}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
-if [ -n "$LB_SIP_PORT_TCP" ]; then
-  echo "LB_SIP_PORT_TCP $LB_SIP_PORT_TCP"
-  sed -i "s|LB_SIP_PORT_TCP=.*|LB_SIP_PORT_TCP=${LB_SIP_PORT_TCP}|"   $BASEDIR/bin/restcomm/advanced.conf
+if [ -n "$LB_INTERNAL_PORT_TCP" ]; then
+  echo "LB_INTERNAL_PORT_TCP $LB_INTERNAL_PORT_TCP"
+  sed -i "s|LB_INTERNAL_PORT_TCP=.*|LB_INTERNAL_PORT_TCP=${LB_INTERNAL_PORT_TCP}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
-if [ -n "$LB_SIP_PORT_TLS" ]; then
-  echo "LB_SIP_PORT_TLS $LB_SIP_PORT_TLS"
-  sed -i "s|LB_SIP_PORT_TLS=.*|LB_SIP_PORT_TLS=${LB_SIP_PORT_TLS}|"   $BASEDIR/bin/restcomm/advanced.conf
+if [ -n "$LB_INTERNAL_PORT_TLS" ]; then
+  echo "LB_INTERNAL_PORT_TLS $LB_INTERNAL_PORT_TLS"
+  sed -i "s|LB_INTERNAL_PORT_TLS=.*|LB_INTERNAL_PORT_TLS=${LB_INTERNAL_PORT_TLS}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
-if [ -n "$LB_SIP_PORT_WS" ]; then
-  echo "LB_SIP_PORT_WS $LB_SIP_PORT_WS"
-  sed -i "s|LB_SIP_PORT_WS=.*|LB_SIP_PORT_WS=${LB_SIP_PORT_WS}|"   $BASEDIR/bin/restcomm/advanced.conf
+if [ -n "$LB_INTERNAL_PORT_WS" ]; then
+  echo "LB_INTERNAL_PORT_WS $LB_INTERNAL_PORT_WS"
+  sed -i "s|LB_INTERNAL_PORT_WS=.*|LB_INTERNAL_PORT_WS=${LB_INTERNAL_PORT_WS}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
-if [ -n "$LB_SIP_PORT_WSS" ]; then
-  echo "LB_SIP_PORT_WSS $LB_SIP_PORT_WSS"
-  sed -i "s|LB_SIP_PORT_WSS=.*|LB_SIP_PORT_WSS=${LB_SIP_PORT_WSS}|"   $BASEDIR/bin/restcomm/advanced.conf
+if [ -n "$LB_INTERNAL_PORT_WSS" ]; then
+  echo "LB_INTERNAL_PORT_WSS $LB_INTERNAL_PORT_WSS"
+  sed -i "s|LB_INTERNAL_PORT_WSS=.*|LB_INTERNAL_PORT_WSS=${LB_INTERNAL_PORT_WSS}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 if [ -n "$LB_RMI_PORT" ]; then
   echo "LB_RMI_PORT $LB_RMI_PORT"
   sed -i "s|LB_RMI_PORT=.*|LB_RMI_PORT=${LB_RMI_PORT}|"   $BASEDIR/bin/restcomm/advanced.conf
+fi
+if [ -n "$LB_EXTERNAL_PORT_UDP" ]; then
+  echo "LB_EXTERNAL_PORT_UDP $LB_EXTERNAL_PORT_UDP"
+  sed -i "s|LB_EXTERNAL_PORT_UDP=.*|LB_EXTERNAL_PORT_UDP=${LB_EXTERNAL_PORT_UDP}|"   $BASEDIR/bin/restcomm/advanced.conf
+fi
+if [ -n "$LB_EXTERNAL_PORT_TCP" ]; then
+  echo "LB_EXTERNAL_PORT_TCP $LB_EXTERNAL_PORT_TCP"
+  sed -i "s|LB_EXTERNAL_PORT_TCP=.*|LB_EXTERNAL_PORT_TCP=${LB_EXTERNAL_PORT_TCP}|"   $BASEDIR/bin/restcomm/advanced.conf
+fi
+if [ -n "$LB_EXTERNAL_PORT_TLS" ]; then
+  echo "LB_EXTERNAL_PORT_TLS $LB_EXTERNAL_PORT_TLS"
+  sed -i "s|LB_EXTERNAL_PORT_TLS=.*|LB_EXTERNAL_PORT_TLS=${LB_EXTERNAL_PORT_TLS}|"   $BASEDIR/bin/restcomm/advanced.conf
+fi
+if [ -n "$LB_EXTERNAL_PORT_WS" ]; then
+  echo "LB_EXTERNAL_PORT_WS $LB_EXTERNAL_PORT_WS"
+  sed -i "s|LB_EXTERNAL_PORT_WS=.*|LB_EXTERNAL_PORT_WS=${LB_EXTERNAL_PORT_WS}|"   $BASEDIR/bin/restcomm/advanced.conf
+fi
+if [ -n "$LB_EXTERNAL_PORT_WSS" ]; then
+  echo "LB_EXTERNAL_PORT_WSS $LB_EXTERNAL_PORT_WSS"
+  sed -i "s|LB_EXTERNAL_PORT_WSS=.*|LB_EXTERNAL_PORT_WSS=${LB_EXTERNAL_PORT_WSS}|"   $BASEDIR/bin/restcomm/advanced.conf
+fi
+if [ -n "$LBHOST" ]; then
+  echo "LBHOST $LBHOST"
+  sed -i "s|LBHOST=.*|LBHOST=${LBHOST}|"   $BASEDIR/bin/restcomm/advanced.conf
 fi
 }
 
