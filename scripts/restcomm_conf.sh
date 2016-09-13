@@ -413,6 +413,11 @@ if [ -n "$USSDGATEWAYURI" ]; then
     sed -i "s|USSDGATEWAYPASSWORD=.*|USSDGATEWAYPASSWORD='${USSDGATEWAYPASSWORD}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
+if [ -n "$HTTP_RESPONSE_TIMEOUT" ]; then
+   echo "HTTP_RESPONSE_TIMEOUT $HTTP_RESPONSE_TIMEOUT"
+   sed -i "s|HTTP_RESPONSE_TIMEOUT=.*|HTTP_RESPONSE_TIMEOUT='${HTTP_RESPONSE_TIMEOUT}'|" $BASEDIR/bin/restcomm/advanced.conf
+fi
+
 ##Additional SIP connector if set
 grep "ADDITIONAL_CONNECTOR_" /etc/container_environment.sh | cut -d " " -f2 |while read line; do  echo $line >> $BASEDIR/bin/restcomm/advanced.conf;   done
 
