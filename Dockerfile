@@ -22,8 +22,7 @@ rm -rf /var/lib/apt/lists/*
 
 # download restcomm
 ENV install_dir /opt/Restcomm-JBoss-AS7
-RUN wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt -O version.txt && mv version.txt /tmp/version
-RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`cat /tmp/version`.zip -O Restcomm-JBoss-AS7.zip && \
+RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-7.9.0.1006.zip -O Restcomm-JBoss-AS7.zip && \
 unzip Restcomm-JBoss-AS7.zip -d /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && \
 rm Restcomm-JBoss-AS7.zip
 
@@ -51,5 +50,3 @@ RUN chmod +x /tmp/.restcommenv.sh
 EXPOSE 5080/udp  5080/tcp 5081/tcp 5082/tcp 5083/tcp 8080/tcp 8443/tcp 5060/udp 5060/tcp 5061/tcp 5062/tcp 5063/tcp 80/tcp 443/tcp 9990/tcp 65000-65535/udp
 
 ADD ./scripts/restcomm_service.sh /tmp/restcomm_service.sh
-
-
