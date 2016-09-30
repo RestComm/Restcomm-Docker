@@ -418,6 +418,11 @@ if [ -n "$HTTP_RESPONSE_TIMEOUT" ]; then
    sed -i "s|HTTP_RESPONSE_TIMEOUT=.*|HTTP_RESPONSE_TIMEOUT='${HTTP_RESPONSE_TIMEOUT}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
+if [ -n "$CACHE_NO_WAV" ]; then
+   echo "CACHE_NO_WAV $CACHE_NO_WAV"
+   sed -i "s|CACHE_NO_WAV=.*|CACHE_NO_WAV='${CACHE_NO_WAV}'|" $BASEDIR/bin/restcomm/advanced.conf
+fi
+
 ##Additional SIP connector if set
 grep "ADDITIONAL_CONNECTOR_" /etc/container_environment.sh | cut -d " " -f2 |while read line; do  echo $line >> $BASEDIR/bin/restcomm/advanced.conf;   done
 
