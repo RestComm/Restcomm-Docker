@@ -3,7 +3,6 @@
 #LOGS
 
 echo -e "/var/log/restcomm" > /etc/container_environment/EXTCONF_RESTCOMM_LOGS
-
 echo -e "restcomm_core" > /etc/container_environment/EXTCONF_CORE_LOGS_LOCATION
 echo -e "restcomm_trace" > /etc/container_environment/EXTCONF_RESTCOMM_TRACE_LOG
 echo -e "media_server" > /etc/container_environment/EXTCONF_MEDIASERVER_LOGS_LOCATION
@@ -34,7 +33,7 @@ echo -e "INFO" > /etc/container_environment/RCBCONF_LOG_LEVEL_COMPONENT_SIPRESTC
 echo -e "INFO" > /etc/container_environment/RCBCONF_LOG_LEVEL_COMPONENT_RESTCOMM
 
 #SMS
-echo -e "''" > /etc/container_environment/SMS_PREFIX
+echo -e "''" > /etc/container_environment/RCBCONF_SMS_PREFIX
 
 #TTS - this is a free acount KEY - please create your personal key (http://www.voicerss.org/)
 echo -e "f4840af6675b4d20a8d96dea8466296b" > /etc/container_environment/RCBCONF_VOICERSS_KEY
