@@ -45,6 +45,7 @@ ADD ./scripts/restcomm_extconf.sh /etc/my_init.d/restcomm4.sh
 ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcomm5.sh
 ADD ./scripts/restcomm_tag.sh /etc/my_init.d/restcomm6.sh
 
+ADD ./scripts/restcomm_setenv.sh /tmp/.restcommenv.sh
 ADD ./scripts/restcomm_service.sh /tmp/restcomm_service.sh
 ADD ./scripts/start-mediaserver.sh /tmp/start-mediaserver.sh
 ADD ./scripts/start-restcomm.sh /tmp/start-restcomm.sh
