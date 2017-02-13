@@ -41,10 +41,10 @@ echo -e "INFO" > /etc/container_environment/RCBCONF_LOG_LEVEL_COMPONENT_RESTCOMM
 
 #Persistent Data(If need to persist date, else data will be lost everytime container is deleted)
 #MYSQL
-echo -e "Put_Your_User" > /etc/container_environment/EXTCONF_MYSQL_USER
-echo -e "Put_Your_Password" > /etc/container_environment/EXTCONF_MYSQL_PASSWORD
-echo -e "MYSQL_HOST" > /etc/container_environment/EXTCONF_MYSQL_HOST
-echo -e "MYSQL_DB" > /etc/container_environment/EXTCONF_MYSQL_SCHEMA
+echo -e "Put_Your_User" > /etc/container_environment/RCADVCONF_MYSQL_USER
+echo -e "Put_Your_Password" > /etc/container_environment/RCADVCONF_MYSQL_PASSWORD
+echo -e "MYSQL_HOST" > /etc/container_environment/RCADVCONF_MYSQL_HOST
+echo -e "MYSQL_DB" > /etc/container_environment/RCADVCONF_MYSQL_SCHEMA
 
 #SMTP
 echo -e "YOUR_SMTP_USER" > /etc/container_environment/RCADVCONF_SMTP_USER
