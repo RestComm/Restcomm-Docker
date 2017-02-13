@@ -47,7 +47,7 @@ ADD ./scripts/restcomm_tag.sh /etc/my_init.d/restcomm6.sh
 
 ADD ./scripts/restcomm_service.sh /tmp/restcomm_service.sh
 ADD ./scripts/start-mediaserver.sh /tmp/start-mediaserver.sh
-ADD ./scripts/start_restcomm.sh /tmp/start-restcomm.sh
+ADD ./scripts/start-restcomm.sh /tmp/start-restcomm.sh
 ADD ./scripts/restcomm-olympus.sh /tmp/config-olympus.sh
 RUN chmod +x /etc/my_init.d/restcomm*.sh
 RUN chmod +x /tmp/.restcommenv.sh
