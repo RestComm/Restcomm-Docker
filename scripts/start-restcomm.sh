@@ -21,12 +21,6 @@ startRestcomm() {
 	bind_address="$2"
 	ExtraOpts="-Djboss.bind.address.management=$bind_address"
 
-	# Check if RestComm is already running
-	if tmux ls | grep -q 'restcomm'; then
-		echo 'TelScale RestComm is already running on terminal session "restcomm"!'
-		exit 1;
-	fi
-
     if [ -n "$MGMT_PASS" ] && [ -n "$MGMT_USER" ]; then
 	    echo "MGMT_PASS, MGMT_USER is set will be added to MGMNT configuration"
         grep -q "$MGMT_USER" $RESTCOMM_HOME/standalone/configuration/mgmt-users.properties || $RESTCOMM_HOME/bin/add-user.sh "$MGMT_USER" "$MGMT_PASS" -s
