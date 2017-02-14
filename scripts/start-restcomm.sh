@@ -78,7 +78,7 @@ loadConfigurationParams() {
 ##
 ## MAIN
 ##
-verifyDependencies
+#verifyDependencies
 loadConfigurationParams
 
 echo BASEDIR: $BASEDIR
