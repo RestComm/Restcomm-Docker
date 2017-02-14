@@ -20,6 +20,5 @@ function jsonval {
 OPTS=( "RCBCONF_" "RCADVCONF_" "EXTCONF_" "LBCONF_" "RMSCONF_" "CLI_")
 
   for opt in "${OPTS[@]}"; do
-       printf 'conf value %s \n' "$opt"
        jsonval $opt
    done
