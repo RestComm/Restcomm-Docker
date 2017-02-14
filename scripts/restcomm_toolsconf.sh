@@ -18,12 +18,15 @@ sed -i 's/^\(session\s\+required\s\+pam_loginuid\.so.*$\)/# \1/g' /etc/pam.d/cro
 
 mkdir -p /etc/service/restcomm
 mv /tmp/start-restcomm.sh $BASEDIR/bin/restcomm/start-restcomm.sh
+chmod +x $BASEDIR/bin/restcomm/start-restcomm.sh
 mv /tmp/restcomm_service.sh /etc/service/restcomm/run
+chmod +x /etc/service/restcomm/run
 
 mkdir -p /etc/service/rms
 mv /tmp/start-mediaserver.sh $BASEDIR/mediaserver/start-mediaserver.sh
 chmod +x $BASEDIR/mediaserver/start-mediaserver.sh
 mv /tmp/rms_service.sh /etc/service/rms/run
+chmod +x /etc/service/rms/run
 
 echo "RestComm configured Properly!"
 
