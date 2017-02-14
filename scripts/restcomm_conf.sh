@@ -34,7 +34,7 @@ configValues() {
 # Declare associative array
 typeset -A OPTS=( [RCBCONF_]=restcomm.conf [RCADVCONF_]=advanced.conf [EXTCONF_]="" [LBCONF_]=advanced.conf [RMSCONF_]=mediaserver.conf )
 
-   for opt in "${!OPTS[@]}"; do   # Enumerate all indices (user names)
+   for opt in "${!OPTS[@]}"; do
        printf 'conf value %s file: %q\n' "$opt" "${OPTS[$opt]}"
        configValues $opt ${OPTS[$opt]}
    done
