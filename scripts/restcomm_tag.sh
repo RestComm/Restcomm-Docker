@@ -1,6 +1,7 @@
 #!/bin/bash
 #Maintainer Lefteris Banos -liblefty@telestax.com
-
+#set runlevel for runit
+runsvchdir default >/dev/null
 cat << "EOF"
  ____            _    ____
  |  _ \ ___  ___| |_ / ___|___  _ __ ___  _ __ ___

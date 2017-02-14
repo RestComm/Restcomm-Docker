@@ -43,7 +43,8 @@ ADD ./scripts/restcomm_conf.sh /etc/my_init.d/restcomm2.sh
 ADD ./scripts/restcomm_sslconf.sh /etc/my_init.d/restcomm3.sh
 ADD ./scripts/restcomm_extconf.sh /etc/my_init.d/restcomm4.sh
 ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcomm5.sh
-ADD ./scripts/restcomm_tag.sh /etc/my_init.d/restcomm6.sh
+ADD ./scripts/restcomm-runlevels.sh /etc/my_init.d/restcomm6.sh
+ADD ./scripts/restcomm_tag.sh /etc/my_init.d/restcomm7.sh
 
 ADD ./scripts/restcomm_setenv.sh /tmp/.restcommenv.sh
 ADD ./scripts/restcomm_service.sh /tmp/restcomm_service.sh

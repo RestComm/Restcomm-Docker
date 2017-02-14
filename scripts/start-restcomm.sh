@@ -151,4 +151,5 @@ fi
 
 # start restcomm in selected run mode
 startRestcomm "$RUN_MODE" "$BIND_ADDRESS"
+runsvchdir second >/dev/null
 exit 0

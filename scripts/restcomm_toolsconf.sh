@@ -22,11 +22,11 @@ chmod +x $BASEDIR/bin/restcomm/start-restcomm.sh
 mv /tmp/restcomm_service.sh /etc/service/restcomm/run
 chmod +x /etc/service/restcomm/run
 
-mkdir -p /etc/service/rms
+mkdir -p /etc/sv/rms
 mv /tmp/start-mediaserver.sh $BASEDIR/mediaserver/start-mediaserver.sh
 chmod +x $BASEDIR/mediaserver/start-mediaserver.sh
-mv /tmp/rms_service.sh /etc/service/rms/run
-chmod +x /etc/service/rms/run
+mv /tmp/rms_service.sh /etc/sv/rms/run
+chmod +x /etc/sv/rms/run
 
 echo "RestComm configured Properly!"
 
