@@ -35,27 +35,6 @@ if [[ "$SECURESSL" = "SELF" ||  "$SECURESSL" = "AUTH" ]]; then
 	sed -i "s|TRUSTSTORE_FILE=.*|TRUSTSTORE_FILE='${TRUSTSTORE_FILE_NAME}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
 
-if [ -n "$SSL_MODE" ]; then
-	sed -i "s|SSL_MODE=.*|SSL_MODE='${SSL_MODE}'|" $BASEDIR/bin/restcomm/advanced.conf
-fi
-
-if [ -n "$TRUSTSTORE_PASSWORD" ]; then
-	sed -i "s|TRUSTSTORE_PASSWORD=.*|TRUSTSTORE_PASSWORD='${TRUSTSTORE_PASSWORD}'|" $BASEDIR/bin/restcomm/advanced.conf
-fi
-
-if [ -n "$TRUSTSTORE_ALIAS" ]; then
-	sed -i "s|TRUSTSTORE_ALIAS=.*|TRUSTSTORE_ALIAS='${TRUSTSTORE_ALIAS}'|" $BASEDIR/bin/restcomm/advanced.conf
-fi
-
-if [ -n "$DISABLE_HTTP" ]; then
-	sed -i "s|DISABLE_HTTP=.*|DISABLE_HTTP='${DISABLE_HTTP}'|" $BASEDIR/bin/restcomm/advanced.conf
-fi
-
-if [  "${SSLSNI^^}" = "FALSE"  ]; then
-    echo "SSLSNI $SSLSNI"
-    sed -i "s|SSLSNI=.*|SSLSNI='${SSLSNI}'|" $BASEDIR/bin/restcomm/advanced.conf
-fi
-
 if [ -n "$CERTCONFURL" ]; then
   echo "Certification file URL is: $CERTCONFURL"
   if [ -n "$CERTREPOUSR"  ] && [ -n "$CERTREPOPWRD" ]; then

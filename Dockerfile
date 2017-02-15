@@ -15,7 +15,7 @@ dpkg-reconfigure locales
 
 RUN add-apt-repository ppa:webupd8team/java -y && \
 apt-cache search mysql-client-core && \
-apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-installer mysql-client-core-5.7 openssl unzip nfs-common tcpdump dnsutils net-tools && \
+apt-get update && apt-get install -y screen wget ipcalc bsdtar oracle-java7-installer mysql-client-core-5.7 openssl unzip nfs-common tcpdump dnsutils net-tools xmlstarlet && \
 apt-get autoremove && \
 apt-get autoclean && \
 rm -rf /var/lib/apt/lists/*
@@ -38,18 +38,26 @@ ADD ./scripts/docker_do.sh   /opt/embed/restcomm_docker.sh
 
 RUN mkdir -p /etc/my_init.d
 
-ADD ./scripts/automate_conf.sh /etc/my_init.d/restcommautomate.sh
-ADD ./scripts/restcomm_setenv.sh /tmp/.restcommenv.sh
-ADD ./scripts/restcomm_conf.sh /etc/my_init.d/restcommconf.sh
-ADD ./scripts/restcomm_sslconf.sh /etc/my_init.d/restcommsslconf.sh
-ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcommtoolsconf.sh
-ADD ./scripts/restcomm_support_load_balancer.sh /etc/my_init.d/restcommtoolsconf_loadbalancer.sh
-RUN chmod +x /etc/my_init.d/restcomm*.sh
+ADD ./scripts/restcomm_autoconf.sh /etc/my_init.d/restcomm1.sh
+ADD ./scripts/restcomm_conf.sh /etc/my_init.d/restcomm2.sh
+ADD ./scripts/restcomm_sslconf.sh /etc/my_init.d/restcomm3.sh
+ADD ./scripts/restcomm_extconf.sh /etc/my_init.d/restcomm4.sh
+ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcomm5.sh
+ADD ./scripts/restcomm-runlevels.sh /etc/my_init.d/restcomm6.sh
+ADD ./scripts/restcomm_tag.sh /etc/my_init.d/restcomm7.sh
 
+ADD ./scripts/restcomm_setenv.sh /tmp/.restcommenv.sh
+ADD ./scripts/restcomm_service.sh /tmp/restcomm_service.sh
+ADD ./scripts/rms_service.sh /tmp/rms_service.sh
+ADD ./scripts/start-mediaserver.sh /tmp/start-mediaserver.sh
+ADD ./scripts/start-restcomm.sh /tmp/start-restcomm.sh
+ADD ./scripts/restcomm-olympus.sh /tmp/config-olympus.sh
+RUN chmod +x /etc/my_init.d/restcomm*.sh
 RUN chmod +x /tmp/.restcommenv.sh
 
 EXPOSE 5080/udp  5080/tcp 5081/tcp 5082/tcp 5083/tcp 8080/tcp 8443/tcp 5060/udp 5060/tcp 5061/tcp 5062/tcp 5063/tcp 80/tcp 443/tcp 9990/tcp 65000-65535/udp
 
-ADD ./scripts/restcomm_service.sh /tmp/restcomm_service.sh
+
+
 
 
