@@ -33,7 +33,6 @@ if [ -n "$RESTCOMM_LOGS" ]; then
   sed -i "s|./jvmtop.sh|${BASEDIR}/bin/restcomm/jvmtop.sh|" $BASEDIR/bin/restcomm/logs_collect.sh
   sed -i "s|LOGS_DIR_ZIP=.*|LOGS_DIR_ZIP=$RESTCOMM_LOGS/\$DIR_NAME|" $BASEDIR/bin/restcomm/logs_collect.sh
   sed -i "s|RESTCOMM_LOG_BASE=.*|RESTCOMM_LOG_BASE=${RESTCOMM_LOGS}|" /opt/embed/restcomm_docker.sh
-  sed -i "s|DIR=.*|DIR=${RESTCOMM_LOGS}/extralogs|" /opt/embed/rms_threads.sh
 
   LOGS_LOCATE=$RESTCOMM_LOGS
   mkdir -p "$LOGS_LOCATE/extralogs"
@@ -80,7 +79,6 @@ if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   mkdir -p $MMS_LOGS/$MEDIASERVER_LOGS_LOCATION
 
   sed -i "s|find .*restcomm_ms_|find $MMS_LOGS/$MEDIASERVER_LOGS_LOCATION/media-server.log|" /etc/cron.d/restcommmediaserver-cron
-  sed -i "s|/path/to/rms_threads.sh|$RESTCOMM_LOGS/opt/rms_threads.sh|" /etc/cron.d/rmsthreads-cron
   sed -i "s|LOG_FILE_URL=.*|LOG_FILE_URL=$MMS_LOGS/$MEDIASERVER_LOGS_LOCATION/media-server.log|"  $BASEDIR/bin/restcomm/mediaserver.conf
 
   #Daily log rotation for MS.

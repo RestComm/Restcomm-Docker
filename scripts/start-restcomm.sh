@@ -33,6 +33,8 @@ startRestcomm() {
 			echo 'TelScale RestComm started running on standalone mode. Terminal session: restcomm.'
 			echo "Using IP Address: $BIND_ADDRESS"
 			if [[ "$RUN_DOCKER" == "true" || "$RUN_DOCKER" == "TRUE" ]]; then
+			    #change to second runlevel.
+			    runsvchdir second >/dev/null
 				$RESTCOMM_HOME/bin/standalone.sh -b $bind_address "${ExtraOpts}"
 			else
 				tmux new -s restcomm -d "$RESTCOMM_HOME/bin/standalone.sh -b $bind_address ${ExtraOpts}"
@@ -151,5 +153,4 @@ fi
 
 # start restcomm in selected run mode
 startRestcomm "$RUN_MODE" "$BIND_ADDRESS"
-runsvchdir second >/dev/null
 exit 0
