@@ -4,6 +4,14 @@ source /etc/container_environment.sh
 
 BASEDIR=/opt/Restcomm-JBoss-AS7
 
+
+if [ -n "$RCADVCONF_GRAYLOG_SERVER" ]; then
+   #Modify the Script for Graylog to docker needs.
+   sed -i "s|hdusage=.*|hdusage=\$\(df -h \| grep /dev/xvda1 \| awk -F \" \" '{print \$5}'\)|" $BASEDIR/bin/restcomm/monitoring/Graylog_Monitoring.sh
+   sed -i "s|cut -d \" \" -f 1|cut -d \" \" -f 2|" $BASEDIR/bin/restcomm/monitoring/Graylog_Monitoring.sh
+   sed -i "s|cut -f3,4,5,6,7,8 -d ' '|cut -f4,5,6,7,8,9 -d ' '|" $BASEDIR/bin/restcomm/monitoring/Graylog_Monitoring.sh
+fi
+
 chmod +x $BASEDIR/bin/*.sh
 chmod +x $BASEDIR/bin/restcomm/*.sh
 chmod +x $BASEDIR/bin/restcomm/monitoring/*.sh

@@ -92,21 +92,6 @@ if [ -n "$MEDIASERVER_LOGS_LOCATION" ]; then
   sed -i "s|MMS_LOGS=.*|MMS_LOGS=$MMS_LOGS/$MEDIASERVER_LOGS_LOCATION|" $BASEDIR/bin/restcomm/logs_collect.sh
 fi
 
-if [ -n "$GRAYLOG_SERVER" ]; then
-   echo "GRAYLOG_SERVER $GRAYLOG_SERVER"
-   sed -i "s|GRAYLOG_SERVER=.*|GRAYLOG_SERVER='${GRAYLOG_SERVER}'|" $BASEDIR/bin/restcomm/advanced.conf
-   sed -i "s|SERVERLABEL=.*|SERVERLABEL='${SERVERLABEL}'|" $BASEDIR/bin/restcomm/advanced.conf
-   sed -i "s|HD_MONITOR=.*|HD_MONITOR='${HD_MONITOR}'|" $BASEDIR/bin/restcomm/advanced.conf
-   sed -i "s|RCJVM_MONITOR=.*|RCJVM_MONITOR='${RCJVM_MONITOR}'|" $BASEDIR/bin/restcomm/advanced.conf
-   sed -i "s|RMSJVM_MONITOR=.*|RMSJVM_MONITOR='${RMSJVM_MONITOR}'|" $BASEDIR/bin/restcomm/advanced.conf
-   sed -i "s|RAM_MONITOR=.*|RAM_MONITOR='${RAM_MONITOR}'|" $BASEDIR/bin/restcomm/advanced.conf
-   #Modify the Script for Graylog to docker needs.
-   sed -i "s|hdusage=.*|hdusage=\$\(df -h \| grep /dev/xvda1 \| awk -F \" \" '{print \$5}'\)|" $BASEDIR/bin/restcomm/monitoring/Graylog_Monitoring.sh
-   sed -i "s|cut -d \" \" -f 1|cut -d \" \" -f 2|" $BASEDIR/bin/restcomm/monitoring/Graylog_Monitoring.sh
-   sed -i "s|cut -f3,4,5,6,7,8 -d ' '|cut -f4,5,6,7,8,9 -d ' '|" $BASEDIR/bin/restcomm/monitoring/Graylog_Monitoring.sh
-
-fi
-
 if [ -n "$RVD_PORT" ]; then
 RVD_DEPLOY=$BASEDIR/standalone/deployments/restcomm-rvd.war
     echo "RVD_PORT $RVD_PORI"
