@@ -99,7 +99,7 @@ RVD_DEPLOY=$BASEDIR/standalone/deployments/restcomm-rvd.war
         SCHEME='http'
     fi
     #If used means that port mapping at docker (e.g: -p 445:443) is not the default (-p 443:443)
-    sed -i "s|<restcommBaseUrl>.*</restcommBaseUrl>|<restcommBaseUrl>${SCHEME}://${PUBLIC_IP}:${RVD_PORT}/</restcommBaseUrl>|" $RVD_DEPLOY/WEB-INF/rvd.xml
+    sed -i "s|<restcommBaseUrl>.*</restcommBaseUrl>|<restcommBaseUrl>${SCHEME}://${STATIC_ADDRESS}:${RVD_PORT}/</restcommBaseUrl>|" $RVD_DEPLOY/WEB-INF/rvd.xml
 fi
 
 
