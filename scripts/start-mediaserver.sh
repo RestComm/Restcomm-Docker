@@ -4,7 +4,7 @@
 ## Parameters : 1. path to conf file (optional)
 
 export MS_HOME=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
-RESTCOMME_DIR=/opt/TelScale-Restcomm-JBoss-AS7
+RESTCOMME_DIR=/opt/Restcomm-JBoss-AS7
 source /etc/container_environment.sh
 
 getPID(){
