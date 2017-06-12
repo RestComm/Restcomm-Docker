@@ -30,7 +30,7 @@ if [[ `wget -S --spider $1 $2 $3 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
 
 if [[ "$SECURESSL" = "SELF" ||  "$SECURESSL" = "AUTH" ]]; then
      # Add StartComm certificate to the truststore to avoid SSL Exception when fetching the URL
-    keytool -importcert -alias startssl -keystore /usr/lib/jvm/java-7-oracle/jre/lib/security/cacerts -storepass changeit -file $BASEDIR/ca-startcom.der -noprompt
+    keytool -importcert -alias startssl -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -file $BASEDIR/ca-startcom.der -noprompt
 	sed -i "s|SECURESSL=.*|SECURESSL='${SECURESSL}'|" $BASEDIR/bin/restcomm/advanced.conf
 	sed -i "s|TRUSTSTORE_FILE=.*|TRUSTSTORE_FILE='${TRUSTSTORE_FILE_NAME}'|" $BASEDIR/bin/restcomm/advanced.conf
 fi
