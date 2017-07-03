@@ -5,7 +5,7 @@ RestComm is a next generation Cloud Communications Platform to rapidly build voi
 
 Using the RestComm docker image makes running RestComm easy and intuitive.
 
-1. See the Quick Start User Guide - http://docs.telestax.com/restcomm-pages/
+1. See the [Quick Start User Guide](http://documentation.telestax.com/connect/configuration/docker/Restcomm%20-%20Docker%20Quick%20Start%20Guide.html)
 2. Please report any issues at https://github.com/RestComm/Restcomm-Docker/issues
 
 ### Build
