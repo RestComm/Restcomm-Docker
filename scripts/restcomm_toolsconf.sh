@@ -38,8 +38,5 @@ chmod +x /etc/sv/rms/run
 
 echo "RestComm configured Properly!"
 
-#Olympus x2
-mv /tmp/config-olympus.sh $BASEDIR/bin/restcomm/autoconfig.d/config-olympus.sh
-
 #auto delete script after run once. No need more.
 rm -- "$0"
