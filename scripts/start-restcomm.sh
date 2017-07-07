@@ -26,34 +26,36 @@ startRestcomm() {
         grep -q "$MGMT_USER" $RESTCOMM_HOME/standalone/configuration/mgmt-users.properties || $RESTCOMM_HOME/bin/add-user.sh "$MGMT_USER" "$MGMT_PASS" -s
     fi
 
-	case $run_mode in
-		'standalone'*)
-			# start restcomm on standalone mode
-			chmod +x $RESTCOMM_HOME/bin/standalone.sh
-			echo ' Telestax RestComm started running on standalone mode. Terminal session: restcomm.'
-			echo "Using IP Address: $BIND_ADDRESS"
-			if [[ "$RUN_DOCKER" == "true" || "$RUN_DOCKER" == "TRUE" ]]; then
-			    #change to second runlevel.
-			    runsvchdir second >/dev/null
-				$RESTCOMM_HOME/bin/standalone.sh -b $bind_address "${ExtraOpts}"
-			else
-				tmux new -s restcomm -d "$RESTCOMM_HOME/bin/standalone.sh -b $bind_address ${ExtraOpts}"
-			fi
-			;;
-		'domain'*)
-			# start restcomm on standalone mode
-			chmod +x $RESTCOMM_HOME/bin/domain.sh
-			tmux new -s restcomm -d "$RESTCOMM_HOME/bin/domain.sh -b $bind_address ${ExtraOpts}"
-			echo 'Telestax RestComm started running on domain mode. Screen session: restcomm.'
-			echo "Using IP Address: $BIND_ADDRESS"
-			;;
-		*)
-			# start restcomm on standalone mode
-			chmod +x $RESTCOMM_HOME/bin/standalone.sh
-			tmux new -s restcomm -d "$RESTCOMM_HOME/bin/standalone.sh -b $bind_address ${ExtraOpts}"
-			echo 'Telestax RestComm started running on standalone mode. Screen session: restcomm.'
-			echo "Using IP Address: $BIND_ADDRESS"
-			;;
+    case $run_mode in
+        'standalone'*)
+            # start restcomm on standalone mode
+	    chmod +x $RESTCOMM_HOME/bin/standalone.sh
+	    if [[ "$RUN_DOCKER" == "true" || "$RUN_DOCKER" == "TRUE" ]]; then
+                echo 'Telestax RestComm started running on standalone mode.'
+                echo "Using IP Address: $BIND_ADDRESS"
+                #change to second runlevel.
+                runsvchdir second >/dev/null
+                $RESTCOMM_HOME/bin/standalone.sh -b $bind_address "${ExtraOpts}"
+	    else
+                tmux new -s restcomm -d "$RESTCOMM_HOME/bin/standalone.sh -b $bind_address ${ExtraOpts}"
+                echo 'Telestax RestComm started running on standalone mode. Terminal session: restcomm.'
+                echo "Using IP Address: $BIND_ADDRESS"
+	    fi
+	    ;;
+	'domain'*)
+	    # start restcomm on standalone mode
+	    chmod +x $RESTCOMM_HOME/bin/domain.sh
+	    tmux new -s restcomm -d "$RESTCOMM_HOME/bin/domain.sh -b $bind_address ${ExtraOpts}"
+	    echo 'Telestax RestComm started running on domain mode. Screen session: restcomm.'
+	    echo "Using IP Address: $BIND_ADDRESS"
+	    ;;
+	*)
+	    # start restcomm on standalone mode
+	    chmod +x $RESTCOMM_HOME/bin/standalone.sh
+	    tmux new -s restcomm -d "$RESTCOMM_HOME/bin/standalone.sh -b $bind_address ${ExtraOpts}"
+	    echo 'Telestax RestComm started running on standalone mode. Screen session: restcomm.'
+	    echo "Using IP Address: $BIND_ADDRESS"
+	    ;;
 	esac
 
 }

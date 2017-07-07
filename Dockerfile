@@ -37,13 +37,14 @@ ADD ./scripts/docker_do.sh   /opt/embed/restcomm_docker.sh
 
 RUN mkdir -p /etc/my_init.d
 
-ADD ./scripts/restcomm_autoconf.sh /etc/my_init.d/restcomm1.sh
-ADD ./scripts/restcomm_conf.sh /etc/my_init.d/restcomm2.sh
-ADD ./scripts/restcomm_sslconf.sh /etc/my_init.d/restcomm3.sh
-ADD ./scripts/restcomm_extconf.sh /etc/my_init.d/restcomm4.sh
-ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcomm5.sh
-ADD ./scripts/restcomm-runlevels.sh /etc/my_init.d/restcomm6.sh
-ADD ./scripts/restcomm_tag.sh /etc/my_init.d/restcomm7.sh
+ADD ./scripts/restcomm_verify.sh /etc/my_init.d/restcomm1.sh
+ADD ./scripts/restcomm_autoconf.sh /etc/my_init.d/restcomm2.sh
+ADD ./scripts/restcomm_conf.sh /etc/my_init.d/restcomm3.sh
+ADD ./scripts/restcomm_sslconf.sh /etc/my_init.d/restcomm4.sh
+ADD ./scripts/restcomm_extconf.sh /etc/my_init.d/restcomm5.sh
+ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcomm6.sh
+ADD ./scripts/restcomm-runlevels.sh /etc/my_init.d/restcomm7.sh
+ADD ./scripts/restcomm_tag.sh /etc/my_init.d/restcomm8.sh
 
 ADD ./scripts/restcomm_service.sh /tmp/restcomm_service.sh
 ADD ./scripts/rms_service.sh /tmp/rms_service.sh
