@@ -17,6 +17,7 @@ if [[ `wget -S --spider $1 $2 $3 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
                 return 0;
         else
                 echo "false"
+                wget -S --spider $1 $2 $3
                 exit 1;
   fi
 }
