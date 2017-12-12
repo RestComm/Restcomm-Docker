@@ -21,10 +21,12 @@ rm -rf /var/lib/apt/lists/*
 
 # download restcomm
 ENV install_dir /opt/Restcomm-JBoss-AS7
-RUN wget -qO- https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/restcomm-version.txt -O version.txt && mv version.txt /tmp/version
-RUN wget -qc https://mobicents.ci.cloudbees.com/view/RestComm/job/RestComm/lastSuccessfulBuild/artifact/Restcomm-JBoss-AS7-`cat /tmp/version`.zip -O Restcomm-JBoss-AS7.zip && \
-unzip Restcomm-JBoss-AS7.zip -d /opt/ && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} && \
-rm Restcomm-JBoss-AS7.zip
+RUN wget -qO- https://app.box.com/shared/static/4cu7p8w0ru8cdvw1o3ranjwras9w102x.txt -O released-versions.txt \
+  && awk '/Restcomm-Connect-/ {a=$0} END{print a}' released-versions.txt | awk -F'::' '{print $3}' > /tmp/release_url \
+  && wget -qc `cat /tmp/release_url` -O Restcomm-JBoss-AS7.zip \
+  && unzip Restcomm-JBoss-AS7.zip -d /opt/ \
+  && mv /opt/Restcomm-JBoss-AS7-*/ ${install_dir} \
+  && rm Restcomm-JBoss-AS7.zip
 
 RUN mkdir -p /opt/embed/
 
