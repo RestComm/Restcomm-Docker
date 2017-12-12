@@ -12,12 +12,26 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 
 RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
-RUN add-apt-repository ppa:openjdk-r/ppa  -y && \
-apt-cache search mysql-client-core && \
-apt-get update && apt-get install -y screen wget ipcalc bsdtar openjdk-7-jdk mysql-client-core-5.7 openssl unzip nfs-common tcpdump dnsutils net-tools xmlstarlet && \
-apt-get autoremove && \
-apt-get autoclean && \
-rm -rf /var/lib/apt/lists/*
+RUN add-apt-repository ppa:openjdk-r/ppa  -y \
+  && apt-cache search mysql-client-core \
+  && apt-get update \
+  && apt-get install -y
+    screen \
+    wget \
+    ipcalc \
+    bsdtar \
+    openjdk-7-jdk \
+    mysql-client-core-5.7 \
+    openssl \
+    unzip \
+    nfs-common \
+    tcpdump \
+    dnsutils \
+    net-tools \
+    xmlstarlet \
+  && apt-get autoremove \
+  && apt-get autoclean \
+  && rm -rf /var/lib/apt/lists/*
 
 # download restcomm
 ENV install_dir /opt/Restcomm-JBoss-AS7
