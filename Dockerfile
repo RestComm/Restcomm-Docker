@@ -12,10 +12,10 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 
 RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
-RUN add-apt-repository ppa:openjdk-r/ppa  -y \
+RUN add-apt-repository -y ppa:openjdk-r/ppa \
   && apt-cache search mysql-client-core \
   && apt-get update \
-  && apt-get install -y
+  && apt-get install -y \
     screen \
     wget \
     ipcalc \
